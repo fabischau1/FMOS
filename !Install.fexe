@@ -1,0 +1,118 @@
+files = {
+  "clock.fsys": `let clock = {
+  currentTime: function() {
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    console.log(hours + ":" + minutes + ":" + seconds);
+	alert(hours + ":" + minutes + ":" + seconds);
+  }
+};
+
+clock.currentTime();`,
+  "explorer.fsys": `let fileExplorer = {
+  listFiles: function() {
+    console.log("Files:");
+    for (let file in files) {
+      console.log(file);
+	  alert(file);
+    }
+  },
+  openFile: function(fileName) {
+    if (files[fileName]) {
+      console.log("Inhalt von " + fileName + ":");
+      console.log(files[fileName]);
+	  alert(files[fileName]);
+    } else {
+      console.log("Datei nicht gefunden!");
+	  alert("File not found!");
+    }
+  }
+};
+
+fileExplorer.listFiles();`,
+  "game.js": `let minNumber = 1;
+let maxNumber = 100;
+let targetNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+let userGuess;
+
+function playGame() {
+  userGuess = prompt("Guess the number between " + minNumber + " and " + maxNumber);
+
+  if (userGuess === null) {
+    return;
+  }
+
+  userGuess = parseInt(userGuess);
+
+  if (isNaN(userGuess)) {
+    alert("This is not a number.");
+    playGame();
+  } else if (userGuess < minNumber || userGuess > maxNumber) {
+    alert("This is not a number between " + minNumber + " and " + maxNumber + ".");
+    playGame();
+  } else if (userGuess < targetNumber) {
+    alert("Too low!");
+    playGame();
+  } else if (userGuess > targetNumber) {
+    alert("Too high!");
+    playGame();
+  } else {
+    alert("Right! The number was " + targetNumber + ".");
+  }
+}
+
+playGame();`,
+  "Calculator.fexe": `let zahl1, zahl2, operator, ergebnis;
+
+function calculate() {
+  zahl1 = parseFloat(prompt("First Number:"));
+  operator = prompt("Operator (+, -, *, /):");
+  zahl2 = parseFloat(prompt("Second Number:"));
+
+  if (isNaN(zahl1) || isNaN(zahl2)) {
+    alert("SYNTAX ERROR: This is not a number.");
+    return;
+  }
+
+  switch (operator) {
+    case "+":
+      ergebnis = zahl1 + zahl2;
+      break;
+    case "-":
+      ergebnis = zahl1 - zahl2;
+      break;
+    case "*":
+      ergebnis = zahl1 * zahl2;
+      break;
+    case "/":
+      if (zahl2 === 0) {
+        alert("MATH ERROR");
+        return;
+      }
+      ergebnis = zahl1 / zahl2;
+      break;
+    default:
+      alert("SYNTAX ERROR");
+      return;
+  }
+
+  alert("Ergebnis: " + ergebnis);
+}
+
+calculate();`,
+  "FA_AntiVira.py": `let passwordGenerator = {
+  generatePassword: function(length) {
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      password += Math.random().toString(36).substr(2, 1);
+    }
+    return password;
+  }
+};
+
+console.log(passwordGenerator.generatePassword(12));`
+alert(passwordGenerator.generatePassword(12));`
+};
+renderFiles();
