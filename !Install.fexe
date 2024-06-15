@@ -112,7 +112,6 @@ calculate();`,
   }
 };
 
-console.log(passwordGenerator.generatePassword(12));`
 alert(passwordGenerator.generatePassword(12));`
 };
 renderFiles();
