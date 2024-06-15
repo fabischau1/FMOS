@@ -141,8 +141,8 @@
     <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
     </div>
     <div class="taskbar">
-        <button onclick="createFile()">Neue Datei</button>
-        <button onclick="createFolder()">Neuer Ordner</button>
+        <button onclick="createFile()">New File</button>
+        <button onclick="createFolder()">New Folder</button>
     </div>
     <div class="window" id="editorWindow">
         <div class="window-header">
@@ -153,15 +153,16 @@
             <textarea id="fileContent" style="width: 100%; height: 100%;"></textarea>
         </div>
         <div class="window-footer">
-            <button onclick="saveFile()">Speichern</button>
-            <button onclick="deleteFile()">Löschen</button>
+            <button onclick="saveFile()">Save</button>
+            <button onclick="deleteFile()">Delete</button>
             <button onclick="executeJS()">Run</button>
         </div>
     </div>
     <div class="context-menu" id="contextMenu">
         <ul>
-            <li onclick="renameFile()">Umbenennen</li>
-            <li onclick="deleteFile()">Löschen</li>
+            <li onclick="renameFile()">Rename</li>
+            <li onclick="deleteFile()">Delete</li>
+			<li onclick="executeJS()">Run</li>
         </ul>
     </div>
 
@@ -172,25 +173,25 @@
         let currentDraggedFile = null;
 
         function createFile() {
-            const fileName = prompt("Dateiname:");
+            const fileName = prompt("Filename:");
             if (fileName) {
                 if (!files[fileName]) {
                     files[fileName] = "";
                     renderFiles();
                 } else {
-                    alert("Datei existiert bereits.");
+                    alert("File alredy exsists.");
                 }
             }
         }
 
         function createFolder() {
-          const folderName = prompt("Ordnername:");
+          const folderName = prompt("Foldername:");
           if (folderName) {
             if (!folders[folderName]) {
               folders[folderName] = {};
               renderFiles();
             } else {
-              alert("Ordner existiert bereits.");
+              alert("Ordner alredy exsists.");
             }
           }
         }
@@ -272,7 +273,7 @@
         function saveFile() {
             if (selectedFile) {
                 files[selectedFile] = document.getElementById('fileContent').value;
-                alert('Datei gespeichert.');
+                alert('File saved.');
             }
         }
 
@@ -297,7 +298,7 @@
                     selectedFile = newFileName;
                     renderFiles();
                 } else {
-                    alert("Ungültiger Name oder Datei existiert bereits.");
+                    alert("ERROR");
                 }
             }
         }
@@ -331,10 +332,10 @@
                 try {
                     eval(files[selectedFile]);
                 } catch (error) {
-                    alert(`Fehler beim Ausführen des Codes: ${error.message}`);
+                    alert(`ERROR: ${error.message}`);
                 }
             } else {
-                alert('Dies ist keine JavaScript-Datei.');
+                alert('ERROR This Filetype can not run Javaskript.');
             }
         }
 
