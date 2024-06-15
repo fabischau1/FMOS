@@ -92,10 +92,13 @@
         .icon[data-file$=".fsys"] {
             background-image: url('fsys.jpg');
 		}
+		.icon[data-file$=".py"] {
+            background-image: url('py.jpg');
+		}
         .icon[data-file$=".zfp"] {
             background-image: url('folder.jpg');
         }
-        .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]) {
+        .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".py"]) {
             background-image: url('ico.jpg');
         }
         .icon[data-folder] {
@@ -324,7 +327,7 @@
         }
 
         function executeJS() {
-            if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
+            if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
                 try {
                     eval(files[selectedFile]);
                 } catch (error) {
