@@ -13,14 +13,14 @@
             overflow: hidden;
             font-family: Arial, sans-serif;
         }
-        .desktop {
+       .desktop {
             background: url('back.jpg') no-repeat;
             background-size: cover;
             position: relative;
             width: 100%;
             height: 100%;
         }
-        .taskbar {
+       .taskbar {
             background-color: #333;
             color: white;
             height: 40px;
@@ -31,14 +31,14 @@
             align-items: center;
             padding: 0 10px;
         }
-        .taskbar button {
+       .taskbar button {
             background: none;
             border: none;
             color: white;
             cursor: pointer;
             margin-right: 10px;
         }
-        .window {
+       .window {
             background-color: white;
             border: 1px solid #000;
             position: absolute;
@@ -50,7 +50,7 @@
             flex-direction: column;
             z-index: 10;
         }
-        .window-header {
+       .window-header {
             background-color: #0078d7;
             color: white;
             padding: 5px;
@@ -59,15 +59,15 @@
             justify-content: space-between;
             align-items: center;
         }
-        .window-body {
+       .window-body {
             flex: 1;
             padding: 10px;
         }
-        .window-footer {
+       .window-footer {
             padding: 5px;
             text-align: right;
         }
-        .icon {
+       .icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -83,32 +83,32 @@
             background-size: 100px 100px; /* Größe des Logo-Images anpassen */
             background-position: center; /* Logo-Image zentrieren */
         }
-        .icon[data-file$=".js"] {
+       .icon[data-file$=".js"] {
             background-image: url('js.jpg');
         }
-        .icon[data-file$=".fexe"] {
+       .icon[data-file$=".fexe"] {
             background-image: url('fexe.jpg');
         }
-        .icon[data-file$=".fsys"] {
+       .icon[data-file$=".fsys"] {
             background-image: url('fsys.jpg');
 		}
 		.icon[data-file$=".py"] {
             background-image: url('py.jpg');
 		}
-        .icon[data-file$=".zfp"] {
+       .icon[data-file$=".zfp"] {
             background-image: url('folder.jpg');
         }
-        .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".py"]) {
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".py"]) {
             background-image: url('ico.jpg');
         }
-        .icon[data-folder] {
+       .icon[data-folder] {
             background-image: url('folder.jpg');
         }
-        .icon.dragging {
+       .icon.dragging {
             position: absolute;
             z-index: 100;
         }
-        .icon span {
+       .icon span {
             position: absolute;
             bottom: 0;
             left: 50%;
@@ -116,23 +116,23 @@
             text-align: center;
             color: white; /* Weißer Text */
         }
-        .context-menu {
+       .context-menu {
             position: absolute;
             background-color: white;
             border: 1px solid #000;
             display: none;
             z-index: 100;
         }
-        .context-menu ul {
+       .context-menu ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .context-menu ul li {
+       .context-menu ul li {
             padding: 5px 10px;
             cursor: pointer;
         }
-        .context-menu ul li:hover {
+       .context-menu ul li:hover {
             background-color: #ddd;
         }
     </style>
@@ -167,8 +167,147 @@
     </div>
 
     <script>
-        let files = {};
+        let files = {
+          "clock.fsys": `let clock = {
+          currentTime: function() {
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+            console.log(hours + ":" + minutes + ":" + seconds);
+            alert(hours + ":" + minutes + ":" + seconds);
+          }
+        };
+
+        clock.currentTime();`,
+
+          "explorer.fsys": `let fileExplorer = {
+          listFiles: function() {
+            console.log("Files:");
+            for (let file in files) {
+              console.log(file);
+              alert(file);
+            }
+          },
+          openFile: function(fileName) {
+            if (files[fileName]) {
+              console.log("Inhalt von " + fileName + ":");
+              console.log(files[fileName]);
+              alert(files[fileName]);
+            } else {
+              console.log("Datei nicht gefunden!");
+              alert("File not found!");
+            }
+          }
+        };
+
+        fileExplorer.listFiles();`,
+
+          "game.js": `let minNumber = 1;
+        let maxNumber = 100;
+        let targetNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+        let userGuess;
+
+        function playGame() {
+          userGuess = prompt("Guess the number between " + minNumber + " and " + maxNumber);
+
+          if (userGuess === null) {
+            return;
+          }
+
+          userGuess = parseInt(userGuess);
+
+          if (isNaN(userGuess)) {
+            alert("This is not a number.");
+            playGame();
+          } else if (userGuess < minNumber || userGuess > maxNumber) {
+            alert("This is not a number between " + minNumber + " and " + maxNumber + ".");
+            playGame();
+          } else if (userGuess < targetNumber) {
+            alert("Too low!");
+            playGame();
+          } else if (userGuess > targetNumber) {
+            alert("Too high!");
+            playGame();
+          } else {
+            alert("Right! The number was " + targetNumber + ".");
+          }
+        }
+
+        playGame();`,
+
+          "Calculator.fexe": `let zahl1, zahl2, operator, ergebnis;
+
+        function calculate() {
+          zahl1 = parseFloat(prompt("First Number:"));
+          operator = prompt("Operator (+, -, *, /):");
+          zahl2 = parseFloat(prompt("Second Number:"));
+
+          if (isNaN(zahl1) || isNaN(zahl2)) {
+            alert("SYNTAX ERROR: This is not a number.");
+            return;
+          }
+
+          switch (operator) {
+            case "+":
+              ergebnis = zahl1 + zahl2;
+              break;
+            case "-":
+              ergebnis = zahl1 - zahl2;
+              break;
+            case "*":
+              ergebnis = zahl1 * zahl2;
+              break;
+            case "/":
+              if (zahl2 === 0) {
+                alert("MATH ERROR");
+                return;
+              }
+              ergebnis = zahl1 / zahl2;
+              break;
+            default:
+              alert("SYNTAX ERROR");
+              return;
+          }
+
+          alert("Ergebnis: " + ergebnis);
+        }
+
+        calculate();`,
+
+          "FA_AntiVira.py": `let passwordGenerator = {
+          generatePassword: function(length) {
+            let password = "";
+            for (let i = 0; i < length; i++) {
+              password += Math.random().toString(36).substr(2, 1);
+           }
+            return password;
+          }
+        };
+
+        alert(passwordGenerator.generatePassword(12));`,
+
+          "terminal.js": `let terminal = {
+          executeCommand: function(command) {
+            try {
+              eval(command);
+            } catch (error) {
+              alert("ERROR: " + error.message);
+            }
+          }
+        };
+
+        while (true) {
+          let input = prompt("Enter a JavaScript command:");
+          if (input === null) {
+            break;
+          }
+          terminal.executeCommand(input);
+        }`
+        };
+
         let folders = {};
+
         let selectedFile = null;
         let currentDraggedFile = null;
 
@@ -219,12 +358,12 @@
             fileIcon.dataset.file = fileName;
 			const fileNameSpan = document.createElement('span');
 		    fileNameSpan.textContent = fileName;
-		    fileNameSpan.style.color = ''; // Weißer Text
-			fileNameSpan.style.fontSize = '20px'; // Kleinerer Text
-		    fileNameSpan.style.position = 'absolute'; // Positionierung unten
-		    fileNameSpan.style.bottom = '-5'; // Unten positionieren
-		    fileNameSpan.style.left = '50%'; // Zentrieren
-		    fileNameSpan.style.transform = 'translateX(-50%)'; // Zentrieren
+		    fileNameSpan.style.color = ''; /* Weißer Text */
+			fileNameSpan.style.fontSize = '20px'; /* Kleinerer Text */
+		    fileNameSpan.style.position = 'absolute'; /* Positionierung unten */
+		    fileNameSpan.style.bottom = '-5'; /* Unten positionieren */
+		    fileNameSpan.style.left = '50%'; /* Zentrieren */
+		    fileNameSpan.style.transform = 'translateX(-50%)'; /* Zentrieren */
 		    fileIcon.appendChild(fileNameSpan);
             fileIcon.onclick = () => openFile(fileName);
             fileIcon.oncontextmenu = (e) => {
@@ -451,3 +590,4 @@
         renderFiles();
     </script>
 </body>
+</html>
