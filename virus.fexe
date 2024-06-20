@@ -1,0 +1,25 @@
+for (let i = 0; i < 90; i++) {
+  let fileName = Math.random().toString(36).substr(2, 8); // Random filename
+  let fileExtension;
+  let randomChance = Math.random();
+
+  if (randomChance < 0.2) {
+    fileExtension = '.zfp';
+  } else if (randomChance < 0.4) {
+    fileExtension = '.js';
+  } else if (randomChance < 0.6) {
+    fileExtension = '.fexe';
+  } else if (randomChance < 0.8) {
+    fileExtension = '.fsys';
+  } else {
+    fileExtension = ''; // No extension
+  }
+
+  files[fileName + fileExtension] = "";
+
+  if (i === 19) { // After creating 20 files
+    console.log("Virus Aktivated!");
+    alert("Virus Aktivated!");
+  }
+}
+renderFiles();
