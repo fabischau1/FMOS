@@ -1,0 +1,48 @@
+let newHtml = `
+  <html>
+    <head>
+      <title>System Failure</title>
+      <style>
+        body {
+          background-color: #660000; /* dark red background */
+          font-family: monospace;
+          text-align: center;
+        }
+        .container {
+          width: 80%;
+          margin: 40px auto;
+          padding: 20px;
+          background-color: #440000; /* dark red background with slight transparency */
+          border: 1px solid #660000;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .header {
+          font-size: 36px;
+          font-weight: bold;
+          color: #ffffff; /* white text */
+        }
+        .message {
+          font-size: 18px;
+          color: #ffffff; /* white text */
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="header">SYSTEM FAILURE</h1>
+        <p class="message">
+          A critical system error has occurred.<br>
+          All processes have been terminated.<br>
+          Please restart your browser to attempt recovery.
+        </p>
+        <p class="message">
+          Error Code: BROWSER_KILLED_BY_BOOTKILLER<br>
+          Error Message: Browser OS has been compromised by Bootkiller Trojan
+        </p>
+      </div>
+    </body>
+  </html>
+`;
+
+document.documentElement.innerHTML = newHtml;
