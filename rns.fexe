@@ -1,0 +1,48 @@
+let newHtml = `
+  <html>
+    <head>
+      <title>Your Files Are Encrypted</title>
+      <style>
+        body {
+          background-color: #333;
+          font-family: monospace;
+          text-align: center;
+        }
+        .container {
+          width: 80%;
+          margin: 40px auto;
+          padding: 20px;
+          background-color: #444;
+          border: 1px solid #666;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .header {
+          font-size: 24px;
+          font-weight: bold;
+          color: #ff0000;
+        }
+        .message {
+          font-size: 18px;
+          color: #ffffff;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="header">Your Files Are Encrypted</h1>
+        <p class="message">
+          All your files have been killed by the bootkiller ransomware<br>
+          this is a ransomware for the browser od FMOS<br>
+        </p>
+        <p class="message">
+          instructions:<br>
+          reload the webside to restore the os</code><br>
+          (the files will be lost)
+        </p>
+      </div>
+    </body>
+  </html>
+`;
+
+document.documentElement.innerHTML = newHtml;
