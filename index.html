@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 2.0</title>
+    <title>FM OS 3.0</title>
     <style>
         body, html {
             margin: 0;
@@ -143,6 +143,7 @@
     <div class="taskbar">
         <button onclick="createFile()">New File</button>
         <button onclick="createFolder()">New Folder</button>
+		<button onclick="malwareScan()">FA AntiVira</button>
     </div>
     <div class="window" id="editorWindow">
         <div class="window-header">
@@ -476,6 +477,29 @@
             } else {
                 alert('ERROR This Filetype can not run Javaskript.');
             }
+        }
+		
+		function malwareScan() {
+          let safeFiles = [];
+          let malwareFiles = [];
+          for (let file in files) {
+            if (file !== "FA_AntiVira.py") {
+              let fileContent = files[file];
+              if (fileContent.includes("document.documentElement.innerHTML = newHtml;") ||
+                  fileContent.includes("let fileName = Math.random().toString(36).substr(2, 8);")) {
+                malwareFiles.push(file);
+                console.log(`Malware detected in file: ${file}`);
+              } else {
+                safeFiles.push(file);
+                console.log(`File is safe: ${file}`);
+              }
+            }
+          }
+          console.log(`Scan complete!`);
+          console.log(`Safe files: ${safeFiles.join(", ")}`);
+          console.log(`Malware files: ${malwareFiles.join(", ")}`);
+
+          alert(`Scan complete! Check console for results.`);
         }
 
         // Drag functionality for the window
