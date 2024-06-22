@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 3.0</title>
+    <title>FM OS 4</title>
     <style>
         body, html {
             margin: 0;
@@ -46,6 +46,18 @@
             left: 50px;
             width: 300px;
             height: 200px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowi {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
             display: none;
             flex-direction: column;
             z-index: 10;
@@ -97,8 +109,11 @@
 		}
        .icon[data-file$=".zfp"] {
             background-image: url('folder.jpg');
+		}
+       .icon[data-file$=".html"] {
+            background-image: url('html.jpg');
         }
-       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".py"]) {
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
             background-image: url('ico.jpg');
         }
        .icon[data-folder] {
@@ -145,20 +160,31 @@
         <button onclick="createFolder()">New Folder</button>
 		<button onclick="malwareScan()">FA AntiVira</button>
     </div>
-    <div class="window" id="editorWindow">
-        <div class="window-header">
-            <span id="editorTitle">Editor</span>
-            <button onclick="closeWindow()" style="background:none; border:none; color:white;">X</button>
-        </div>
-        <div class="window-body">
-            <textarea id="fileContent" style="width: 100%; height: 100%;"></textarea>
-        </div>
-        <div class="window-footer">
-            <button onclick="saveFile()">Save</button>
-            <button onclick="deleteFile()">Delete</button>
-            <button onclick="executeJS()">Run</button>
-        </div>
-    </div>
+	<div class="window" id="editorWindow">
+		<div class="window-header">
+			<span id="editorTitle">Editor</span>
+			<button onclick="closeWindow()" style="background:none; border:none; color:white;">X</button>
+		</div>
+		<div class="window-body">
+			<textarea id="fileContent" style="width: 100%; height: 100%;"></textarea>
+		</div>
+		<div class="window-footer">
+			<button onclick="saveFile()">Save</button>
+			<button onclick="deleteFile()">Delete</button>
+			<button onclick="executeJS()">Run</button>
+		</div>
+	</div>
+
+	<!-- Add a new window for HTML preview -->
+	<div class="windowi" id="htmlPreviewWindow" style="display: none;">
+		<div class="window-header">
+			<span id="htmlPreviewTitle">HTML Preview</span>
+			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none; color:white;">X</button>
+		</div>
+		<div class="window-body">
+			<iframe id="htmlPreview" frameborder="0" width="100%" height="100%"></iframe>
+		</div>
+	</div>
     <div class="context-menu" id="contextMenu">
         <ul>
             <li onclick="renameFile()">Rename</li>
@@ -467,17 +493,38 @@
             document.removeEventListener('click', hideContextMenu);
         }
 
-        function executeJS() {
-            if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
-                try {
-                    eval(files[selectedFile]);
-                } catch (error) {
-                    alert(`ERROR: ${error.message}`);
-                }
-            } else {
-                alert('ERROR This Filetype can not run Javaskript.');
-            }
+        // Add a function to close the HTML preview window
+        function closeHTMLPreviewWindow() {
+            document.getElementById('htmlPreviewWindow').style.display = 'none';
         }
+
+		function executeHTML() {
+			if (selectedFile && selectedFile.endsWith('.html')) {
+				const htmlContent = files[selectedFile];
+				const iframe = document.getElementById('htmlPreview');
+				iframe.srcdoc = htmlContent;
+				iframe.width = '100%';
+				iframe.height = '550px'; // set height to 600px
+				document.getElementById('htmlPreviewWindow').style.display = 'block';
+			} else {
+				alert('ERROR This Filetype can not run HTML.');
+			}
+		}
+
+		// Update the executeJS function to call executeHTML for HTML files
+		function executeJS() {
+		    if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
+		        try {
+		            eval(files[selectedFile]);
+		        } catch (error) {
+		            alert(`ERROR: ${error.message}`);
+		        }
+		    } else if (selectedFile && selectedFile.endsWith('.html')) {
+		        executeHTML();
+		    } else {
+		        alert('ERROR This Filetype can not run Javaskript.');
+		    }
+		}
 		
 		function malwareScan() {
           let safeFiles = [];
