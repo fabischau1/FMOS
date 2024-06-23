@@ -486,10 +486,13 @@
         }
 
         function openFile(fileName) {
-            selectedFile = fileName;
-            document.getElementById('editorTitle').innerText = `Editor - ${fileName}`;
-            document.getElementById('fileContent').value = files[fileName];
-            openWindow();
+          selectedFile = fileName;
+          document.getElementById('editorTitle').innerText = `Editor - ${fileName}`;
+          document.getElementById('fileContent').value = files[fileName];
+          openWindow();
+          if (fileName === "12345.js") {
+            eval("alert(\"You found an easter egg! 🎉\");");
+          }
         }
 
         function openFolder(folderName) {
