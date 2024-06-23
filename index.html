@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 4</title>
+    <title>FM OS 5</title>
     <style>
         body, html {
             margin: 0;
@@ -62,6 +62,85 @@
             flex-direction: column;
             z-index: 10;
         }
+.terminal-window {
+  background-color: #333;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  width: 800px;
+  height: 600px;
+  overflow: auto;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s, transform 0.5s; /* add transition effect */
+}
+
+.terminal-header {
+  background-color: #444;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminal-title {
+  color: #fff;
+  font-weight: bold;
+}
+
+.terminal-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.terminal-button:hover {
+  background-color: #666;
+}
+
+.terminal-body {
+  padding: 20px;
+}
+
+.terminal-output {
+  padding: 10px;
+  font-family: monospace;
+  color: #fff;
+}
+
+.terminal-prompt {
+  color: #6c5ce7; /* purple color */
+}
+
+.terminal-result {
+  color: #0f0; /* green color */
+}
+
+.terminal-error {
+  color: #f00; /* red color */
+}
+
+#terminal-input {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-family: monospace;
+  border: none;
+  resize: none;
+  width: 100%;
+}
        .window-header {
             background-color: #0078d7;
             color: white;
@@ -159,6 +238,7 @@
         <button onclick="createFile()">New File</button>
         <button onclick="createFolder()">New Folder</button>
 		<button onclick="malwareScan()">FA AntiVira</button>
+		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
     </div>
 	<div class="window" id="editorWindow">
@@ -526,6 +606,68 @@
 		        alert('ERROR This Filetype can not run Javaskript.');
 		    }
 		}
+		
+let terminalWindows = [];
+
+function executeJSInTerminal() {
+  const terminalWindow = document.createElement('div');
+  terminalWindow.className = 'terminal-window';
+  terminalWindow.innerHTML = `
+    <div class="terminal-header">
+      <div class="terminal-title">FM Shell</div>
+      <div class="terminal-buttons">
+        <button class="terminal-button" id="close-button">×</button>
+      </div>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-output" id="terminal-output">
+        <span class="terminal-prompt">~$</span>
+        <textarea id="terminal-input" placeholder="Enter JavaScript code..." style="width: 100%; padding: 10px; font-family: monospace; border: none; resize: none;"></textarea>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(terminalWindow);
+
+  terminalWindow.style.display = 'block';
+  terminalWindow.style.opacity = 0;
+  terminalWindow.style.transform = 'cale(0.5)';
+
+  setTimeout(() => {
+    terminalWindow.style.transition = 'opacity 0.5s, transform 0.5s';
+    terminalWindow.style.opacity = 1;
+    terminalWindow.style.transform = 'cale(1)';
+  }, 10);
+
+  const closeButton = terminalWindow.querySelector('#close-button');
+  const terminalInput = terminalWindow.querySelector('#terminal-input');
+  const terminalOutput = terminalWindow.querySelector('#terminal-output');
+
+  closeButton.addEventListener('click', () => {
+    terminalWindow.style.transition = 'opacity 0.5s, transform 0.5s';
+    terminalWindow.style.opacity = 0;
+    terminalWindow.style.transform = 'cale(0.5)';
+    setTimeout(() => {
+      terminalWindow.style.display = 'none';
+    }, 500);
+  });
+
+  terminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const code = terminalInput.value;
+      try {
+        const result = eval(code);
+        terminalOutput.innerHTML += `<span class="terminal-prompt">~$</span> ${code}<br>`;
+        terminalOutput.innerHTML += `<span class="terminal-result">${result}</span><br>`;
+      } catch (error) {
+        terminalOutput.innerHTML += `<span class="terminal-prompt">~$</span> ${code}<br>`;
+        terminalOutput.innerHTML += `<span class="terminal-error">${error.message}</span><br>`;
+      }
+      terminalInput.value = '';
+    }
+  });
+
+  terminalWindows.push(terminalWindow);
+}
 		
 		function restartOS() {
 			window.location.href = "https://fabischau1.github.io/FM_OS";
