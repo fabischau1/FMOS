@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 5</title>
+    <title>FM OS 6</title>
     <style>
         body, html {
             margin: 0;
@@ -240,6 +240,7 @@
 		<button onclick="malwareScan()">FA AntiVira</button>
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
+		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
     </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
@@ -678,6 +679,29 @@ function executeJSInTerminal() {
   });
 
   terminalWindows.push(terminalWindow);
+}
+
+function openURLInIframe() {
+  const iframeWindow = document.createElement('div');
+  iframeWindow.className = 'windowi'; // same class as the HTML preview iframe
+  iframeWindow.innerHTML = `
+    <div class="window-header">
+      <span>FMSearch</span>
+      <button onclick="closeIframe()">X</button>
+    </div>
+    <div class="window-body">
+      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMSearch/"></iframe>
+    </div>
+  `;
+  document.body.appendChild(iframeWindow);
+  iframeWindow.style.top = '50px';
+  iframeWindow.style.left = '50px';
+  iframeWindow.style.display = 'block';
+}
+
+function closeIframe() {
+  const iframeWindow = document.querySelector('.windowi');
+  iframeWindow.remove();
 }
 		
 		function restartOS() {
