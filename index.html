@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 6</title>
+    <title>FM OS 7</title>
     <style>
         body, html {
             margin: 0;
@@ -63,6 +63,17 @@
             z-index: 10;
         }
 		.windowifram {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }.windowifra {
             background-color: white;
             border: 1px solid #000;
             position: absolute;
@@ -204,7 +215,10 @@
        .icon[data-file$=".html"] {
             background-image: url('html.jpg');
         }
-       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
+		.icon[data-file$=".url"] {
+            background-image: url('url.jpg');
+        }
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
             background-image: url('ico.jpg');
         }
        .icon[data-folder] {
@@ -253,6 +267,7 @@
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
+		<button class="taskbar-button" onclick="vm()">Virtual Mashine</button>
     </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
@@ -604,7 +619,7 @@
         }
 
 		function executeHTML() {
-			if (selectedFile && selectedFile.endsWith('.html')) {
+			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.url')) {
 				const htmlContent = files[selectedFile];
 				const iframe = document.getElementById('htmlPreview');
 				iframe.srcdoc = htmlContent;
@@ -624,7 +639,7 @@
 		        } catch (error) {
 		            alert(`ERROR: ${error.message}`);
 		        }
-		    } else if (selectedFile && selectedFile.endsWith('.html')) {
+		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.url')) {
 		        executeHTML();
 		    } else {
 		        alert('ERROR This Filetype can not run Javaskript.');
@@ -713,6 +728,29 @@ function openURLInIframe() {
 
 function closeIframe() {
   const iframeWindow = document.querySelector('.windowifram');
+  iframeWindow.remove();
+}
+
+function vm() {
+  const iframeWindow = document.createElement('div');
+  iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
+  iframeWindow.innerHTML = `
+    <div class="window-header">
+      <span>FMSearch</span>
+      <button onclick="closevm()">X</button>
+    </div>
+    <div class="window-body">
+      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/BIOS/"></iframe>
+    </div>
+  `;
+  document.body.appendChild(iframeWindow);
+  iframeWindow.style.top = '50px';
+  iframeWindow.style.left = '50px';
+  iframeWindow.style.display = 'block';
+}
+
+function closevm() {
+  const iframeWindow = document.querySelector('.windowifra');
   iframeWindow.remove();
 }
 		
