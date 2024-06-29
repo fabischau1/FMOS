@@ -289,11 +289,11 @@
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
-		<button class="taskbar-button" onclick="vm()">Virtual Mashine</button>
+		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
 		<button class="taskbar-button" onclick="musik()">Musik</button>
-		<button class="taskbar-button" onclick="downloadAllFiles()">Download All Files</button>
-		<button class="taskbar-button" onclick="uploadFile()">Upload File</button>
+		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
+		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
     </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
@@ -330,18 +330,17 @@
 
     <script>
         let files = {
-          "clock.fsys": `let clock = {
-          currentTime: function() {
-            let date = new Date();
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
-            let seconds = date.getSeconds();
-            console.log(hours + ":" + minutes + ":" + seconds);
-            alert(hours + ":" + minutes + ":" + seconds);
-          }
-        };
-
-        clock.currentTime();`,
+          "VM.html": `<!DOCTYPE html>
+          <html lang="de">
+          <head>
+              <meta charset="UTF-8">
+              <meta http-equiv="refresh" content="0; URL='https://fabischau1.github.io/BIOS/'">
+              <title>Weiterleitung</title>
+          </head>
+          <body>
+          </body>
+          </html>
+		  `,
 
           "explorer.fsys": `let fileExplorer = {
           listFiles: function() {
@@ -449,23 +448,7 @@
 
         alert(passwordGenerator.generatePassword(12));`,
 
-          "terminal.fexe": `let terminal = {
-          executeCommand: function(command) {
-            try {
-              eval(command);
-            } catch (error) {
-              alert("ERROR: " + error.message);
-            }
-          }
-        };
-
-        while (true) {
-          let input = prompt("Enter a JavaScript command:");
-          if (input === null) {
-            break;
-          }
-          terminal.executeCommand(input);
-        }`
+          "terminal.fexe": `executeJSInTerminal()`
         };
 
         let folders = {};
