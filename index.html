@@ -106,6 +106,17 @@
             display: none;
             flex-direction: column;
             z-index: 10;
+		}.windowifc {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
         }
 .terminal-window {
   background-color: #333;
@@ -363,6 +374,10 @@
         };
 
         fileExplorer.listFiles();`,
+		
+		  "Caculator.fsys": `caculator()`,
+		
+		  "Browser.fexe": `openURLInIframe()`,
 
           "game.js": `let minNumber = 1;
         let maxNumber = 100;
@@ -396,45 +411,6 @@
         }
 
         playGame();`,
-
-          "Calculator.fexe": `let zahl1, zahl2, operator, ergebnis;
-
-        function calculate() {
-          zahl1 = parseFloat(prompt("First Number:"));
-          operator = prompt("Operator (+, -, *, /):");
-          zahl2 = parseFloat(prompt("Second Number:"));
-
-          if (isNaN(zahl1) || isNaN(zahl2)) {
-            alert("SYNTAX ERROR: This is not a number.");
-            return;
-          }
-
-          switch (operator) {
-            case "+":
-              ergebnis = zahl1 + zahl2;
-              break;
-            case "-":
-              ergebnis = zahl1 - zahl2;
-              break;
-            case "*":
-              ergebnis = zahl1 * zahl2;
-              break;
-            case "/":
-              if (zahl2 === 0) {
-                alert("MATH ERROR");
-                return;
-              }
-              ergebnis = zahl1 / zahl2;
-              break;
-            default:
-              alert("SYNTAX ERROR");
-              return;
-          }
-
-          alert("Ergebnis: " + ergebnis);
-        }
-
-        calculate();`,
 
           "FA_AntiVira.py": `let passwordGenerator = {
           generatePassword: function(length) {
@@ -582,7 +558,7 @@
 
         function deleteFile() {
             if (selectedFile) {
-                const confirmDelete = confirm('Möchten Sie die Datei wirklich löschen?');
+                const confirmDelete = confirm('Do you realy want to delete this file?');
                 if (confirmDelete) {
                     delete files[selectedFile];
                     closeWindow();
@@ -594,7 +570,7 @@
 
         function renameFile() {
             if (selectedFile) {
-                const newFileName = prompt("Neuer Dateiname:", selectedFile);
+                const newFileName = prompt("New Filename:", selectedFile);
                 if (newFileName &&!files[newFileName]) {
                     files[newFileName] = files[selectedFile];
                     delete files[selectedFile];
@@ -747,6 +723,29 @@ function musik() {
 
 function closem() {
   const iframeWindow = document.querySelector('.windowifr');
+  iframeWindow.remove();
+}
+
+function caculator() {
+  const iframeWindow = document.createElement('div');
+  iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
+  iframeWindow.innerHTML = `
+    <div class="window-header">
+      <span>Caculator</span>
+      <button onclick="closecaculator()">X</button>
+    </div>
+    <div class="window-body">
+      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/caculator/"></iframe>
+    </div>
+  `;
+  document.body.appendChild(iframeWindow);
+  iframeWindow.style.top = '50px';
+  iframeWindow.style.left = '50px';
+  iframeWindow.style.display = 'block';
+}
+
+function closecaculator() {
+  const iframeWindow = document.querySelector('.windowifc');
   iframeWindow.remove();
 }
 
