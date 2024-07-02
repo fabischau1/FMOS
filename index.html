@@ -559,17 +559,29 @@
             }
         }
 
-        function deleteFile() {
-            if (selectedFile) {
-                const confirmDelete = confirm('Do you realy want to delete this file?');
-                if (confirmDelete) {
-                    delete files[selectedFile];
-                    closeWindow();
-                    renderFiles();
-                    selectedFile = null;
-                }
-            }
+function deleteFile() {
+  if (selectedFile) {
+    if (selectedFile.endsWith('.fsys')) {
+      if (confirm('Are you sure you want to delete this system file?')) {
+        if (confirm('This will delete the entire file: ' + selectedFile)) {
+          delete files[selectedFile];
+          closeWindow();
+          renderFiles();
+          selectedFile = null;
         }
+      }
+    } else {
+      if (confirm('Are you sure you want to delete this file?')) {
+        if (confirm('This will delete the entire file: ' + selectedFile)) {
+          delete files[selectedFile];
+          closeWindow();
+          renderFiles();
+          selectedFile = null;
+        }
+      }
+    }
+  }
+}
 
         function renameFile() {
             if (selectedFile) {
