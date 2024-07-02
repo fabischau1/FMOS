@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 8</title>
+    <title>FM OS 9</title>
     <style>
         body, html {
             margin: 0;
@@ -251,7 +251,10 @@
 		.icon[data-file$=".url"] {
             background-image: url('url.jpg');
         }
-       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
+		.icon[data-file$=".png"] {
+            background-image: url('png.jpg');
+        }
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".png"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
             background-image: url('ico.jpg');
         }
        .icon[data-folder] {
@@ -612,7 +615,7 @@
         }
 
 		function executeHTML() {
-			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.url')) {
+			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.url')) {
 				const htmlContent = files[selectedFile];
 				const iframe = document.getElementById('htmlPreview');
 				iframe.srcdoc = htmlContent;
@@ -633,7 +636,7 @@
 		        } catch (error) {
 		            alert(`ERROR: ${error.message}`);
 		        }
-		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.url')) {
+		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.url')) {
 		        executeHTML();
 		    } else {
 		        alert('ERROR This Filetype can not run Javaskript.');
