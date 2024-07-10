@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimplePaint - Ein einfacher Bildeditor</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>SimplePaint - Ein einfacher Bildeditor</h1>
+    <canvas id="canvas" width="800" height="600"></canvas><br>
+    <div id="toolbar">
+        <button onclick="changeColor('red')">Rot</button>
+        <button onclick="changeColor('blue')">Blau</button>
+        <button onclick="changeColor('green')">Grün</button>
+        <button onclick="changeColor('black')">Schwarz</button>
+        <button onclick="changeColor('white')">Weiß</button>
+        <button onclick="changeLineWidth(1)">Dünne Linie</button>
+        <button onclick="changeLineWidth(5)">Mittlere Linie</button>
+        <button onclick="changeLineWidth(10)">Dicke Linie</button>
+        <button onclick="changeBrushType('round')">Runde Pinsel</button>
+        <button onclick="changeBrushType('square')">Eckige Pinsel</button>
+        <button onclick="clearCanvas()">Löschen</button>
+        <button onclick="undo()">Rückgängig</button>
+        <button onclick="redo()">Wiederherstellen</button>
+        <button onclick="saveImage()">Speichern</button>
+        <button onclick="loadImage()">Laden</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let painting = false;
+        let color = 'black';
+        let lineWidth = 5;
+        let brushType = 'round';
+        let undoStack = [];
+        let redoStack = [];
+
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+            undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        }
+
+        function draw(e) {
+            if (!painting) return;
+            ctx.lineWidth = lineWidth;
+            ctx.lineCap = brushType;
+            ctx.strokeStyle = color;
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+
+        function changeColor(newColor) {
+            color = newColor;
+        }
+
+        function changeLineWidth(newWidth) {
+            lineWidth = newWidth;
+        }
+
+        function changeBrushType(newType) {
+            brushType = newType;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            undoStack = [];
+            redoStack = [];
+        }
+
+        function undo() {
+            if (undoStack.length > 0) {
+                redoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                ctx.putImageData(undoStack.pop(), 0, 0);
+            }
+        }
+
+        function redo() {
+            if (redoStack.length > 0) {
+                undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+                ctx.putImageData(redoStack.pop(), 0, 0);
+            }
+        }
+
+        function saveImage() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            localStorage.setItem('canvasData', imageData.data);
+            alert('Bild gespeichert!');
+        }
+
+        function loadImage() {
+            const imageData = localStorage.getItem('canvasData');
+            if (imageData) {
+                ctx.putImageData(new ImageData(imageData, canvas.width, canvas.height), 0, 0);
+            }
+        }
+
+        // Load saved image data from local storage
+        loadImage();
+    </script>
+</body>
+</html>
