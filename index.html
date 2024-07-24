@@ -58,6 +58,8 @@
             left: 50px;
             width: 1200px;
             height: 600px;
+			transform: scale(0.5);
+			opacity: 0;
             display: none;
             flex-direction: column;
             z-index: 10;
@@ -69,6 +71,8 @@
             top: 50px;
             left: 50px;
             width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
             height: 600px;
             display: none;
             flex-direction: column;
@@ -83,6 +87,8 @@
             width: 1200px;
             height: 600px;
             display: none;
+			transform: scale(0.5);
+			opacity: 0;
             flex-direction: column;
             z-index: 10;
         }.windowifra {
@@ -94,6 +100,8 @@
             width: 1200px;
             height: 600px;
             display: none;
+			transform: scale(0.5);
+			opacity: 0;
             flex-direction: column;
             z-index: 10;
         }.windowifr {
@@ -105,6 +113,8 @@
             width: 1200px;
             height: 600px;
             display: none;
+			transform: scale(0.5);
+			opacity: 0;
             flex-direction: column;
             z-index: 10;
         }.windowif {
@@ -118,6 +128,8 @@
             display: none;
             flex-direction: column;
             z-index: 10;
+			transform: scale(0.5);
+			opacity: 0;
 		}.windowifc {
             background-color: white;
             border: 1px solid #000;
@@ -126,6 +138,8 @@
             left: 50px;
             width: 1200px;
             height: 600px;
+			transform: scale(0.5);
+			opacity: 0;
             display: none;
             flex-direction: column;
             z-index: 10;
@@ -136,6 +150,8 @@
             top: 50px;
             left: 50px;
             width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
             height: 600px;
             display: none;
             flex-direction: column;
@@ -244,6 +260,41 @@
   padding: 5px 10px;
   margin-right: 5px;
   cursor: pointer;
+}
+
+.windowiframefiles.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifc.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowstore.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifr.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifram.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifra.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+@keyframes animate-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 #selection-window button:hover {
@@ -792,7 +843,7 @@ function musik() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Musik</span>
-      <button onclick="closem(this.parentNode)">X</button>
+      <button onclick="closem()">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/Musik/"></iframe>
@@ -801,7 +852,10 @@ function musik() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -843,7 +897,7 @@ function store() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Store</span>
-      <button onclick="closestore(this.parentNode)">X</button>
+      <button onclick="closeeeeeeeeeeee()">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/store.html"></iframe>
@@ -852,7 +906,10 @@ function store() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -884,7 +941,7 @@ function store() {
   }
 }
 
-function closestore() {
+function closeeeeeeeeeeee() {
   document.querySelector('.windowstore').remove();
 }
 
@@ -903,7 +960,10 @@ function caculator() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -945,7 +1005,7 @@ function code() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>FMcode</span>
-      <button onclick="closeIfra()">X</button>
+      <button onclick="closecode()">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMcode/"></iframe>
@@ -954,7 +1014,10 @@ function code() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -986,7 +1049,7 @@ function code() {
   }
 }
 
-function closeIfra() {
+function closecode() {
   document.querySelector('.windowifra').remove();
 }
 
@@ -997,8 +1060,8 @@ function secfil() {
   iframeWindow.className = 'windowiframefiles'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>FMSearch</span>
-      <button onclick="closefiless()">X</button>
+      <span>Files</span>
+      <button onclick="closef()">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/"></iframe>
@@ -1007,7 +1070,10 @@ function secfil() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -1039,7 +1105,7 @@ function secfil() {
   }
 }
 
-function closefiless() {
+function closef() {
   document.querySelector('.windowiframefiles').remove();
 }
 
@@ -1048,8 +1114,8 @@ function openURLInIframe() {
   iframeWindow.className = 'windowifram'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>FMSearch</span>
-      <button onclick="closeIframe()">X</button>
+      <span>Browser</span>
+      <button onclick="closeIframeeeee()">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMSearch/"></iframe>
@@ -1058,7 +1124,10 @@ function openURLInIframe() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -1090,10 +1159,9 @@ function openURLInIframe() {
   }
 }
 
-function closeIframe() {
+function closeIframeeeee() {
   document.querySelector('.windowifram').remove();
 }
-
 
 function vm() {
   const iframeWindow = document.createElement('div');
@@ -1110,7 +1178,10 @@ function vm() {
   document.body.appendChild(iframeWindow);
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
 
   // Add drag functionality
   let isDragging = false;
@@ -1144,35 +1215,6 @@ function vm() {
 
 function closevm() {
   document.querySelector('.windowifra').remove();
-}
-
-function downloadAllFiles() {
-  for (const file in files) {
-    const fileContent = files[file];
-    const fileType = getFileType(file);
-    const blob = new Blob([fileContent], { type: fileType.mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = file;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-}
-
-function getFileType(fileName) {
-  const fileExtensions = {
-    '.js': { mime: 'application/javascript' },
-    '.fexe': { mime: 'application/octet-stream' },
-    '.fsys': { mime: 'application/octet-stream' },
-    '.py': { mime: 'text/x-python' },
-    '.zfp': { mime: 'application/zip' },
-    '.html': { mime: 'text/html' },
-    '.url': { mime: 'text/url' },
-    // Add more file types as needed
-  };
-  const fileExtension = Object.keys(fileExtensions).find((ext) => fileName.endsWith(ext));
-  return fileExtensions[fileExtension];
 }
 
 function uploadFile() {
