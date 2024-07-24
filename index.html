@@ -364,14 +364,17 @@
 	    <button class="taskbar-button" onclick="store()">Store</button>
 		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
-		<button id="toggle-selection" onclick="toggleSelectionWindow()">Background</button>
+		<button id="toggle-selection" onclick="toggleSelectionWindow()">Settings</button>
 		<div id="selection-window" class="hidden">
 			<button id="option1" onclick="changeDesktopBackground()">Space</button>
 			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
 			<button id="option4" onclick="changeDesktopBackground4()">Electric</button>
 			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
-			<button id="option4" onclick="changeDesktopBackground5()">Custom</button>
+			<button id="option5" onclick="changeDesktopBackground5()">Custom</button>
+			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
+			<button id="option7" onclick="changeTerminalBackground3()">Terminal:Abstract</button>
+			<button id="option7" onclick="changeTerminalBackground2()">Terminal:Space</button>
 		</div>
     </div>
 	<div class="window" id="editorWindow">
@@ -1226,6 +1229,50 @@ function changeDesktopBackground5() {
     const desktopElement = bodyElement.querySelector('.desktop');
     desktopElement.style.backgroundImage = `url('${userInput}')`;
   }
+}
+
+function changeTerminalBackground() {
+  // Prompt the user for the URL of a background image
+  const imageUrl = prompt("Enter the URL of a background image:");
+
+  // Check if the user entered a valid URL
+  if (imageUrl) {
+    // Update the CSS style for .terminal-window
+    const styleElement = document.createElement("style");
+    styleElement.innerHTML = `.terminal-window { background-image: url(${imageUrl}); }`;
+    document.head.appendChild(styleElement);
+  } else {
+    alert("Invalid URL. Please enter the URL of a valid image file.");
+  }
+}
+
+function changeTerminalBackground() {
+  // Prompt the user for the URL of a background image
+  const imageUrl = prompt("Enter the URL of a background image:");
+
+  // Check if the user entered a valid URL
+  if (imageUrl) {
+    // Update the CSS style for .terminal-window
+    const styleElement = document.createElement("style");
+    styleElement.innerHTML = `.terminal-window { background-image: url(${imageUrl}); }`;
+    document.head.appendChild(styleElement);
+  } else {
+    alert("Invalid URL. Please enter the URL of a valid image file.");
+  }
+}
+
+function changeTerminalBackground2() {
+  // Update the CSS style for.terminal-window
+  const styleElement = document.createElement("style");
+  styleElement.innerHTML = `.terminal-window { background-image: url('back.jpg'); }`;
+  document.head.appendChild(styleElement);
+}
+
+function changeTerminalBackground3() {
+  // Update the CSS style for.terminal-window
+  const styleElement = document.createElement("style");
+  styleElement.innerHTML = `.terminal-window { background-image: url('abstract.webp'); }`;
+  document.head.appendChild(styleElement);
 }
 
 function toggleSelectionWindow() {
