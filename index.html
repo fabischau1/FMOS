@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 9</title>
+    <title>FM OS 10</title>
     <style>
         body, html {
             margin: 0;
@@ -220,6 +220,35 @@
   resize: none;
   width: 100%;
 }
+
+#selection-window {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+#selection-window.active {
+  display: block;
+}
+
+#selection-window button {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+#selection-window button:hover {
+  background-color: #eee;
+}
        .window-header {
             background-color: #0078d7;
             color: white;
@@ -332,9 +361,18 @@
 		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
 		<button class="taskbar-button" onclick="musik()">Musik</button>
-	    	<button class="taskbar-button" onclick="store()">Store</button>
+	    <button class="taskbar-button" onclick="store()">Store</button>
 		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
+		<button id="toggle-selection" onclick="toggleSelectionWindow()">Background</button>
+		<div id="selection-window" class="hidden">
+			<button id="option1" onclick="changeDesktopBackground()">Space</button>
+			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
+			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
+			<button id="option4" onclick="changeDesktopBackground4()">Electric</button>
+			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
+			<button id="option4" onclick="changeDesktopBackground5()">Custom</button>
+		</div>
     </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
@@ -751,7 +789,7 @@ function musik() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Musik</span>
-      <button onclick="closem()">X</button>
+      <button onclick="closem(this.parentNode)">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/Musik/"></iframe>
@@ -761,11 +799,39 @@ function musik() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closem() {
-  const iframeWindow = document.querySelector('.windowifr');
-  iframeWindow.remove();
+  document.querySelector('.windowifr').remove();
 }
 
 function store() {
@@ -774,7 +840,7 @@ function store() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Store</span>
-      <button onclick="closestore()">X</button>
+      <button onclick="closestore(this.parentNode)">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/store.html"></iframe>
@@ -784,11 +850,39 @@ function store() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closestore() {
-  const iframeWindow = document.querySelector('.windowstore');
-  iframeWindow.remove();
+  document.querySelector('.windowstore').remove();
 }
 
 function caculator() {
@@ -807,11 +901,39 @@ function caculator() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closecaculator() {
-  const iframeWindow = document.querySelector('.windowifc');
-  iframeWindow.remove();
+  document.querySelector('.windowifc').remove();
 }
 
 function code() {
@@ -830,11 +952,39 @@ function code() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closeIfra() {
-  const iframeWindow = document.querySelector('.windowifra');
-  iframeWindow.remove();
+  document.querySelector('.windowifra').remove();
 }
 
 function secfil() {
@@ -844,7 +994,7 @@ function secfil() {
   iframeWindow.className = 'windowiframefiles'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>File Manager</span>
+      <span>FMSearch</span>
       <button onclick="closefiless()">X</button>
     </div>
     <div class="window-body">
@@ -855,11 +1005,39 @@ function secfil() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closefiless() {
-  const iframeWindow = document.querySelector('.windowiframefiles');
-  iframeWindow.remove();
+  document.querySelector('.windowiframefiles').remove();
 }
 
 function openURLInIframe() {
@@ -878,19 +1056,48 @@ function openURLInIframe() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closeIframe() {
-  const iframeWindow = document.querySelector('.windowifram');
-  iframeWindow.remove();
+  document.querySelector('.windowifram').remove();
 }
+
 
 function vm() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>Virtual Mashine</span>
+      <span>FMSearch</span>
       <button onclick="closevm()">X</button>
     </div>
     <div class="window-body">
@@ -901,11 +1108,39 @@ function vm() {
   iframeWindow.style.top = '50px';
   iframeWindow.style.left = '50px';
   iframeWindow.style.display = 'block';
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
 }
 
 function closevm() {
-  const iframeWindow = document.querySelector('.windowifra');
-  iframeWindow.remove();
+  document.querySelector('.windowifra').remove();
 }
 
 function downloadAllFiles() {
@@ -952,6 +1187,50 @@ function uploadFile() {
     reader.readAsText(file);
   };
   input.click();
+}
+
+function changeDesktopBackground() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('back.jpg')";
+}
+
+function changeDesktopBackground2() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('123.jpg')";
+}
+
+function changeDesktopBackground3() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('flower.jpg')";
+}
+
+function changeDesktopBackground4() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('lightning.jpg')";
+}
+
+function changeDesktopBackground6() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('abstract.webp')";
+}
+
+function changeDesktopBackground5() {
+  const userInput = prompt("Enter a custom image URL:");
+  if (userInput) {
+    const bodyElement = document.querySelector('body');
+    const desktopElement = bodyElement.querySelector('.desktop');
+    desktopElement.style.backgroundImage = `url('${userInput}')`;
+  }
+}
+
+function toggleSelectionWindow() {
+  const selectionWindow = document.getElementById('selection-window');
+  selectionWindow.classList.toggle('active');
 }
 
 function openFullscreen() {
@@ -1123,6 +1402,7 @@ window.onload = function() {
                 }
             });
         }
+		
 
         renderFiles();
     </script>
