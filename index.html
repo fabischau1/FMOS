@@ -423,6 +423,8 @@
 			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
 			<button id="option4" onclick="changeDesktopBackground4()">Electric</button>
+			<button id="option3" onclick="changeDesktopBackground30()">Color</button>
+			<button id="option4" onclick="changeDesktopBackground40()">FMOS</button>
 			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
 			<button id="option5" onclick="changeDesktopBackground5()">Custom</button>
 			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
@@ -1262,6 +1264,18 @@ function changeDesktopBackground6() {
   desktopElement.style.backgroundImage = "url('abstract.webp')";
 }
 
+function changeDesktopBackground30() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('col.jpg')";
+}
+
+function changeDesktopBackground40() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('fmoss.png')";
+}
+
 function changeDesktopBackground5() {
   const userInput = prompt("Enter a custom image URL:");
   if (userInput) {
@@ -1367,6 +1381,14 @@ window.onload = function() {
 		
 		function kill() {
 			window.location.href = "https://fabischau1.github.io/BSOD";
+		}
+		
+		function err001() {
+			window.location.href = "https://fabischau1.github.io/FMOS/Err001";
+		}
+		
+		function err002() {
+			window.location.href = "https://fabischau1.github.io/FMOS/Err002";
 		}
 		
 		function oops() {
