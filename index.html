@@ -32,7 +32,8 @@
             padding: 0 10px;
         }
 		.selected {
-			border: 2px dashed red;
+			border: 2px solid red;
+			background-color: rgba(255, 0, 0, 0.3);
 		}
        .taskbar button {
             background: none;
@@ -427,6 +428,9 @@
 			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
 			<button id="option7" onclick="changeTerminalBackground3()">Terminal:Abstract</button>
 			<button id="option7" onclick="changeTerminalBackground2()">Terminal:Space</button>
+			<button id="option7" onclick="setTaskbarTransparent()">Taskbar:Transparent</button>
+			<button id="option7" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
+			<button id="option7" onclick="resetTaskbarBackgroundColor()">Taskbar:Default</button>
 		</div>
     </div>
 	<div class="window" id="editorWindow">
@@ -1310,6 +1314,26 @@ function changeTerminalBackground3() {
   document.head.appendChild(styleElement);
 }
 
+function setTaskbarTransparent() {
+  const taskbar = document.querySelector('.taskbar');
+  taskbar.style.backgroundColor = 'transparent';
+}
+
+function getAndSetTaskbarBackgroundColor() {
+  const taskbar = document.querySelector('.taskbar');
+  const color = prompt("Enter a color (e.g. #FF0000, red, rgba(255, 0, 0, 0.5)): ");
+  if (color) {
+    taskbar.style.backgroundColor = color;
+  } else {
+    alert("No color entered. Current color: " + taskbar.style.backgroundColor);
+  }
+}
+
+function resetTaskbarBackgroundColor() {
+  const taskbar = document.querySelector('.taskbar');
+  taskbar.style.backgroundColor = '#333';
+}
+
 function toggleSelectionWindow() {
   const selectionWindow = document.getElementById('selection-window');
   selectionWindow.classList.toggle('active');
@@ -1491,8 +1515,6 @@ let startX = 0;
 let startY = 0;
 
 // Define color and border properties
-const selectionColor = 'rgba(255, 0, 0, 0.3)'; // Semi-transparent blue
-const borderColor = 'red'; // Border color
 const borderWidth = '2px'; // Border width
 
 desktop.addEventListener('mousedown', (event) => {
@@ -1506,8 +1528,7 @@ desktop.addEventListener('mousedown', (event) => {
   selection.style.top = `${startY}px`;
   selection.style.width = '0px';
   selection.style.height = '0px';
-  selection.style.backgroundColor = selectionColor; // Set selection background color
-  selection.style.border = `${borderWidth} solid ${borderColor}`; // Set border color and width
+  selection.style.borderWidth = borderWidth;
   desktop.appendChild(selection);
 });
 
