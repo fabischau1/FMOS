@@ -429,6 +429,7 @@
 	    <button class="taskbar-button" onclick="store()">Store</button>
 		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
+		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
 		<button id="toggle-selection" onclick="toggleSelectionWindow()">Settings</button>
 		<div id="selection-window" class="hidden">
 			<button id="option1" onclick="changeDesktopBackground()">Space</button>
@@ -1636,6 +1637,11 @@ function openFullscreen() {
 window.onload = function() {
   openFullscreen();
 };
+
+function openDiscordLink() {
+        const url = 'https://discord.gg/XnPCx68ZN3';
+        window.open(url, '_blank');
+    }
 		
 		function restartOS() {
 			window.location.href = "https://fabischau1.github.io/FM_OS";
