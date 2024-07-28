@@ -177,6 +177,16 @@
   transition: opacity 0.5s, transform 0.5s; /* add transition effect */
 }
 
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  cursor: se-resize;
+}
+
 .terminal-header {
   background-color: #444;
   padding: 10px;
@@ -849,6 +859,7 @@ function musik() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/Musik/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -886,6 +897,42 @@ function musik() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
@@ -903,6 +950,7 @@ function store() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/store.html"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -940,6 +988,42 @@ function store() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
@@ -957,6 +1041,7 @@ function caculator() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/caculator/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -994,6 +1079,37 @@ function caculator() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
@@ -1011,6 +1127,7 @@ function code() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMcode/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -1049,6 +1166,42 @@ function code() {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
   }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
+  }
 }
 
 function closecode() {
@@ -1056,8 +1209,8 @@ function closecode() {
 }
 
 function secfil() {
-  alert("Here you can permanently save files")
-  alert("Be Carefull with running commands or code")
+  alert("Here you can permanently save files");
+  alert("Be Carefull with running commands or code");
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowiframefiles'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
@@ -1067,6 +1220,7 @@ function secfil() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -1104,6 +1258,42 @@ function secfil() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
@@ -1121,6 +1311,7 @@ function openURLInIframe() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMSearch/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -1158,6 +1349,42 @@ function openURLInIframe() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
@@ -1175,6 +1402,7 @@ function vm() {
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/BIOS/"></iframe>
+      <div class="resize-handle"></div>
     </div>
   `;
   document.body.appendChild(iframeWindow);
@@ -1212,6 +1440,42 @@ function vm() {
     isDragging = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+
+      // Update iframe width and height
+      const iframe = iframeWindow.querySelector('#iframe');
+      iframe.style.width = `${newWidth}px`;
+      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
   }
 }
 
