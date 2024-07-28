@@ -435,11 +435,6 @@
 			<button id="option7" onclick="setTaskbarTransparent()">Taskbar:Transparent</button>
 			<button id="option7" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
 			<button id="option7" onclick="resetTaskbarBackgroundColor()">Taskbar:Default</button>
-			<button id="option7" onclick="cur5()">Cursor:Default</button>
-			<button id="option7" onclick="cur4()">Cursor:Blue</button>
-			<button id="option7" onclick="cur3()">Cursor:Pink</button>
-			<button id="option7" onclick="cur2()">Cursor:Green</button>
-			<button id="option7" onclick="cur1()">Cursor:LightBlue</button>
 		</div>
     </div>
 	<div class="window" id="editorWindow">
@@ -1281,36 +1276,6 @@ function changeDesktopBackground40() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('fmoss.png')";
-}
-
-function cur1() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.cursor = "url('1.png'), auto";
-}
-
-function cur2() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.cursor = "url('cgreen.png'), auto";
-}
-
-function cur3() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.cursor = "url('cpink.png'), auto";
-}
-
-function cur4() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.cursor = "url('cblue.png'), auto";
-}
-
-function cur5() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.cursor = "default";
 }
 
 function changeDesktopBackground5() {
