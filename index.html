@@ -428,6 +428,7 @@
 		<button class="taskbar-button" onclick="musik()">Musik</button>
 	    <button class="taskbar-button" onclick="store()">Store</button>
 		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
+		<button class="taskbar-button" onclick="loads()">Load_Files</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
 		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
 		<button id="toggle-selection" onclick="toggleSelectionWindow()">Settings</button>
@@ -1637,6 +1638,43 @@ function openFullscreen() {
 window.onload = function() {
   openFullscreen();
 };
+
+function loads() {
+	if (localStorage.getItem('files')) {
+		files = JSON.parse(localStorage.getItem('files'));
+		renderFiles();
+	}
+}
+
+function downloadAllFiles() {
+  for (const file in files) {
+    const fileContent = files[file];
+    const fileType = getFileType(file);
+    const blob = new Blob([fileContent], { type: fileType.mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
+
+function getFileType(fileName) {
+  const fileExtensions = {
+    '.js': { mime: 'application/javascript' },
+    '.fexe': { mime: 'application/octet-stream' },
+    '.fsys': { mime: 'application/octet-stream' },
+	'.fak': { mime: 'application/html' },
+    '.py': { mime: 'text/x-python' },
+    '.zfp': { mime: 'application/zip' },
+    '.html': { mime: 'text/html' },
+    '.url': { mime: 'text/html' },
+    // Add more file types as needed
+  };
+  const fileExtension = Object.keys(fileExtensions).find((ext) => fileName.endsWith(ext));
+  return fileExtensions[fileExtension];
+}
 
 function openDiscordLink() {
         const url = 'https://discord.gg/XnPCx68ZN3';
