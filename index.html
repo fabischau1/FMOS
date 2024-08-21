@@ -447,6 +447,8 @@
 			<button id="option7" onclick="setTaskbarTransparent()">Taskbar:Transparent</button>
 			<button id="option7" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
 			<button id="option7" onclick="resetTaskbarBackgroundColor()">Taskbar:Default</button>
+			<button id="option7" onclick="passwordmgr()">Password</button>
+			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 		</div>
     </div>
 	<div class="window" id="editorWindow">
@@ -1119,6 +1121,92 @@ function closecaculator() {
   document.querySelector('.windowifc').remove();
 }
 
+function passwordmgr() {
+  const iframeWindow = document.createElement('div');
+  iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
+  iframeWindow.innerHTML = `
+    <div class="window-header">
+      <span>Password MGR</span>
+      <button onclick="closecaculator()">X</button>
+    </div>
+    <div class="window-body">
+      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/pass"></iframe>
+      <div class="resize-handle"></div>
+    </div>
+  `;
+  document.body.appendChild(iframeWindow);
+  iframeWindow.style.top = '50px';
+  iframeWindow.style.left = '50px';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
+  }
+}
+
+function closecaculator() {
+  document.querySelector('.windowifc').remove();
+}
+
 function code() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
@@ -1479,6 +1567,12 @@ function vm() {
     document.removeEventListener('mousemove', handleResizeMove);
     document.removeEventListener('mouseup', handleResizeUp);
   }
+  
+  function handleResizeUp() {
+    const windowifraElement = document.querySelector('.windowifra');
+        windowifraElement.style.width = '800px';
+        windowifraElement.style.height = '400px';
+  }
 }
 
 function closevm() {
@@ -1597,6 +1691,23 @@ function changeTerminalBackground3() {
   document.head.appendChild(styleElement);
 }
 
+function sysfactoriereset() {
+	alert("WARNING")
+	alert("THIS WILL DELETE ALL PERMANENTLY SAVED FILES")
+	alert("WARNING")
+	alert("THIS WILL DELETE THE PASSWORD")
+	const userConfirmed = confirm("Do You Realy Want To Delete The Password And Files From FMOS?");
+    
+    // Überprüfen, welche Taste der Benutzer gedrückt hat
+    if (userConfirmed) {
+        localStorage.removeItem('password');
+		localStorage.removeItem('files');
+    } else {
+        // Aktion ausführen, wenn der Benutzer auf "Abbrechen" klickt (optional)
+        console.log("Aktion abgebrochen.");
+    }
+}
+
 function setTaskbarTransparent() {
   const taskbar = document.querySelector('.taskbar');
   taskbar.style.backgroundColor = 'transparent';
@@ -1640,10 +1751,19 @@ window.onload = function() {
 };
 
 function loads() {
-	if (localStorage.getItem('files')) {
-		files = JSON.parse(localStorage.getItem('files'));
+    const enteredPassword = prompt("Password:");
+
+    const storedPassword = localStorage.getItem('password');
+
+    if (enteredPassword === storedPassword) {
+        if (localStorage.getItem('files')) {
+			files = JSON.parse(localStorage.getItem('files'));
+		}
 		renderFiles();
-	}
+    } else {
+		alert("Password incorrect")
+        setTimeout(askForPassword, 3000);
+    }
 }
 
 function downloadAllFiles() {
