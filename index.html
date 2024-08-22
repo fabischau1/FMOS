@@ -21,29 +21,42 @@
             height: 100%;
 			cursor: default;
         }
-       .taskbar {
-            background-color: #333;
-            color: white;
-            height: 40px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-			cursor: default;
-        }
-		.selected {
-			border: 2px solid red;
-			background-color: rgba(255, 0, 0, 0.3);
-		}
-       .taskbar button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+.taskbar {
+    background-color: #2e2e2e; /* Etwas helleres Dunkelgrau */
+    color: #d1d1d1; /* Helles Grau für besseren Kontrast */
+    height: 40px; /* Zurück zur ursprünglichen Höhe */
+    position: fixed; /* Fixiert am unteren Rand des Bildschirms */
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px; /* Angepasstes Padding für ein kompakteres Layout */
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2); /* Sanfter Schatten für Tiefe */
+    z-index: 1000; /* Taskbar immer oben */
+    border-top: 1px solid #444; /* Dünne obere Border für Struktur */
+}
+
+.selected {
+    border: 2px solid #ff4d4d; /* Helleres Rot für die Auswahl */
+    background-color: rgba(255, 77, 77, 0.2); /* Leichtes Rot für den Hintergrund */
+    border-radius: 3px; /* Etwas kleinere abgerundete Ecken */
+}
+
+.taskbar button {
+    background: none;
+    border: none;
+    color: #d1d1d1; /* Gleiche Farbe wie die Textfarbe der Taskbar */
+    cursor: pointer;
+    margin-right: 12px; /* Etwas weniger Abstand zwischen Buttons */
+    font-size: 14px; /* Kleinere Schriftgröße für kompakteres Design */
+    transition: color 0.3s, background-color 0.3s; /* Sanfte Übergänge für Hover-Effekte */
+}
+
+.taskbar button:hover {
+    color: #ff4d4d; /* Helleres Rot beim Hover */
+    background-color: rgba(255, 77, 77, 0.1); /* Leichtes Hintergrund-Rot beim Hover */
+    border-radius: 3px; /* Gleiche abgerundete Ecken beim Hover */
+}
        .window {
             background-color: white;
             border: 1px solid #000;
@@ -486,6 +499,7 @@
 			<button id="option7" onclick="setTaskbarTransparent()">Taskbar:Transparent</button>
 			<button id="option7" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
 			<button id="option7" onclick="resetTaskbarBackgroundColor()">Taskbar:Default</button>
+			<button id="option7" onclick="setCompactFuturisticTaskbarStyle()">Taskbar:Modern</button>
 			<button id="option7" onclick="passwordmgr()">Password</button>
 			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 			<button id="option7" onclick="crdits()">Credits</button>
@@ -1870,6 +1884,29 @@ function sysfactoriereset() {
 function setTaskbarTransparent() {
   const taskbar = document.querySelector('.taskbar');
   taskbar.style.backgroundColor = 'transparent';
+}
+
+function setCompactFuturisticTaskbarStyle() {
+    const taskbar = document.querySelector('.taskbar');
+    
+    if (taskbar) {
+        taskbar.style.background = 'linear-gradient(135deg, rgba(46, 46, 46, 0.9), rgba(30, 30, 30, 0.9))';
+        taskbar.style.color = '#e0e0e0';
+        taskbar.style.height = '40px';
+        taskbar.style.position = 'fixed';
+        taskbar.style.bottom = '15px';
+        taskbar.style.width = 'calc(100% - 30px)';
+        taskbar.style.borderRadius = '20px';
+        taskbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        taskbar.style.padding = '0 15px';
+        taskbar.style.display = 'flex';
+        taskbar.style.alignItems = 'center';
+        taskbar.style.justifyContent = 'space-between';
+        taskbar.style.borderTop = 'none';
+        taskbar.style.transition = 'all 0.3s ease-in-out';
+    } else {
+        console.error('Taskbar-Element wurde nicht gefunden.');
+    }
 }
 
 function getAndSetTaskbarBackgroundColor() {
