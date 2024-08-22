@@ -253,27 +253,66 @@
 
 #selection-window {
   position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  background-color: white;
-  border: 1px solid #333;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8); /* Transparenter Hintergrund für einen Glas-Effekt */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtiler, transparenter Rand */
+  border-radius: 12px; /* Mehr abgerundete Ecken */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2); /* Etwas kleinerer Schatten */
   display: none;
+  padding: 15px; /* Leicht reduziertes Padding */
+  box-sizing: border-box;
+  width: 220px; /* Kleinere Breite */
+  backdrop-filter: blur(8px); /* Leicht reduzierter Blur-Effekt */
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 #selection-window.active {
   display: block;
+  opacity: 1;
 }
 
 #selection-window button {
-  background-color: transparent;
+  background: linear-gradient(145deg, #333, #444); /* Verlaufseffekt für Knöpfe */
   border: none;
-  color: #333;
-  padding: 5px 10px;
-  margin-right: 5px;
+  color: #f0f0f0; /* Helles Grau für den Text */
+  padding: 8px 14px; /* Leicht reduziertes Padding */
+  margin-bottom: 8px; /* Etwas weniger Margin */
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 14px; /* Etwas kleinere Schriftgröße */
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+#selection-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
+}
+
+#selection-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6); /* Blauer Schatten für den Fokus */
+  background: linear-gradient(145deg, #333, #444); /* Konsistenz des Hintergrunds im Fokuszustand */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #selection-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .windowiframefiles.animate-in {
