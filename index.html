@@ -444,25 +444,60 @@
             text-align: center;
             color: white; /* Weißer Text */
         }
-       .context-menu {
-            position: absolute;
-            background-color: white;
-            border: 1px solid #000;
-            display: none;
-            z-index: 100;
-        }
-       .context-menu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-       .context-menu ul li {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-       .context-menu ul li:hover {
-            background-color: #ddd;
-        }
+.context-menu {
+    position: absolute;
+    background: rgba(30, 30, 30, 0.8); /* Highly transparent dark background */
+    border: none; /* No border for a sleek look */
+    border-radius: 10px; /* Rounded corners for a modern feel */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Softer shadow for subtle depth */
+    display: none;
+    z-index: 100;
+    font-family: 'Roboto', sans-serif; /* Modern, clean font */
+    width: 100px; /* Narrow width */
+    overflow: hidden; /* Hide overflow for a cleaner design */
+    backdrop-filter: blur(10px); /* Blur effect for a glass-like appearance */
+    animation: fadeIn 0.2s ease-out; /* Fade-in animation */
+}
+
+.context-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.context-menu ul li {
+    padding: 8px 12px; /* Adequate padding for a sleek look */
+    cursor: pointer;
+    color: #d0d0d0; /* Light gray text color */
+    background: rgba(30, 30, 30, 0.6); /* Matching semi-transparent background */
+    border-radius: 6px; /* Rounded corners for menu items */
+    transition: background 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.context-menu ul li:hover {
+    background: rgba(30, 30, 30, 0.7); /* Slightly darker transparent background on hover */
+    color: #fff; /* White text color on hover */
+    text-shadow: 0 0 8px #00ff99, 0 0 16px #00ff99; /* Neon green glow effect */
+}
+
+.context-menu ul li:active {
+    background: rgba(30, 30, 30, 0.8); /* Darker transparent background when clicked */
+    color: #fff; /* White text color when active */
+    text-shadow: 0 0 4px #00ff99, 0 0 8px #00ff99; /* Slightly dimmer glow effect on active */
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
     </style>
 </head>
 <body>
