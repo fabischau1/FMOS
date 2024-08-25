@@ -520,6 +520,7 @@
 		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
 		<button id="toggle-selection" onclick="toggleSelectionWindow()">Settings</button>
 		<div id="selection-window" class="hidden">
+			<button id="option1" onclick="thememodern()">Theme:Modern</button>
 			<button id="option1" onclick="changeDesktopBackground()">Space</button>
 			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
@@ -1870,6 +1871,12 @@ function changeTerminalBackground() {
   } else {
     alert("Invalid URL. Please enter the URL of a valid image file.");
   }
+}
+
+function thememodern() {
+	changeDesktopBackground30();
+	changeTerminalBackground2();
+	setCompactFuturisticTaskbarStyle();
 }
 
 function changeTerminalBackground() {
