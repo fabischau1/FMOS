@@ -281,6 +281,28 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+#folsel-window {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8); /* Transparenter Hintergrund für einen Glas-Effekt */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtiler, transparenter Rand */
+  border-radius: 12px; /* Mehr abgerundete Ecken */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2); /* Etwas kleinerer Schatten */
+  display: none;
+  padding: 15px; /* Leicht reduziertes Padding */
+  box-sizing: border-box;
+  width: 220px; /* Kleinere Breite */
+  backdrop-filter: blur(8px); /* Leicht reduzierter Blur-Effekt */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#folsel-window.active {
+  display: block;
+  opacity: 1;
+}
+
 #selection-window.active {
   display: block;
   opacity: 1;
@@ -299,7 +321,26 @@
   width: 100%;
 }
 
+#folsel-window button {
+  background: linear-gradient(145deg, #333, #444); /* Verlaufseffekt für Knöpfe */
+  border: none;
+  color: #f0f0f0; /* Helles Grau für den Text */
+  padding: 8px 14px; /* Leicht reduziertes Padding */
+  margin-bottom: 8px; /* Etwas weniger Margin */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px; /* Etwas kleinere Schriftgröße */
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
 #selection-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
+}
+
+#folsel-window button:hover {
   background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
@@ -311,8 +352,20 @@
   background: linear-gradient(145deg, #333, #444); /* Konsistenz des Hintergrunds im Fokuszustand */
 }
 
+#folsel-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6); /* Blauer Schatten für den Fokus */
+  background: linear-gradient(145deg, #333, #444); /* Konsistenz des Hintergrunds im Fokuszustand */
+}
+
 @media (prefers-reduced-motion: no-preference) {
   #selection-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #folsel-window {
     animation: fadeInUp 0.5s ease-out;
   }
 }
@@ -364,6 +417,10 @@
 }
 
 #selection-window button:hover {
+  background-color: #eee;
+}
+
+#folsel-window button:hover {
   background-color: #eee;
 }
        .window-header {
@@ -541,6 +598,14 @@
 			<button id="option7" onclick="DVD()">DVD Logo</button>
 			<button id="option7" onclick="crdits()">Credits</button>
 		</div>
+		<div id="folsel-window" class="hidden">
+			<button id="option1" onclick="saveFileWithCustomName()">Save Desktop To Folder Name (this will overwrite the old folder content)</button>
+			<button id="option1" onclick="loadFolderContent()">Load Folder Content</button>
+			<button id="option1" onclick="showAllFMOSfolderNames()">Show all Folder Names</button>
+			<button id="option2" onclick="deleteSpecificFolder()">Delete Folder</button>
+			<button id="option3" onclick="deleteAllFMOSfolderItems()">Delete All Folders</button>
+			<button id="option4" onclick="folsell()">Close This Menu</button>
+		</div>
     </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
@@ -570,6 +635,7 @@
     <div class="context-menu" id="contextMenu">
         <ul>
 			<li onclick="createFile()">New</li>
+			<li onclick="folsell()">Folders</li>
 			<li onclick="executeJS()">Run</li>
             <li onclick="renameFile()">Rename</li>
             <li onclick="deleteFile()">Delete</li>
@@ -1973,6 +2039,11 @@ function toggleSelectionWindow() {
   selectionWindow.classList.toggle('active');
 }
 
+function folsell() {
+  const selectionWindow = document.getElementById('folsel-window');
+  selectionWindow.classList.toggle('active');
+}
+
 function openFullscreen() {
   const elem = document.documentElement;
   if (elem.requestFullscreen) {
@@ -2299,6 +2370,107 @@ async function checkIPAddress() {
     } catch (error) {
         console.error('Fehler beim Abrufen der IP-Adresse:', error);
     }
+}
+
+function saveFileWithCustomName() {
+    const customName = prompt("Folder Name:");
+    if (customName) {
+        const storageKey = `FMOSfolder${customName}`;
+        localStorage.setItem(storageKey, JSON.stringify(files));
+        alert(`Files Saved In ${storageKey}`);
+    }
+}
+
+function loadFolderContent() {
+    const folderName = prompt("Folder Name:");
+    if (folderName) {
+        const storageKey = `FMOSfolder${folderName}`;
+        const folderContent = localStorage.getItem(storageKey);
+
+        if (folderContent) {
+            files = JSON.parse(folderContent);
+            // Reset the existing folders
+            folders = {};
+
+            // Render files and folders
+            renderFiles();
+            alert(`Inhalt des Ordners ${folderName} geladen.`);
+        } else {
+            alert(`Kein Ordner mit dem Namen ${folderName} gefunden.`);
+        }
+    }
+}
+
+function showAllFMOSfolderNames() {
+    const allKeys = Object.keys(localStorage);
+    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
+
+    if (fmosFolderKeys.length === 0) {
+        alert('No FMOSfolder entries found.');
+        console.log('No FMOSfolder entries found.');
+        return;
+    }
+
+    const folderNames = fmosFolderKeys.map(key => key.replace('FMOSfolder', ''));
+    const message = folderNames.join('\n');
+
+    alert(`FMOSfolder entries:\n${message}`);
+    console.log('FMOSfolder entries:');
+    console.log(message);
+}
+
+function deleteAllFMOSfolderItems() {
+    const allKeys = Object.keys(localStorage);
+    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
+
+    if (fmosFolderKeys.length === 0) {
+        alert('No FMOSfolder entries found to delete.');
+        console.log('No FMOSfolder entries found to delete.');
+        return;
+    }
+
+    const confirmation = confirm('Are you sure you want to delete all FMOSfolder entries? This action cannot be undone.');
+
+    if (!confirmation) {
+        alert('Operation cancelled.');
+        console.log('Operation cancelled.');
+        return;
+    }
+
+    fmosFolderKeys.forEach(key => localStorage.removeItem(key));
+
+    alert('All FMOSfolder entries have been deleted.');
+    console.log('The following FMOSfolder entries have been deleted:');
+    console.log(fmosFolderKeys.join('\n'));
+}
+
+function deleteSpecificFolder() {
+    const folderName = prompt('Enter the name of the folder to delete:');
+
+    if (!folderName) {
+        alert('Folder name not provided.');
+        return;
+    }
+
+    const folderKey = `FMOSfolder${folderName}`;
+
+    if (!localStorage.getItem(folderKey)) {
+        alert('The specified folder does not exist.');
+        return;
+    }
+
+    deleteFolderContents(folderKey);
+    localStorage.removeItem(folderKey);
+
+    alert(`Folder '${folderName}' has been deleted.`);
+    console.log(`Folder '${folderName}' and its contents have been deleted.`);
+}
+
+function deleteFolderContents(folderKey) {
+    const allKeys = Object.keys(localStorage);
+    const folderKeys = allKeys.filter(key => key.startsWith(folderKey));
+
+    folderKeys.forEach(key => localStorage.removeItem(key));
 }
 
         renderFiles();
