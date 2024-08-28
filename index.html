@@ -922,6 +922,7 @@ function disableFileNames() {
 }
 
         function openFile(fileName) {
+		  new Audio('click.mp3').play();
           selectedFile = fileName;
           document.getElementById('editorTitle').innerText = `Editor - ${fileName}`;
           document.getElementById('fileContent').value = files[fileName];
