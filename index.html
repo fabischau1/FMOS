@@ -58,7 +58,7 @@
     border-radius: 3px; /* Gleiche abgerundete Ecken beim Hover */
 }
        .window {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -70,7 +70,7 @@
             z-index: 10;
         }
 		.windowi {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -82,7 +82,7 @@
             z-index: 10;
         }
 		.windowstore {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -96,7 +96,7 @@
             z-index: 10;
         }
 		.windowifram {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -109,7 +109,7 @@
             flex-direction: column;
             z-index: 10;
         }.windowifra {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -122,7 +122,7 @@
             flex-direction: column;
             z-index: 10;
         }.windowifr {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -135,7 +135,7 @@
             flex-direction: column;
             z-index: 10;
         }.windowif {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -148,7 +148,7 @@
 			transform: scale(0.5);
 			opacity: 0;
 		}.windowifc {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -161,7 +161,7 @@
             flex-direction: column;
             z-index: 10;
 		}.windowiframefiles {
-            background-color: white;
+            background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
             position: absolute;
             top: 50px;
@@ -424,8 +424,10 @@
   background-color: #eee;
 }
        .window-header {
-            background-color: #0078d7;
-            color: white;
+            background-color: rgba(20, 20, 20, 0.7);
+            color: #00ff00;
+			text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+						0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
             padding: 5px;
             cursor: move;
             display: flex;
@@ -546,6 +548,25 @@
     text-shadow: 0 0 4px #00ff99, 0 0 8px #00ff99; /* Slightly dimmer glow effect on active */
 }
 
+.redlightcolor {
+    color: #ff0000;
+	text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+				0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+}
+
+.greenlightcolor {
+    color: #00ff00;
+	text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+				0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
+}
+
+.textcoloreditor {
+    color: #00000f;
+	text-shadow: 0 0 1px #0000ff, 0 0 2.5px #0000ff, 0 0 5px #0000ff,
+				0 0 5px #0000ff, 0 0 8px #0000ff, 0 0 10px #0000ff;
+	background-color: rgba(20, 20, 20, 0.7);
+}
+
 /* Animation for fading in */
 @keyframes fadeIn {
     from {
@@ -648,6 +669,8 @@
 		<button id="toggle-selection" onclick="syssettings()">Settings</button>
 		<div id="selection-window" class="hidden">
 			<button id="option1" onclick="thememodern()">Theme:Modern</button>
+			<button id="option1" onclick="updateTextColorEditor()">Texteditor:White</button>
+			<button id="option1" onclick="updateTextColorEditordef()">Texteditor:Default</button>
 			<button id="option1" onclick="changeDesktopBackground()">Space</button>
 			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
@@ -663,6 +686,7 @@
 			<button id="option7" onclick="resetTaskbarBackgroundColor()">Taskbar:Default</button>
 			<button id="option7" onclick="setCompactFuturisticTaskbarStyle()">Taskbar:Modern</button>
 			<button id="option7" onclick="crdits()">Credits</button>
+			<button id="option7" onclick="toggleSelectionWindow()">Close</button>
 		</div>
 		<div id="folsel-window" class="hidden">
 			<button id="option1" onclick="saveFileWithCustomName()">Save Desktop To Folder Name (this will overwrite the old folder content)</button>
@@ -684,15 +708,15 @@
 	<div class="window" id="editorWindow">
 		<div class="window-header">
 			<span id="editorTitle">Editor</span>
-			<button onclick="closeWindow()" style="background:none; border:none; color:white;">X</button>
+			<button onclick="closeWindow()" style="background:none; border:none;" class="redlightcolor">X</button>
 		</div>
 		<div class="window-body">
-			<textarea id="fileContent" style="width: 100%; height: 100%;"></textarea>
+			<textarea id="fileContent" style="width: 100%; height: 100%; border: 1px solid rgba(255, 255, 255, 0.2); overflow: auto;" class="textcoloreditor" ></textarea>
 		</div>
 		<div class="window-footer">
-			<button onclick="saveFile()">Save</button>
-			<button onclick="deleteFile()">Delete</button>
-			<button onclick="executeJS()">Run</button>
+			<button onclick="saveFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Save</button>
+			<button onclick="deleteFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Delete</button>
+			<button onclick="executeJS()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Run</button>
 		</div>
 	</div>
 
@@ -1148,7 +1172,7 @@ function musik() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Musik</span>
-      <button onclick="closem()">X</button>
+      <button onclick="closem()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/Musik/"></iframe>
@@ -1239,7 +1263,7 @@ function store() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Store</span>
-      <button onclick="closeeeeeeeeeeee()">X</button>
+      <button onclick="closeeeeeeeeeeee()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/store.html"></iframe>
@@ -1330,7 +1354,7 @@ function caculator() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Caculator</span>
-      <button onclick="closecaculator()">X</button>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/caculator/"></iframe>
@@ -1416,7 +1440,7 @@ function passwordmgr() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Password MGR</span>
-      <button onclick="closecaculator()">X</button>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/pass"></iframe>
@@ -1502,7 +1526,7 @@ function crdits() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Credits</span>
-      <button onclick="closecaculator()">X</button>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/Credits"></iframe>
@@ -1588,7 +1612,7 @@ function code() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>FMcode</span>
-      <button onclick="closecode()">X</button>
+      <button onclick="closecode()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMcode/"></iframe>
@@ -1682,7 +1706,7 @@ function secfil() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Files</span>
-      <button onclick="closef()">X</button>
+      <button onclick="closef()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/"></iframe>
@@ -1773,7 +1797,7 @@ function openURLInIframe() {
   iframeWindow.innerHTML = `
     <div class="window-header">
       <span>Browser</span>
-      <button onclick="closeIframeeeee()">X</button>
+      <button onclick="closeIframeeeee()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMSearch/"></iframe>
@@ -1858,13 +1882,39 @@ function closeIframeeeee() {
   document.querySelector('.windowifram').remove();
 }
 
+function updateTextColorEditor() {
+    // Alle Elemente mit der Klasse 'textcoloreditor' auswählen
+    var elements = document.querySelectorAll('.textcoloreditor');
+    
+    // Über die Elemente iterieren und die Stile ändern
+    elements.forEach(function(element) {
+        element.style.color = 'black';
+        element.style.backgroundColor = 'white';
+        // Entfernt den vorhandenen Textschatten
+        element.style.textShadow = 'none';
+    });
+}
+
+function updateTextColorEditordef() {
+    // Alle Elemente mit der Klasse 'textcoloreditor' auswählen
+    var elements = document.querySelectorAll('.textcoloreditor');
+    
+    // Über die Elemente iterieren und die ursprünglichen Stile wiederherstellen
+    elements.forEach(function(element) {
+        element.style.color = '#00000f';
+        element.style.backgroundColor = 'rgba(20, 20, 20, 0.7)';
+        element.style.textShadow = '0 0 1px #0000ff, 0 0 2.5px #0000ff, 0 0 5px #0000ff, 0 0 5px #0000ff, 0 0 8px #0000ff, 0 0 10px #0000ff';
+    });
+}
+
+
 function vm() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>FMSearch</span>
-      <button onclick="closevm()">X</button>
+      <span>VM</span>
+      <button onclick="closevm()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/BIOS/"></iframe>
@@ -1942,12 +1992,6 @@ function vm() {
     isResizing = false;
     document.removeEventListener('mousemove', handleResizeMove);
     document.removeEventListener('mouseup', handleResizeUp);
-  }
-  
-  function handleResizeUp() {
-    const windowifraElement = document.querySelector('.windowifra');
-        windowifraElement.style.width = '800px';
-        windowifraElement.style.height = '400px';
   }
 }
 
