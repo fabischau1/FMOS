@@ -828,7 +828,7 @@
 	<div class="windowi" id="htmlPreviewWindow" style="display: none;">
 		<div class="window-header">
 			<span id="htmlPreviewTitle">HTML Preview</span>
-			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none; color:white;">X</button>
+			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none;" class="textcoloreditor" >X</button>
 		</div>
 		<div class="window-body">
 			<iframe id="htmlPreview" frameborder="0" width="100%" height="100%"></iframe>
@@ -2277,6 +2277,92 @@ function getAndSetTaskbarBackgroundColor() {
   } else {
     alert("No color entered. Current color: " + taskbar.style.backgroundColor);
   }
+}
+
+function foldermgr() {
+  const iframeWindow = document.createElement('div');
+  iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
+  iframeWindow.innerHTML = `
+    <div class="window-header">
+      <span>Password MGR</span>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
+    </div>
+    <div class="window-body">
+      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/Folder/main"></iframe>
+      <div class="resize-handle"></div>
+    </div>
+  `;
+  document.body.appendChild(iframeWindow);
+  iframeWindow.style.top = '50px';
+  iframeWindow.style.left = '50px';
+  iframeWindow.style.display = 'block'; // show the window
+
+  // Add animation when opening the window
+  iframeWindow.classList.add('animate-in');
+
+  // Add drag functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - iframeWindow.offsetLeft;
+    offsetY = e.clientY - iframeWindow.offsetTop;
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (isDragging) {
+      const newX = e.clientX - offsetX;
+      const newY = e.clientY - offsetY;
+
+      iframeWindow.style.top = `${newY}px`;
+      iframeWindow.style.left = `${newX}px`;
+    }
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  }
+
+  // Add resize functionality
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = iframeWindow.offsetWidth;
+    startHeight = iframeWindow.offsetHeight;
+
+    document.addEventListener('mousemove', handleResizeMove);
+    document.addEventListener('mouseup', handleResizeUp);
+  });
+
+  function handleResizeMove(e) {
+    if (isResizing) {
+      const newWidth = startWidth + (e.clientX - startX);
+      const newHeight = startHeight + (e.clientY - startY);
+
+      iframeWindow.style.width = `${newWidth}px`;
+      iframeWindow.style.height = `${newHeight}px`;
+    }
+  }
+
+  function handleResizeUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleResizeMove);
+    document.removeEventListener('mouseup', handleResizeUp);
+  }
+}
+
+function closecaculator() {
+  document.querySelector('.windowifc').remove();
 }
 
 function resetTaskbarBackgroundColor() {
