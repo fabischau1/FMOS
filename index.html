@@ -893,27 +893,7 @@
 
 		  `,
 
-          "explorer.fsys": `let fileExplorer = {
-          listFiles: function() {
-            console.log("Files:");
-            for (let file in files) {
-              console.log(file);
-              alert(file);
-            }
-          },
-          openFile: function(fileName) {
-            if (files[fileName]) {
-              console.log("Inhalt von " + fileName + ":");
-              console.log(files[fileName]);
-              alert(files[fileName]);
-            } else {
-              console.log("Datei nicht gefunden!");
-              alert("File not found!");
-            }
-          }
-        };
-
-        fileExplorer.listFiles();`,
+          "Folder MGR.fsys": `foldermgr()`,
 		
 		  "Caculator.fsys": `caculator()`,
 		
@@ -2284,7 +2264,7 @@ function foldermgr() {
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
     <div class="window-header">
-      <span>Password MGR</span>
+      <span>Folder MGR</span>
       <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
