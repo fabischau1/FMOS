@@ -721,10 +721,6 @@
 <body>
     <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
     </div>
-    <div class="taskbar">
-        <button onclick="createFile()">New File</button>
-        <button onclick="createFolder()">New Folder</button>
-    </div>
 	<div class="window" id="editorWindow">
 		<div class="window-header">
 			<span id="editorTitle">Editor</span>
@@ -757,7 +753,7 @@
 			<li onclick="executeJS()">Run</li>
             <li onclick="renameFile()">Rename</li>
             <li onclick="deleteFile()">Delete</li>
-            <li onclick="toggleSelectionWindow()">Style Settings</li>
+			<li onclick="saveFileWithCustomName()">Save To Folder</li>
 			<li onclick="hideContextMenu()">Close</li>
         </ul>
     </div>
@@ -1189,6 +1185,15 @@ function getFilesFromLocalStorage() {
     }
 }
 
+function saveFileWithCustomName() {
+    const customName = prompt("Folder Name:");
+    if (customName) {
+        const storageKey = `FMOSfolder${customName}`;
+        localStorage.setItem(storageKey, JSON.stringify(files));
+        alert(`Files Saved In ${storageKey}`);
+    }
+}
+
 function openfmosfolder() {
     // Check if a file is selected and ends with .folder
     if (selectedFile && selectedFile.endsWith('.folder')) {
@@ -1206,7 +1211,6 @@ function openfmosfolder() {
 
                     // Render files and folders
                     renderFiles();
-                    alert(`Inhalt des Ordners ${folderName} geladen.`);
                 } catch (error) {
                     alert(`ERROR: Fehler beim Parsen des Ordnerinhalts - ${error.message}`);
                 }
