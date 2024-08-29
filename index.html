@@ -284,7 +284,7 @@
 #folsel-window {
   position: absolute;
   bottom: 20px;
-  left: 50%;
+  left: 60%;
   transform: translateX(-50%);
   background: rgba(30, 30, 30, 0.8); /* Transparenter Hintergrund für einen Glas-Effekt */
   border: 1px solid rgba(255, 255, 255, 0.2); /* Subtiler, transparenter Rand */
@@ -591,7 +591,7 @@
 #sysset-window {
   position: absolute;
   bottom: 20px;
-  left: 50%;
+  left: 70%;
   transform: translateX(-50%);
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -644,7 +644,78 @@
 #sysset-window button:hover {
   background-color: #eee;
 }
+#appsfinder-window {
+  position: absolute;
+  bottom: 70px;
+  left: 7%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2);
+  display: none;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 220px;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+#appsfinder-window.active {
+  display: block;
+  opacity: 1;
+}
+
+#appsfinder-window button {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #333, #444); /* Gradient for buttons */
+  border: none;
+  color: #f0f0f0;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#appsfinder-window button:hover .button-icon {
+  transform: translateY(-2px);
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#appsfinder-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Gradient for hover effect */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#appsfinder-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6);
+  background: linear-gradient(145deg, #333, #444);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #appsfinder-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+#appsfinder-window button:hover {
+  background-color: #eee;
+}
     </style>
 </head>
 <body>
@@ -659,12 +730,12 @@
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
 		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
-		<button class="taskbar-button" onclick="musik()">Musik</button>
 	    <button class="taskbar-button" onclick="store()">Store</button>
 		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="loads()">Load_Files</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
 		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
+		<button id="toggle-selection" onclick="appwindowfinder()">Apps</button>
 		<button id="toggle-selection" onclick="toggleSelectionWindow()">Style_Settings</button>
 		<button id="toggle-selection" onclick="syssettings()">Settings</button>
 		<div id="selection-window" class="hidden">
@@ -703,6 +774,39 @@
 			<button id="option7" onclick="disableFileNames()">Disable File Names</button>
 			<button id="option7" onclick="folsell()">Folder Options</button>
 			<button id="option7" onclick="syssettings()">Close</button>
+		</div>
+		<div id="appsfinder-window" class="hidden">
+			<button id="option1" onclick="syssettings()">
+			    <img onclick="syssettings()" src="settingsapp.png" alt="icon" class="button-icon"> Settings
+			</button>
+			<button id="option1" onclick="toggleSelectionWindow()">
+			    <img onclick="toggleSelectionWindow()" src="styleapp.png" alt="icon" class="button-icon"> OS Style
+			</button>
+			<button id="option1" onclick="folsell()">
+			    <img onclick="folsell()" src="f.png" alt="icon" class="button-icon"> Folder MGR
+			</button>
+			<button id="option1" onclick="executeJSInTerminal()">
+			    <img onclick="executeJSInTerminal()" src="termapp.png" alt="icon" class="button-icon"> FM Shell
+			</button>
+			<button id="option1" onclick="musik()">
+			    <img onclick="musik()" src="musikapp.png" alt="icon" class="button-icon"> Musik
+			</button>
+			<button id="option1" onclick="vm()">
+			    <img onclick="vm()" src="vmapp.png" alt="icon" class="button-icon"> VM
+			</button>
+			<button id="option1" onclick="openURLInIframe()">
+			    <img onclick="openURLInIframe()" src="t.jpg" alt="icon" class="button-icon"> Browser
+			</button>
+			<button id="option1" onclick="passwordmgr()">
+			    <img onclick="passwordmgr()" src="passapp.png" alt="icon" class="button-icon"> Password MGR
+			</button>
+			<button id="option1" onclick="code()">
+			    <img onclick="code()" src="py.jpg" alt="icon" class="button-icon"> CodeSpace
+			</button>
+			<button id="option1" onclick="store()">
+			    <img onclick="store()" src="storeapp.png" alt="icon" class="button-icon"> Store
+			</button>
+			<button id="option4" onclick="appwindowfinder()" class="redlightcolor" >X</button>
 		</div>
     </div>
 	<div class="window" id="editorWindow">
@@ -2182,6 +2286,11 @@ function resetTaskbarBackgroundColor() {
 
 function toggleSelectionWindow() {
   const selectionWindow = document.getElementById('selection-window');
+  selectionWindow.classList.toggle('active');
+}
+
+function appwindowfinder() {
+  const selectionWindow = document.getElementById('appsfinder-window');
   selectionWindow.classList.toggle('active');
 }
 
