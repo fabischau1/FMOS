@@ -716,6 +716,63 @@
 #appsfinder-window button:hover {
   background-color: #eee;
 }
+/* Styling für die Fehlermeldung */
+/* Styling für die Fehlermeldung */
+.error-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2c2c2c; /* Dunkleres, mattes Grau für modernen Look */
+    color: #ff0000;
+	text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+				0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+    padding: 30px 50px;
+    border-radius: 12px; /* Leicht abgerundete Ecken */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Weicher Schatten für Tiefe */
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    z-index: 1000;
+    animation: fadeIn 0.4s ease-in-out;
+    max-width: 90%;
+    width: 360px;
+}
+
+/* Styling für den Text innerhalb der Fehlermeldung */
+.error-message span {
+    display: block;
+    margin-bottom: 20px; /* Abstand zwischen Text und Button */
+    font-size: 18px; /* Größerer, gut lesbarer Text */
+}
+
+.error-message .ok-button {
+    padding: 12px 30px;
+    background: rgba(20, 20, 20, 0.7);
+    border: none;
+    color: #fff;
+    border-radius: 6px; /* Leicht abgerundet für einen modernen Button */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+}
+
+.error-message .ok-button:hover {
+    background: rgba(10, 10, 10, 0.7);
+    transform: translateY(-2px); /* Leichter Hover-Effekt */
+}
+
+/* Einfache Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
     </style>
 </head>
 <body>
@@ -1117,6 +1174,35 @@ function deleteFile() {
   }
 }
 
+function showError(message) {
+	new Audio('error.mp3').play();
+    // Prüfen, ob eine Fehlermeldung bereits angezeigt wird
+    let existingError = document.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    // Neues Fehlerdiv erstellen
+    let errorDiv = document.createElement('div');
+    errorDiv.classList.add('error-message');
+
+    // Fehlermeldungstext
+    let messageText = document.createElement('span');
+    messageText.textContent = message;
+    errorDiv.appendChild(messageText);
+
+    // OK-Button
+    let okButton = document.createElement('button');
+    okButton.classList.add('ok-button');
+    okButton.textContent = 'OK';
+    okButton.onclick = () => errorDiv.remove();
+    errorDiv.appendChild(okButton);
+
+    // Fehlermeldung ins Dokument einfügen
+    document.body.appendChild(errorDiv);
+}
+
+
         function renameFile() {
             if (selectedFile) {
                 const newFileName = prompt("New Filename:", selectedFile);
@@ -1126,7 +1212,7 @@ function deleteFile() {
                     selectedFile = newFileName;
                     renderFiles();
                 } else {
-                    alert("ERROR");
+                    showError('An error has occurred.');
                 }
             }
         }
@@ -2218,6 +2304,7 @@ function sysfactoriereset() {
     } else {
         // Aktion ausführen, wenn der Benutzer auf "Abbrechen" klickt (optional)
         console.log("Aktion abgebrochen.");
+		showError('Action Canceled.');
     }
 }
 
@@ -2695,6 +2782,7 @@ async function checkIPAddress() {
         }
     } catch (error) {
         console.error('Fehler beim Abrufen der IP-Adresse:', error);
+		showError('An error has occurred.');
     }
 }
 
@@ -2726,14 +2814,14 @@ function openfmosfolder() {
                     renderFiles();
                     alert(`Inhalt des Ordners ${folderName} geladen.`);
                 } catch (error) {
-                    alert(`ERROR: Fehler beim Parsen des Ordnerinhalts - ${error.message}`);
+                    showError('A critical error has occurred.');
                 }
             } else {
-                alert(`Kein Ordner mit dem Namen ${folderName} gefunden.`);
+                showError('No Folder Found With That Name.');
             }
         }
 	} else {
-        alert('ERROR: Not A Folder.');
+        showError('Not A Folder.');
     }
 }
 
@@ -2751,9 +2839,8 @@ function loadFolderContent() {
 
             // Render files and folders
             renderFiles();
-            alert(`Inhalt des Ordners ${folderName} geladen.`);
         } else {
-            alert(`Kein Ordner mit dem Namen ${folderName} gefunden.`);
+            showError('No Folder Found With That Name.');
         }
     }
 }
@@ -2763,7 +2850,7 @@ function showAllFMOSfolderNames() {
     const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
 
     if (fmosFolderKeys.length === 0) {
-        alert('No FMOSfolder entries found.');
+        showError('Nothing Found.');
         console.log('No FMOSfolder entries found.');
         return;
     }
@@ -2781,7 +2868,7 @@ function deleteAllFMOSfolderItems() {
     const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
 
     if (fmosFolderKeys.length === 0) {
-        alert('No FMOSfolder entries found to delete.');
+        showError('No Folders To Delete.');
         console.log('No FMOSfolder entries found to delete.');
         return;
     }
@@ -2805,14 +2892,14 @@ function deleteSpecificFolder() {
     const folderName = prompt('Enter the name of the folder to delete:');
 
     if (!folderName) {
-        alert('Folder name not provided.');
+        showError('An error has occurred.');
         return;
     }
 
     const folderKey = `FMOSfolder${folderName}`;
 
     if (!localStorage.getItem(folderKey)) {
-        alert('The specified folder does not exist.');
+        showError('Folder Does Not Ecsist');
         return;
     }
 
