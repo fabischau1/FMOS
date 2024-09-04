@@ -799,6 +799,7 @@
 			<button id="option1" onclick="thememodern()">Theme:Modern</button>
 			<button id="option1" onclick="updateTextColorEditor()">Texteditor:White</button>
 			<button id="option1" onclick="updateTextColorEditordef()">Texteditor:Default</button>
+			<button id="option2" onclick="changeDesktopBackgrounddarkfmos()">Dark FMOS</button>
 			<button id="option1" onclick="changeDesktopBackground()">Space</button>
 			<button id="option2" onclick="changeDesktopBackground2()">Hacker</button>
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
@@ -2228,6 +2229,12 @@ function changeDesktopBackground40() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('fmoss.png')";
+}
+
+function changeDesktopBackgrounddarkfmos() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('Dark.jpeg')";
 }
 
 function changeDesktopBackground5() {
