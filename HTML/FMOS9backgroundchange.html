@@ -59,17 +59,15 @@
 <body>
     <div class="container">
         <textarea id="codeField" readonly>
-function changeTerminalBackground() {
-  const imageUrl = prompt("Enter the URL of a background image:");
-
-  if (imageUrl) {
-    const styleElement = document.createElement("style");
-    styleElement.innerHTML = `.terminal-window { background-image: url(${imageUrl}); }`;
-    document.head.appendChild(styleElement);
-  } else {
-    alert("Invalid URL. Please enter the URL of a valid image file.");
+function changeDesktopBackground5() {
+  const userInput = prompt("Enter a custom image URL:");
+  if (userInput) {
+    const bodyElement = document.querySelector('body');
+    const desktopElement = bodyElement.querySelector('.desktop');
+    desktopElement.style.backgroundImage = `url('${userInput}')`;
   }
 }
+changeDesktopBackground5();
         </textarea>
         <br>
         <button id="copyButton">Copy</button>
