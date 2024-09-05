@@ -805,10 +805,10 @@
 			<button id="option3" onclick="changeDesktopBackground3()">Flower</button>
 			<button id="option3" onclick="changeDesktopBackground30()">Color</button>
 			<button id="option4" onclick="changeDesktopBackground40()">FMOS</button>
-			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
+			<button id="option4" onclick="changeDesktopBackground60()">AbstractRound</button>
+			<button id="option2" onclick="changeDesktopBackground2()">Abstract</button>
 			<button id="option5" onclick="changeDesktopBackground5()">Custom</button>
 			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
-			<button id="option7" onclick="changeTerminalBackground3()">Terminal:Abstract</button>
 			<button id="option7" onclick="changeTerminalBackground2()">Terminal:Space</button>
 			<button id="option7" onclick="setTaskbarTransparent()">Taskbar:Transparent</button>
 			<button id="option7" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
@@ -2229,6 +2229,12 @@ function changeDesktopBackground40() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('fmoss.png')";
+}
+
+function changeDesktopBackground60() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('custom.png')";
 }
 
 function changeDesktopBackgrounddarkfmos() {
