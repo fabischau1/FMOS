@@ -2868,6 +2868,34 @@ function showAllFMOSfolderNames() {
     console.log(message);
 }
 
+function showFullScreenIframe() {
+    // Definiert die URL, die im iframe angezeigt werden soll
+    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOSboot';
+
+    // Erstellt ein neues iframe-Element
+    const iframe = document.createElement('iframe');
+
+    // Setzt die URL des iframes
+    iframe.src = url;
+
+    // Setzt das iframe so, dass es den gesamten Bildschirm einnimmt
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.zIndex = '9999'; // Stellt sicher, dass es vor allen anderen Elementen liegt
+
+    // Fügt das iframe dem body hinzu
+    document.body.appendChild(iframe);
+
+    // Entfernt das iframe nach 5 Sekunden
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+    }, 5000);
+}
+
 function deleteAllFMOSfolderItems() {
     const allKeys = Object.keys(localStorage);
     const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
@@ -2921,7 +2949,9 @@ function deleteFolderContents(folderKey) {
 
     folderKeys.forEach(key => localStorage.removeItem(key));
 }
+		
 
+		showFullScreenIframe();
         renderFiles();
 		checkIPAddress();
     </script>
