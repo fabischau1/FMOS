@@ -825,6 +825,8 @@
 			<button id="option4" onclick="folsell()">Close This Menu</button>
 		</div>
 		<div id="sysset-window" class="hidden">
+			<button id="option7" onclick="setFullScreenIframeKeyTrue()">Enable Boot Screen</button>
+			<button id="option7" onclick="setFullScreenIframeKeyFalse()">Disable Boot Screen</button>
 			<button id="option7" onclick="passwordmgr()">Password</button>
 			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
@@ -2531,7 +2533,7 @@ function openDiscordLink() {
     }
 		
 		function restartOS() {
-			window.location.href = "https://fabischau1.github.io/FMOS";
+			window.location.href = "https://fabischau1.github.io/FM_OS";
 		}
 		
 		function err003() {
@@ -2791,6 +2793,16 @@ async function checkIPAddress() {
     }
 }
 
+function askToRestartOS() {
+    const userResponse = confirm("Do you want to restart the operating system?");
+    if (userResponse) {
+        location.reload();
+    } else {
+        console.log("OS restart canceled.");
+		showError('OS restart canceled.');
+    }
+}
+
 function saveFileWithCustomName() {
     const customName = prompt("Folder Name:");
     if (customName) {
@@ -2868,29 +2880,40 @@ function showAllFMOSfolderNames() {
     console.log(message);
 }
 
+function setFullScreenIframeKeyTrue() {
+    localStorage.setItem('showFullScreenIframe', 'true');
+	askToRestartOS();
+}
+
+function setFullScreenIframeKeyFalse() {
+    localStorage.setItem('showFullScreenIframe', 'false');
+	askToRestartOS();
+}
+
+function checkAndShowFullScreenIframe() {
+    const isFullScreenAllowed = localStorage.getItem('showFullScreenIframe');
+    if (isFullScreenAllowed === 'true') {
+        showFullScreenIframe();
+    }
+}
+
 function showFullScreenIframe() {
-    // Definiert die URL, die im iframe angezeigt werden soll
     const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOSboot';
 
-    // Erstellt ein neues iframe-Element
     const iframe = document.createElement('iframe');
 
-    // Setzt die URL des iframes
     iframe.src = url;
 
-    // Setzt das iframe so, dass es den gesamten Bildschirm einnimmt
     iframe.style.position = 'fixed';
     iframe.style.top = '0';
     iframe.style.left = '0';
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
-    iframe.style.zIndex = '9999'; // Stellt sicher, dass es vor allen anderen Elementen liegt
+    iframe.style.zIndex = '9999';
 
-    // Fügt das iframe dem body hinzu
     document.body.appendChild(iframe);
 
-    // Entfernt das iframe nach 5 Sekunden
     setTimeout(() => {
         document.body.removeChild(iframe);
     }, 5000);
@@ -2951,7 +2974,7 @@ function deleteFolderContents(folderKey) {
 }
 		
 
-		showFullScreenIframe();
+		checkAndShowFullScreenIframe();
         renderFiles();
 		checkIPAddress();
     </script>
