@@ -812,6 +812,7 @@
 			<button id="option3" onclick="changeDesktopBackground30()">Color</button>
 			<button id="option4" onclick="changeDesktopBackground40()">FMOS</button>
 			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
+			<button id="option4" onclick="changeDesktopBackgroundcu29294()">Abstract 2.0</button>
 			<button id="option5" onclick="changeDesktopBackground5()">Custom</button>
 			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
 			<button id="option7" onclick="changeTerminalBackground2()">Terminal:Space</button>
@@ -2428,6 +2429,12 @@ function changeDesktopBackground6() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('abstract.webp')";
+}
+
+function changeDesktopBackgroundcu29294() {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = "url('custom.jpg')";
 }
 
 function changeDesktopBackground30() {
