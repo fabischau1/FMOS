@@ -967,7 +967,7 @@ textarea {
 			    <img onclick="executeJSInTerminal()" src="termapp.png" alt="icon" class="button-icon"> FM Shell
 			</button>
 			<button id="option1" onclick="showNeonTerminal()">
-			    <img onclick="showNeonTerminal()" src="termapp.png" alt="icon" class="button-icon"> Terminal 2
+			    <img onclick="showNeonTerminal()" src="termapp.png" alt="icon" class="button-icon"> Pro Terminal
 			</button>
 			<button id="option1" onclick="musik()">
 			    <img onclick="musik()" src="musikapp.png" alt="icon" class="button-icon"> Musik
@@ -1028,7 +1028,7 @@ textarea {
     </div>
     <div class="neon-terminal" id="neonTerminal">
         <div class="neon-terminal-header">
-            <span>Terminal</span>
+            <span>FMOS Pro Terminal</span>
             <div>
 				<button onclick="runNeonTerminalJS()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">Run</button>
                 <button onclick="toggleTerminalFullscreen()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
@@ -3602,6 +3602,7 @@ function showFullScreenIframe() {
 }
 //terminal 2
         function showNeonTerminal() {
+			showError("WARNING DONT EXECUTE CODE FROM STRANGERS")
             document.getElementById('neonTerminal').style.display = 'flex';
             document.getElementById('neonTerminalInput').focus();
             window.scrollTo(0, 0);
