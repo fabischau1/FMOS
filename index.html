@@ -777,23 +777,120 @@
         transform: translate(-50%, -50%);
     }
 }
+.neon-terminal {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    border: 1px solid #0f0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 400px;
+    height: 300px;
+    display: none;
+    flex-direction: column;
+    z-index: 10;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 10px #0f0;
+    border-radius: 10px;
+    resize: both;
+    overflow: hidden;
+}
 
+.neon-terminal-header {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #0f0;
+}
+
+.neon-terminal-body {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+.neon-terminal-footer {
+    padding: 5px;
+    text-align: right;
+    border-top: 1px solid #0f0;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+/* Textarea Styles */
+textarea {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0; /* Neon-grüner Text */
+    border: none;
+    font-family: 'Courier New', Courier, monospace;
+    resize: none; /* Verhindert, dass die Textarea separat vergrößert wird */
+}
+
+/* Button Styles */
+.neon-terminal .btn {
+    background: none;
+    border: none;
+    color: #0f0;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.neon-terminal .btn.fullscreen {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close {
+    background: red;
+    color: #fff;
+}
+
+.neon-terminal .btn.run {
+    background: #00f;
+}
+
+.neon-terminal .btn:hover {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+.neon-terminal .btn.fullscreen:hover {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close:hover {
+    background: darkred;
+}
+
+.neon-terminal .btn.run:hover {
+    background: #00f;
+}
     </style>
 </head>
 <body>
     <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
     </div>
     <div class="taskbar">
-        <button onclick="createFile()">New File</button>
+        <button onclick="createFile()">New</button>
         <button onclick="secfil()">Files</button>
 		<button onclick="malwareScan()">FA AntiVira</button>
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
+		<button class="taskbar-button" onclick="showNeonTerminal()">Terminal2</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
 		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
 	    <button class="taskbar-button" onclick="store()">Store</button>
-		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="loads()">Load_Files</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
 		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
@@ -850,6 +947,7 @@
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
 			<button id="option7" onclick="disableFileNames()">Disable File Names</button>
 			<button id="option7" onclick="folsell()">Folder Options</button>
+			<button class="option7" onclick="downloadAllFiles()">Download</button>
 			<button id="option7" onclick="syssettings()">Close</button>
 		</div>
 		<div id="appsfinder-window" class="hidden">
@@ -867,6 +965,9 @@
 			</button>
 			<button id="option1" onclick="executeJSInTerminal()">
 			    <img onclick="executeJSInTerminal()" src="termapp.png" alt="icon" class="button-icon"> FM Shell
+			</button>
+			<button id="option1" onclick="showNeonTerminal()">
+			    <img onclick="showNeonTerminal()" src="termapp.png" alt="icon" class="button-icon"> Terminal 2
 			</button>
 			<button id="option1" onclick="musik()">
 			    <img onclick="musik()" src="musikapp.png" alt="icon" class="button-icon"> Musik
@@ -924,6 +1025,21 @@
             <li onclick="toggleSelectionWindow()">Style Settings</li>
 			<li onclick="hideContextMenu()">Close</li>
         </ul>
+    </div>
+    <div class="neon-terminal" id="neonTerminal">
+        <div class="neon-terminal-header">
+            <span>Terminal</span>
+            <div>
+				<button onclick="runNeonTerminalJS()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">Run</button>
+                <button onclick="toggleTerminalFullscreen()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
+                <button onclick="hideNeonTerminal()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
+            </div>
+        </div>
+        <div class="neon-terminal-body">
+            <textarea id="neonTerminalInput" style="width: 100%; height: 100%; background: #000; border: none;" class="greenlightcolor" ></textarea>
+        </div>
+        <div class="neon-terminal-footer">
+        </div>
     </div>
 
     <script>
@@ -1055,6 +1171,8 @@
             }
           }
         }
+
+//render and create files and file management and file settings
 
 function renderFiles() {
   const desktop = document.getElementById('desktop');
@@ -1299,6 +1417,7 @@ function showError(message) {
 		    }
 		}
 		
+//terminal 1
 let terminalWindows = [];
 
 function executeJSInTerminal() {
@@ -1361,7 +1480,7 @@ function executeJSInTerminal() {
 
   terminalWindows.push(terminalWindow);
 }
-
+//apps
 function musik() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifr'; // same class as the HTML preview iframe
@@ -2385,7 +2504,7 @@ function toggleFullscreenvm() {
     iframe.style.height = 'calc(100vh - 20px)';
   }
 }
-
+//stlye settings
 function uploadFile() {
   const input = document.createElement('input');
   input.type = 'file';
@@ -2571,7 +2690,7 @@ function getAndSetTaskbarBackgroundColor() {
     alert("No color entered. Current color: " + taskbar.style.backgroundColor);
   }
 }
-
+//apps
 function welcomemsg() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
@@ -2759,7 +2878,7 @@ function resetTaskbarBackgroundColor() {
   const taskbar = document.querySelector('.taskbar');
   taskbar.style.backgroundColor = '#333';
 }
-
+//settings and mgrs
 function toggleSelectionWindow() {
   const selectionWindow = document.getElementById('selection-window');
   selectionWindow.classList.toggle('active');
@@ -2796,7 +2915,7 @@ function openFullscreen() {
 window.onload = function() {
   openFullscreen();
 };
-
+//file system
 function loads() {
 	alert("Tip: You Can Set A Password By Clicking On Settings Then Password");
     const enteredPassword = prompt("Password:");
@@ -3437,7 +3556,7 @@ function checkandshowtos() {
 		welcomemsg();
     }
 }
-
+//boot loader
 function showboot2() {
     const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOS12bootnoterm.html';
 
@@ -3481,10 +3600,86 @@ function showFullScreenIframe() {
         document.body.removeChild(iframe);
     }, 5000);
 }
+//terminal 2
+        function showNeonTerminal() {
+            document.getElementById('neonTerminal').style.display = 'flex';
+            document.getElementById('neonTerminalInput').focus();
+            window.scrollTo(0, 0);
+        }
 
+        function hideNeonTerminal() {
+            document.getElementById('neonTerminal').style.display = 'none';
+        }
 
+        function toggleTerminalFullscreen() {
+            const terminal = document.getElementById('neonTerminal');
+            if (terminal.style.width === '100vw' && terminal.style.height === '100vh') {
+                terminal.style.width = '400px';
+                terminal.style.height = '300px';
+                terminal.style.top = '50px';
+                terminal.style.left = '50px';
+            } else {
+                terminal.style.width = '100vw';
+                terminal.style.height = '100vh';
+                terminal.style.top = '0';
+                terminal.style.left = '0';
+            }
+        }
+
+        function runNeonTerminalJS() {
+            const code = document.getElementById('neonTerminalInput').value;
+            try {
+                eval(code);
+            } catch (error) {
+                alert(`ERROR: ${error.message}`);
+            }
+        }
+
+        // Drag functionality for the terminal
+        let isDraggingTerminal = false;
+        let terminalOffsetX, terminalOffsetY;
+
+        document.querySelector('.neon-terminal-header').addEventListener('mousedown', (e) => {
+            isDraggingTerminal = true;
+            terminalOffsetX = e.clientX - document.getElementById('neonTerminal').offsetLeft;
+            terminalOffsetY = e.clientY - document.getElementById('neonTerminal').offsetTop;
+
+            document.addEventListener('mousemove', handleTerminalMouseMove);
+            document.addEventListener('mouseup', handleTerminalMouseUp);
+        });
+
+        function handleTerminalMouseMove(e) {
+            if (isDraggingTerminal) {
+                const newX = e.clientX - terminalOffsetX;
+                const newY = e.clientY - terminalOffsetY;
+
+                const maxX = window.innerWidth - document.getElementById('neonTerminal').offsetWidth;
+                const maxY = window.innerHeight - document.getElementById('neonTerminal').offsetHeight;
+
+                if (newX < 0) {
+                    document.getElementById('neonTerminal').style.left = '0';
+                } else if (newX > maxX) {
+                    document.getElementById('neonTerminal').style.left = `${maxX}px`;
+                } else {
+                    document.getElementById('neonTerminal').style.left = `${newX}px`;
+                }
+
+                if (newY < 0) {
+                    document.getElementById('neonTerminal').style.top = '0';
+                } else if (newY > maxY) {
+                    document.getElementById('neonTerminal').style.top = `${maxY}px`;
+                } else {
+                    document.getElementById('neonTerminal').style.top = `${newY}px`;
+                }
+            }
+        }
+
+        function handleTerminalMouseUp() {
+            isDraggingTerminal = false;
+            document.removeEventListener('mousemove', handleTerminalMouseMove);
+            document.removeEventListener('mouseup', handleTerminalMouseUp);
+        }
 		
-
 		checkAndShowFullScreenIframe();
         renderFiles();
 		checkIPAddress();
