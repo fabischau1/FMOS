@@ -43,20 +43,43 @@
 }
 
 .taskbar button {
-    background: none;
+    background: transparent;
+    color: #d1d1d1;
+    padding: 10px 20px;
     border: none;
-    color: #d1d1d1; /* Gleiche Farbe wie die Textfarbe der Taskbar */
+    border-radius: 0;
+    font-size: 14px;
+    position: relative;
     cursor: pointer;
-    margin-right: 12px; /* Etwas weniger Abstand zwischen Buttons */
-    font-size: 14px; /* Kleinere Schriftgröße für kompakteres Design */
-    transition: color 0.3s, background-color 0.3s; /* Sanfte Übergänge für Hover-Effekte */
+    transition: color 0.3s, background-color 0.3s, transform 0.2s;
+}
+
+.taskbar button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #d1d1d1;
+    transition: width 0.3s, left 0.3s;
 }
 
 .taskbar button:hover {
-    color: #ff4d4d; /* Helleres Rot beim Hover */
-    background-color: rgba(255, 77, 77, 0.1); /* Leichtes Hintergrund-Rot beim Hover */
-    border-radius: 3px; /* Gleiche abgerundete Ecken beim Hover */
+    color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
 }
+
+.taskbar button:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.taskbar button:active {
+    transform: scale(0.95);
+    color: #ff00ff; 
+}
+
        .window {
             background-color: rgba(30, 30, 30, 0.7);
             border: 1px solid #000;
@@ -1025,7 +1048,7 @@
             </div>
         </div>
         <div class="neon-terminal-body">
-            <textarea id="neonTerminalInput" style="width: 100%; height: 100%; background: #000; border: none;" class="greenlightcolor" ></textarea>
+            <textarea id="neonTerminalInput" style="width: 100%; height: 100%; background: transparent; border: none;" class="greenlightcolor" ></textarea>
         </div>
         <div class="neon-terminal-footer">
         </div>
