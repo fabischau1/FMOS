@@ -1021,7 +1021,7 @@
 	<div class="windowi" id="htmlPreviewWindow" style="display: none;">
 		<div class="window-header">
 			<span id="htmlPreviewTitle">HTML Preview</span>
-			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none;" class="textcoloreditor" >X</button>
+			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
 		</div>
 		<div class="window-body">
 			<iframe id="htmlPreview" frameborder="0" width="100%" height="100%"></iframe>
@@ -1399,19 +1399,102 @@ function showError(message) {
             document.getElementById('htmlPreviewWindow').style.display = 'none';
         }
 
-		function executeHTML() {
-			alert("be Carefull while running html")
-			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
-				const htmlContent = files[selectedFile];
-				const iframe = document.getElementById('htmlPreview');
-				iframe.srcdoc = htmlContent;
-				iframe.width = '100%';
-				iframe.height = '550px'; // set height to 600px
-				document.getElementById('htmlPreviewWindow').style.display = 'block';
-			} else {
-				alert('ERROR This Filetype can not run HTML.');
-			}
-		}
+function executeHTML() {
+    alert("be Carefull while running html");
+    if (selectedFile && (selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url'))) {
+        const htmlContent = files[selectedFile];
+        const iframe = document.getElementById('htmlPreview');
+        iframe.srcdoc = htmlContent;
+        iframe.width = '100%';
+        iframe.height = '550px'; // Set height to 550px
+        document.getElementById('htmlPreviewWindow').style.display = 'block';
+        
+        makeDraggable(document.getElementById('htmlPreviewWindow'));
+        makeResizable(document.getElementById('htmlPreviewWindow'));
+    } else {
+        alert('ERROR: This Filetype cannot run HTML.');
+    }
+}
+
+function makeDraggable(element) {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    element.querySelector('.window-header').addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - element.offsetLeft;
+        offsetY = e.clientY - element.offsetTop;
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    });
+
+    function handleMouseMove(e) {
+        if (isDragging) {
+            const newX = e.clientX - offsetX;
+            const newY = e.clientY - offsetY;
+
+            element.style.top = `${newY}px`;
+            element.style.left = `${newX}px`;
+        }
+    }
+
+    function handleMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    }
+}
+
+function makeResizable(element) {
+    let isResizing = false;
+    let startX, startY, startWidth, startHeight;
+
+    const resizeHandle = document.createElement('div');
+    resizeHandle.className = 'resize-handle';
+    resizeHandle.style.width = '10px';
+    resizeHandle.style.height = '10px';
+    resizeHandle.style.cursor = 'se-resize';
+    resizeHandle.style.position = 'absolute';
+    resizeHandle.style.bottom = '0';
+    resizeHandle.style.right = '0';
+    element.appendChild(resizeHandle);
+
+    resizeHandle.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = element.offsetWidth;
+        startHeight = element.offsetHeight;
+
+        document.addEventListener('mousemove', handleResizeMove);
+        document.addEventListener('mouseup', handleResizeUp);
+    });
+
+    function handleResizeMove(e) {
+        if (isResizing) {
+            const newWidth = startWidth + (e.clientX - startX);
+            const newHeight = startHeight + (e.clientY - startY);
+
+            element.style.width = `${newWidth}px`;
+            element.style.height = `${newHeight}px`;
+
+            const iframe = element.querySelector('#htmlPreview');
+            iframe.style.width = '100%';
+            iframe.style.height = `${newHeight - 20}px`; // Adjust height based on header
+        }
+    }
+
+    function handleResizeUp() {
+        isResizing = false;
+        document.removeEventListener('mousemove', handleResizeMove);
+        document.removeEventListener('mouseup', handleResizeUp);
+    }
+}
+
+function closeHTMLPreviewWindow() {
+    document.getElementById('htmlPreviewWindow').style.display = 'none';
+}
 
 		// Update the executeJS function to call executeHTML for HTML files
 		function executeJS() {
