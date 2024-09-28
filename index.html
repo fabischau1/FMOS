@@ -1507,11 +1507,28 @@ function closeHTMLPreviewWindow() {
 		        }
 		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
 		        executeHTML();
+			} else if (selectedFile && selectedFile.endsWith('.css') || selectedFile.endsWith('.style')) {
+		        executeCSS();
 		    } else {
 		        showError("ERROR This Filetype can not run Javaskript.");
 		    }
 		}
-		
+
+function executeCSS() {
+    if (selectedFile && (selectedFile.endsWith('.css') || selectedFile.endsWith('.style'))) {
+        try {
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = files[selectedFile];
+            document.head.appendChild(style);
+        } catch (error) {
+            alert(`ERROR: ${error.message}`);
+        }
+    } else {
+        showError("ERROR: This file type cannot run css.");
+    }
+}
+
 //terminal 1
 let terminalWindows = [];
 
