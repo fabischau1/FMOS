@@ -959,6 +959,8 @@
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
 			<button id="option7" onclick="disableFileNames()">Disable File Names</button>
 			<button id="option7" onclick="folsell()">Folder Options</button>
+			<button id="option7" onclick="enableadminscripts()">Enable Admin Scripts</button>
+			<button id="option7" onclick="disableadminscripts()">Disable Admin Scripts</button>
 			<button class="option7" onclick="downloadAllFiles()">Download</button>
 			<button id="option7" onclick="syssettings()">Close</button>
 		</div>
@@ -1014,7 +1016,8 @@
 			<button onclick="saveFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Save</button>
 			<button onclick="deleteFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Delete</button>
 			<button onclick="executeJS()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Run</button>
-		</div>
+			<button onclick="executeJSasadmin()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Run As Admin</button>
+			</div>
 	</div>
 
 	<!-- Add a new window for HTML preview -->
@@ -1032,6 +1035,7 @@
 			<li onclick="createFile()">New</li>
 			<li onclick="folsell()">Folders</li>
 			<li onclick="executeJS()">Run</li>
+			<li onclick="executeJSasadmin()">Run As Admin</li>
             <li onclick="renameFile()">Rename</li>
             <li onclick="deleteFile()">Delete</li>
             <li onclick="toggleSelectionWindow()">Style Settings</li>
@@ -1496,23 +1500,127 @@ function closeHTMLPreviewWindow() {
     document.getElementById('htmlPreviewWindow').style.display = 'none';
 }
 
-		// Update the executeJS function to call executeHTML for HTML files
-		function executeJS() {
-			alert("Be Carefull with running commands or code")
-		    if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
-		        try {
-		            eval(files[selectedFile]);
-		        } catch (error) {
-		            alert(`ERROR: ${error.message}`);
-		        }
-		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
-		        executeHTML();
-			} else if (selectedFile && selectedFile.endsWith('.css') || selectedFile.endsWith('.style')) {
-		        executeCSS();
-		    } else {
-		        showError("ERROR This Filetype can not run Javaskript.");
-		    }
+function disableadminscripts() {
+	const enteredPassword = prompt("Password:");
+
+    const storedPassword = localStorage.getItem('password');
+
+    if (enteredPassword === storedPassword) {
+		alert("this disables a security function")
+		const adminiddddkkkk = confirm("Do you realy want to disable this function?");
+		if (adminiddddkkkk) {
+			localStorage.setItem('settingadmin', 'False');
+		} else {
+			showError('Settings Have Not Changed.');
 		}
+	} else {
+		showError('Settings Have Not Changed. Password incorrect. Please Set A Password over Settings or Reset The System over Settings.');
+	}
+}
+
+function enableadminscripts() {
+	localStorage.setItem('settingadmin', 'True');
+	showError('Admin Scripts Are Now Enabled (Recomended)')
+}
+
+if (!localStorage.getItem('settingadmin')) {
+    localStorage.setItem('settingadmin', 'True');
+}
+
+function executeJS() {
+    alert("Be careful with running commands or code");
+	alert("please only run code from creators you trust");
+    if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
+        const code = files[selectedFile];
+        const isAdmin = localStorage.getItem('settingadmin') === 'True';
+
+        if (isAdmin) {
+            const analyzeCode = (code) => {
+                const localStoragePatterns = [
+                    /localStorage\.removeItem/i,
+                    /localStorage\.getItem/i,
+                    /localStorage\.clear/i
+                ];
+
+                // Check for key creation patterns starting with FMOSboot, settingadmin, files, or password
+                const restrictedKeyPatterns = [
+                    /localStorage\.setItem\(\s*['"]FMOSboot\w*['"]/i,
+                    /localStorage\.setItem\(\s*['"]settingadmin\w*['"]/i,
+                    /localStorage\.setItem\(\s*['"]files\w*['"]/i,
+                    /localStorage\.setItem\(\s*['"]password\w*['"]/i,
+                    /localStorage\.setItem\(\s*['"]settingadmin['"]/i,
+                    /localStorage\.setItem\(\s*['"]files['"]/i,
+                    /localStorage\.setItem\(\s*['"]password['"]/i
+                ];
+
+                for (const pattern of localStoragePatterns) {
+                    if (pattern.test(code)) {
+                        return { localStorageUsed: true };
+                    }
+                }
+                
+                for (const pattern of restrictedKeyPatterns) {
+                    if (pattern.test(code)) {
+                        return { restrictedKeyUsed: true };
+                    }
+                }
+                
+                return { localStorageUsed: false, restrictedKeyUsed: false };
+            };
+
+            const analysisResult = analyzeCode(code);
+            
+            if (analysisResult.localStorageUsed || analysisResult.restrictedKeyUsed) {
+                showError("File Needs To Be Run As Administrator");
+                return;
+            }
+        }
+        try {
+            eval(code);
+        } catch (error) {
+            alert(`ERROR: ${error.message}`);
+        }
+    } else if (selectedFile && (selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url'))) {
+        executeHTML();
+    } else if (selectedFile && (selectedFile.endsWith('.css') || selectedFile.endsWith('.style'))) {
+        executeCSS();
+    } else {
+        showError("ERROR: This file type cannot run JavaScript.");
+    }
+}
+
+function executeJSasadmin() {
+	const enteredPassword = prompt("Password:");
+
+    const storedPassword = localStorage.getItem('password');
+
+    if (enteredPassword === storedPassword) {
+		alert('if u run a script as admin you give it the perms to make any changes to your FMOS system')
+		let userConfirmed = confirm("Do you trust this program and its creator?");
+    
+		if (userConfirmed) {
+			alert("Be careful with running commands or code.");
+        
+			if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
+				try {
+					eval(files[selectedFile]);
+				} catch (error) {
+					alert(`ERROR: ${error.message}`);
+				}
+			} else if (selectedFile && (selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url'))) {
+				executeHTML();
+			} else if (selectedFile && (selectedFile.endsWith('.css') || selectedFile.endsWith('.style'))) {
+				executeCSS();
+			} else {
+				showError("ERROR: This filetype cannot run JavaScript.");
+			}
+		} else {
+			showError("Execution cancelled. You chose not to trust the program.");
+		}
+	} else {
+		showError('Settings Have Not Changed. Password incorrect. Please Set A Password over Settings or Reset The System over Settings.');
+	}
+}
 
 function executeCSS() {
     if (selectedFile && (selectedFile.endsWith('.css') || selectedFile.endsWith('.style'))) {
