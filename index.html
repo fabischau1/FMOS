@@ -750,8 +750,6 @@
 #appsfinder-window button:hover {
   background-color: #eee;
 }
-/* Styling für die Fehlermeldung */
-/* Styling für die Fehlermeldung */
 .error-message {
     position: fixed;
     top: 50%;
@@ -893,10 +891,86 @@
 .neon-terminal .btn.run:hover {
     background: #00f;
 }
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    width: 350px;
+    backdrop-filter: blur(15px);
+}
+
+.title {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.password-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.password-input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.login-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+    background: linear-gradient(90deg, #0056b3, #003d80);
+    transform: translateY(-2px);
+}
+
+.login-error {
+    color: #ff4d4d;
+    margin-top: 10px;
+}
     </style>
 </head>
 <body>
     <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
+    </div>
+    <div class="modal-overlay" id="overlay" style="display: none;">
+        <div class="login-box">
+            <h1 class="title">Login!</h1>
+            <input type="password" id="password" placeholder="Enter your password" required class="password-input">
+            <button onclick="handleLogin()" class="login-button">Login</button>
+            <p id="login-error" class="login-error"></p>
+        </div>
     </div>
     <div class="taskbar">
         <button onclick="createFile()">New</button>
@@ -960,6 +1034,8 @@
 		<div id="sysset-window" class="hidden">
 			<button id="option7" onclick="setFullScreenIframeKeyTrue()">Enable Boot Terminal</button>
 			<button id="option7" onclick="setFullScreenIframeKeyFalse()">Enable Boot Screen</button>
+			<button id="option7" onclick="enablelogin()">Enable Login Screen</button>
+			<button id="option7" onclick="disablelogin()">Disable Login Screen</button>
 			<button id="option7" onclick="passwordmgr()">Password</button>
 			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
@@ -2843,6 +2919,63 @@ function toggleFullscreenvm() {
     iframe.style.height = 'calc(100vh - 20px)';
   }
 }
+
+// login
+
+function waitbeforeBootLogin() {
+    setTimeout(bootlogin, 5000);
+}
+
+function bootlogin() {
+	const islogintrue = localStorage.getItem('settinglogin');
+    if (islogintrue === 'True') {
+        showLogin();
+	} else {
+		//nothing
+    }
+}
+
+function enablelogin() {
+	if (!localStorage.getItem('password')) {
+		showError('please set a password first')
+		passwordmgr()
+	} else {
+		localStorage.setItem('settinglogin', 'True');
+		showError('Login Screen Is Now Enabled')
+		askToRestartOS();
+	}
+}
+
+function disablelogin() {
+	localStorage.setItem('settinglogin', 'False');
+	showError('Login Is Now Disabled')
+	askToRestartOS();
+}
+
+if (!localStorage.getItem('settinglogin')) {
+    localStorage.setItem('settinglogin', 'False');
+}
+
+function showLogin() {
+	if (!localStorage.getItem('password')) {
+		showError('cant show login screen (no password set)')
+	} else {
+		document.getElementById('overlay').style.display = 'flex';
+	}
+}
+
+function handleLogin() {
+    const inputPassword = document.getElementById('password').value;
+    const storedPassword = localStorage.getItem('password');
+    const errorMessage = document.getElementById('login-error');
+
+    if (inputPassword === storedPassword) {
+        document.getElementById('overlay').style.display = 'none';
+    } else {
+        errorMessage.textContent = 'Incorrect password, please try again.';
+    }
+}
+
 //stlye settings
 function uploadFile() {
   const input = document.createElement('input');
@@ -3307,7 +3440,7 @@ function openDiscordLink() {
     }
 		
 		function restartOS() {
-			window.location.href = "https://fabischau1.github.io/FM_OS";
+			window.location.href = "https://fabischau1.github.io/FMOS";
 		}
 		
 		function err003() {
@@ -4023,6 +4156,7 @@ function showFullScreenIframe() {
         }
 		
 		checkAndShowFullScreenIframe();
+		waitbeforeBootLogin()
         renderFiles();
 		checkIPAddress();
 		checkandshowtos();
