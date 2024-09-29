@@ -978,7 +978,7 @@
 		<button onclick="malwareScan()">FA AntiVira</button>
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
 		<button class="taskbar-button" onclick="showNeonTerminal()">Terminal2</button>
-		<button class="taskbar-button" onclick="restartOS()">Restart</button>
+		<button class="taskbar-button" onclick="askToRestartOS()">Restart</button>
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
 		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
@@ -2976,6 +2976,19 @@ function handleLogin() {
     }
 }
 
+function loadbackground() {
+  const imageFile = localStorage.getItem('FMOSwallpaper');
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  
+  if (imageFile) {
+    desktopElement.style.backgroundImage = `url('${imageFile}')`;
+  } else {
+    console.error('No image file found in local storage for key "FMOSwallpaper".');
+	desktopElement.style.backgroundImage = `url('back.jpg')`;
+  }
+}
+
 //stlye settings
 function uploadFile() {
   const input = document.createElement('input');
@@ -2998,63 +3011,79 @@ function changeDesktopBackground() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('back.jpg')";
+  localStorage.setItem('FMOSwallpaper', 'back.jpg');
 }
 
 function changeDesktopBackground2() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('123.jpg')";
+  localStorage.setItem('FMOSwallpaper', '123.jpg');
 }
 
 function changeDesktopBackground3() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('flower.jpg')";
+  localStorage.setItem('FMOSwallpaper', 'flower.jpg');
 }
 
 function changeDesktopBackground4() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('lightning.jpg')";
+  localStorage.setItem('FMOSwallpaper', 'lightning.jpg');
 }
 
 function changeDesktopBackground6() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('abstract.webp')";
+  localStorage.setItem('FMOSwallpaper', 'abstract.webp');
 }
 
 function changeDesktopBackgroundcu29294() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('custom.jpg')";
+  localStorage.setItem('FMOSwallpaper', 'custom.jpg');
 }
 
 function changeDesktopBackground30() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('col.jpg')";
+  localStorage.setItem('FMOSwallpaper', 'col.jpg');
 }
 
 function changeDesktopBackground40() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('fmoss.png')";
+  localStorage.setItem('FMOSwallpaper', 'fmoss.jpg');
 }
 
 function changeDesktopBackgrounddarkfmos() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
   desktopElement.style.backgroundImage = "url('Dark.jpeg')";
+  localStorage.setItem('FMOSwallpaper', 'Dark.jpeg');
 }
 
 function changeDesktopBackground5() {
   const userInput = prompt("Enter a custom image URL:");
   if (userInput) {
+	localStorage.setItem('FMOSwallpaper', userInput);
     const bodyElement = document.querySelector('body');
     const desktopElement = bodyElement.querySelector('.desktop');
     desktopElement.style.backgroundImage = `url('${userInput}')`;
   }
+}
+
+function wallpaper(imageFile) {
+  const bodyElement = document.querySelector('body');
+  const desktopElement = bodyElement.querySelector('.desktop');
+  desktopElement.style.backgroundImage = `url('${imageFile}')`;
 }
 
 function changeTerminalBackground() {
@@ -4156,6 +4185,7 @@ function showFullScreenIframe() {
         }
 		
 		checkAndShowFullScreenIframe();
+		loadbackground();
 		waitbeforeBootLogin()
         renderFiles();
 		checkIPAddress();
