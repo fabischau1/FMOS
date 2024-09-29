@@ -1036,6 +1036,8 @@
 			<button id="option7" onclick="setFullScreenIframeKeyFalse()">Enable Boot Screen</button>
 			<button id="option7" onclick="enablelogin()">Enable Login Screen</button>
 			<button id="option7" onclick="disablelogin()">Disable Login Screen</button>
+			<button id="option7" onclick="enablebootsk()">Enable Auto Boot Skrips</button>
+			<button id="option7" onclick="disablebootsk()">Disable Auto Boot Skrips</button>
 			<button id="option7" onclick="passwordmgr()">Password</button>
 			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
@@ -1621,7 +1623,9 @@ function executeJS() {
                 const localStoragePatterns = [
                     /localStorage\.removeItem/i,
                     /localStorage\.getItem/i,
-                    /localStorage\.clear/i
+                    /localStorage\.clear/i,
+					/setboot/i,
+					/FMOSboot/i
                 ];
 
                 // Check for key creation patterns starting with FMOSboot, settingadmin, files, or password
@@ -3191,6 +3195,60 @@ function getAndSetTaskbarBackgroundColor() {
     alert("No color entered. Current color: " + taskbar.style.backgroundColor);
   }
 }
+
+// boot
+
+function setboot(bootexecutioncode, bootkeyname) {
+	let name = "FMOSboot" + "/" + bootkeyname;
+	localStorage.setItem('FMOSboot', bootexecutioncode);
+}
+
+function checkLocalStorageKeys() {
+    const keys = Object.keys(localStorage);
+    const fmosKeys = keys.filter(key => key.startsWith('FMOSboot/'));
+
+    if (fmosKeys.length > 0) {
+        const bootskSetting = localStorage.getItem('settingbootsk') === 'True';
+
+        if (bootskSetting) {
+            const userResponse = confirm(`Found ${fmosKeys.length} keys starting with "FMOSboot/". Execute content?`);
+
+            if (userResponse) {
+                fmosKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    try {
+                        eval(value);
+                    } catch (error) {
+                        console.error(`Error executing ${key}:`, error);
+                    }
+                });
+            } else {
+                const removeResponse = confirm('Do you want to remove the found keys?');
+                if (removeResponse) {
+                    fmosKeys.forEach(key => {
+                        localStorage.removeItem(key);
+                        console.log(`Key ${key} removed.`);
+                    });
+                }
+            }
+        }
+    } else {
+        console.log('No keys found starting with "FMOSboot/".');
+    }
+}
+
+function enablebootsk() {
+    localStorage.setItem('settingbootsk', 'True');
+}
+
+function disablebootsk() {
+    localStorage.setItem('settingbootsk', 'False');
+}
+
+if (!localStorage.getItem('settingbootsk')) {
+    localStorage.setItem('settingbootsk', 'settingbootsk');
+}
+
 //apps
 function welcomemsg() {
   const iframeWindow = document.createElement('div');
