@@ -3150,7 +3150,8 @@ function sysfactoriereset() {
     if (userConfirmed) {
         localStorage.removeItem('password');
 		localStorage.removeItem('files');
-		deleteAllFMOSdesktopItems()
+		deleteAllFMOSdesktopItems();
+		localStorage.clear();
     } else {
         // Aktion ausführen, wenn der Benutzer auf "Abbrechen" klickt (optional)
         console.log("Aktion abgebrochen.");
