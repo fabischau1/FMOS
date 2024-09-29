@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FM OS 12</title>
+    <title>FM OS 11</title>
     <style>
         body, html {
             margin: 0;
@@ -442,27 +442,22 @@
             padding: 5px;
             text-align: right;
         }
-.icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 100px;
-    background-color: white;
-    margin: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-size: cover;
-    background-position: center;
-    border-radius: 12px;
-}
-
-.icon:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+       .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid #000;
+            margin: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease-out;
+            background-size: 100px 100px; /* Größe des Logo-Images anpassen */
+            background-position: center; /* Logo-Image zentrieren */
+        }
        .icon[data-file$=".js"] {
             background-image: url('js.jpg');
         }
@@ -519,7 +514,6 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Softer shadow for subtle depth */
     display: none;
     z-index: 100;
-    font-family: 'Roboto', sans-serif; /* Modern, clean font */
     width: 100px; /* Narrow width */
     overflow: hidden; /* Hide overflow for a cleaner design */
     backdrop-filter: blur(10px); /* Blur effect for a glass-like appearance */
@@ -735,7 +729,6 @@
     padding: 30px 50px;
     border-radius: 12px; /* Leicht abgerundete Ecken */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Weicher Schatten für Tiefe */
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
     z-index: 1000;
     animation: fadeIn 0.4s ease-in-out;
@@ -777,116 +770,29 @@
         transform: translate(-50%, -50%);
     }
 }
-.neon-terminal {
-    background-color: rgba(30, 30, 30, 0.8);
-    color: #0f0;
-    border: 1px solid #0f0;
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    width: 400px;
-    height: 300px;
-    display: none;
-    flex-direction: column;
-    z-index: 10;
-    font-family: 'Courier New', Courier, monospace;
-    box-shadow: 0 0 10px #0f0;
-    border-radius: 10px;
-    resize: both;
-    overflow: hidden;
-}
 
-.neon-terminal-header {
-    background-color: rgba(30, 30, 30, 0.8);
-    color: #0f0;
-    padding: 5px;
-    cursor: move;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #0f0;
-}
-
-.neon-terminal-body {
-    flex: 1;
-    padding: 10px;
-    overflow: auto;
-    background-color: rgba(30, 30, 30, 0.8);
-}
-
-.neon-terminal-footer {
-    padding: 5px;
-    text-align: right;
-    border-top: 1px solid #0f0;
-    background-color: rgba(30, 30, 30, 0.8);
-}
-
-/* Button Styles */
-.neon-terminal .btn {
-    background: none;
-    border: none;
-    color: #0f0;
-    cursor: pointer;
-    margin-left: 5px;
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 5px;
-    transition: background 0.3s, color 0.3s;
-}
-
-.neon-terminal .btn.fullscreen {
-    background: #0f0;
-    color: #000;
-}
-
-.neon-terminal .btn.close {
-    background: red;
-    color: #fff;
-}
-
-.neon-terminal .btn.run {
-    background: #00f;
-}
-
-.neon-terminal .btn:hover {
-    background: rgba(0, 255, 0, 0.5);
-}
-
-.neon-terminal .btn.fullscreen:hover {
-    background: #0f0;
-    color: #000;
-}
-
-.neon-terminal .btn.close:hover {
-    background: darkred;
-}
-
-.neon-terminal .btn.run:hover {
-    background: #00f;
-}
     </style>
 </head>
 <body>
     <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
     </div>
     <div class="taskbar">
-        <button onclick="createFile()">New</button>
+        <button onclick="createFile()">New File</button>
         <button onclick="secfil()">Files</button>
 		<button onclick="malwareScan()">FA AntiVira</button>
 		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
-		<button class="taskbar-button" onclick="showNeonTerminal()">Terminal2</button>
 		<button class="taskbar-button" onclick="restartOS()">Restart</button>
 		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
 		<button class="taskbar-button" onclick="vm()">VM</button>
 		<button class="taskbar-button" onclick="code()">CodeSpace</button>
 	    <button class="taskbar-button" onclick="store()">Store</button>
+		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
 		<button class="taskbar-button" onclick="loads()">Load_Files</button>
 		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
 		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
 		<button id="toggle-selection" onclick="appwindowfinder()">Apps</button>
 		<button id="toggle-selection" onclick="toggleSelectionWindow()">Style_Settings</button>
 		<button id="toggle-selection" onclick="syssettings()">Settings</button>
-		<button id="toggle-selection" onclick="folsell()">Folders</button>
 		<div id="selection-window" class="hidden">
 			<button id="option1" onclick="thememodern()">Theme:Modern</button>
 			<button id="option1" onclick="updateTextColorEditor()">Texteditor:White</button>
@@ -898,7 +804,6 @@
 			<button id="option3" onclick="changeDesktopBackground30()">Color</button>
 			<button id="option4" onclick="changeDesktopBackground40()">FMOS</button>
 			<button id="option4" onclick="changeDesktopBackground6()">Abstract</button>
-			<button id="option4" onclick="changeDesktopBackgroundcu29294()">Abstract 2.0</button>
 			<button id="option5" onclick="changeDesktopBackground5()">Custom</button>
 			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
 			<button id="option7" onclick="changeTerminalBackground2()">Terminal:Space</button>
@@ -910,33 +815,21 @@
 			<button id="option7" onclick="toggleSelectionWindow()">Close</button>
 		</div>
 		<div id="folsel-window" class="hidden">
-			<button id="option1" onclick="savedesktopWithCustomName()">Save Desktop</button>
-			<button id="option1" onclick="loaddesktopContent()">Load Desktop</button>
-			<button id="option1" onclick="showAllFMOSdesktopNames()">Show Desktops</button>
-			<button id="option2" onclick="deleteSpecificdesktop()">Delete Desktop</button>
-			<button id="option3" onclick="deleteAllFMOSdesktopItems()">Delete All Desktops</button>
-			<br><br>
-			<button id="option1" onclick="saveFolderWithNameOnly()">Save Folder</button>
-			<button id="option1" onclick="saveFolderWithPath()">Save Folder as Path</button>
-			<button id="option1" onclick="loadFolderWithNameOnly()">Load Folder</button>
-			<button id="option1" onclick="deleteFolderWithPath()">Load Folder as Path</button>
-			<button id="option1" onclick="showAllFolders()">Show Folders</button>
-			<button id="option1" onclick="showCurrentFolder()">Show Current Folder</button>
-			<button id="option2" onclick="deleteFolderWithNameOnly()">Delete Folder</button>
-			<button id="option2" onclick="deleteFolderWithPath()">Delete Folder as Path</button>
-			<button id="option3" onclick="deleteAllFolders()">Delete All Folders</button>
-			<button id="option1" onclick="migratefolderstodesktops()">Convert FMOS 11 Folders To Desktops</button>
+			<button id="option1" onclick="saveFileWithCustomName()">Save Desktop To Folder Name (this will overwrite the old folder content)</button>
+			<button id="option1" onclick="loadFolderContent()">Load Folder Content</button>
+			<button id="option1" onclick="showAllFMOSfolderNames()">Show all Folder Names</button>
+			<button id="option2" onclick="deleteSpecificFolder()">Delete Folder</button>
+			<button id="option3" onclick="deleteAllFMOSfolderItems()">Delete All Folders</button>
 			<button id="option4" onclick="folsell()">Close This Menu</button>
 		</div>
 		<div id="sysset-window" class="hidden">
-			<button id="option7" onclick="setFullScreenIframeKeyTrue()">Enable Boot Terminal</button>
-			<button id="option7" onclick="setFullScreenIframeKeyFalse()">Enable Boot Screen</button>
+			<button id="option7" onclick="setFullScreenIframeKeyTrue()">Enable Boot Screen</button>
+			<button id="option7" onclick="setFullScreenIframeKeyFalse()">Disable Boot Screen</button>
 			<button id="option7" onclick="passwordmgr()">Password</button>
 			<button id="option7" onclick="sysfactoriereset()">Reset</button>
 			<button id="option7" onclick="enableFileNames()">Enable File Names</button>
 			<button id="option7" onclick="disableFileNames()">Disable File Names</button>
 			<button id="option7" onclick="folsell()">Folder Options</button>
-			<button class="option7" onclick="downloadAllFiles()">Download</button>
 			<button id="option7" onclick="syssettings()">Close</button>
 		</div>
 		<div id="appsfinder-window" class="hidden">
@@ -947,16 +840,10 @@
 			    <img onclick="toggleSelectionWindow()" src="styleapp.png" alt="icon" class="button-icon"> OS Style
 			</button>
 			<button id="option1" onclick="folsell()">
-			    <img onclick="folsell()" src="f.png" alt="icon" class="button-icon"> Folder Options
-			</button>
-			<button id="option1" onclick="foldermgr()">
-			    <img onclick="foldermgr()" src="f.png" alt="icon" class="button-icon"> Folder MGR
+			    <img onclick="folsell()" src="f.png" alt="icon" class="button-icon"> Folder MGR
 			</button>
 			<button id="option1" onclick="executeJSInTerminal()">
 			    <img onclick="executeJSInTerminal()" src="termapp.png" alt="icon" class="button-icon"> FM Shell
-			</button>
-			<button id="option1" onclick="showNeonTerminal()">
-			    <img onclick="showNeonTerminal()" src="termapp.png" alt="icon" class="button-icon"> Pro Terminal
 			</button>
 			<button id="option1" onclick="musik()">
 			    <img onclick="musik()" src="musikapp.png" alt="icon" class="button-icon"> Musik
@@ -1014,21 +901,6 @@
             <li onclick="toggleSelectionWindow()">Style Settings</li>
 			<li onclick="hideContextMenu()">Close</li>
         </ul>
-    </div>
-    <div class="neon-terminal" id="neonTerminal">
-        <div class="neon-terminal-header">
-            <span>FMOS Pro Terminal</span>
-            <div>
-				<button onclick="runNeonTerminalJS()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">Run</button>
-                <button onclick="toggleTerminalFullscreen()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-                <button onclick="hideNeonTerminal()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-            </div>
-        </div>
-        <div class="neon-terminal-body">
-            <textarea id="neonTerminalInput" style="width: 100%; height: 100%; background: transparent; border: none;" class="greenlightcolor" ></textarea>
-        </div>
-        <div class="neon-terminal-footer">
-        </div>
     </div>
 
     <script>
@@ -1160,8 +1032,6 @@
             }
           }
         }
-
-//render and create files and file management and file settings
 
 function renderFiles() {
   const desktop = document.getElementById('desktop');
@@ -1377,7 +1247,6 @@ function showError(message) {
         }
 
 		function executeHTML() {
-			alert("be Carefull while running html")
 			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
 				const htmlContent = files[selectedFile];
 				const iframe = document.getElementById('htmlPreview');
@@ -1402,11 +1271,10 @@ function showError(message) {
 		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
 		        executeHTML();
 		    } else {
-		        showError("ERROR This Filetype can not run Javaskript.");
+		        alert('ERROR This Filetype can not run Javaskript.');
 		    }
 		}
 		
-//terminal 1
 let terminalWindows = [];
 
 function executeJSInTerminal() {
@@ -1469,17 +1337,14 @@ function executeJSInTerminal() {
 
   terminalWindows.push(terminalWindow);
 }
-//apps
+
 function musik() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifr'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>Music</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenmusik()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closem()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+    <div class="window-header">
+      <span>Musik</span>
+      <button onclick="closem()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/Musik/"></iframe>
@@ -1564,40 +1429,13 @@ function closem() {
   document.querySelector('.windowifr').remove();
 }
 
-function toggleFullscreenmusik() {
-  const iframeWindow = document.querySelector('.windowifr');
-  const iframe = document.querySelector('#iframe');
-  
-  // Toggle between fullscreen and normal mode
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px'; // Default width
-    iframeWindow.style.height = '600px'; // Default height
-    iframe.style.width = '100%';
-    iframe.style.height = '550px'; // Adjust height
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)'; // 20px for the header
-  }
-}
-
 function store() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowstore'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>FMOS Store</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenstore()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closeeeeeeeeeeee()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+    <div class="window-header">
+      <span>Store</span>
+      <button onclick="closeeeeeeeeeeee()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/store.html"></iframe>
@@ -1682,40 +1520,13 @@ function closeeeeeeeeeeee() {
   document.querySelector('.windowstore').remove();
 }
 
-function toggleFullscreenstore() {
-  const iframeWindow = document.querySelector('.windowstore');
-  const iframe = document.querySelector('#iframe');
-  
-  // Toggle between fullscreen and normal mode
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px'; // Default width
-    iframeWindow.style.height = '600px'; // Default height
-    iframe.style.width = '100%';
-    iframe.style.height = '550px'; // Adjust height
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)'; // 20px for the header
-  }
-}
-
 function caculator() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>Caculator</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreencaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closecaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/caculator/"></iframe>
@@ -1795,40 +1606,13 @@ function closecaculator() {
   document.querySelector('.windowifc').remove();
 }
 
-function toggleFullscreencaculator() {
-  const iframeWindow = document.querySelector('.windowifc');
-  const iframe = document.querySelector('#iframe');
-  
-  // Toggle between fullscreen and normal mode
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px'; // Default width
-    iframeWindow.style.height = '600px'; // Default height
-    iframe.style.width = '100%';
-    iframe.style.height = '550px'; // Adjust height
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)'; // 20px for the header
-  }
-}
-
 function passwordmgr() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>Password MGR</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreencaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closecaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/pass"></iframe>
@@ -1912,12 +1696,9 @@ function crdits() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>Credits</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreencaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closecaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/Credits"></iframe>
@@ -2001,12 +1782,9 @@ function code() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>FMcode</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreen()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closecode()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closecode()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMcode/"></iframe>
@@ -2091,30 +1869,6 @@ function closecode() {
   document.querySelector('.windowifra').remove();
 }
 
-function toggleFullscreen() {
-  const iframeWindow = document.querySelector('.windowifra');
-  const iframe = document.querySelector('#iframe');
-  
-  // Toggle between fullscreen and normal mode
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px'; // Default width
-    iframeWindow.style.height = '600px'; // Default height
-    iframe.style.width = '100%';
-    iframe.style.height = '550px'; // Adjust height
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)'; // 20px for the header
-  }
-}
-
 function secfil() {
   alert("Here you can permanently save files");
   alert("Be Carefull with running commands or code");
@@ -2122,12 +1876,9 @@ function secfil() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowiframefiles'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>Files</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenfiles()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closef()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closef()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOSfiles/"></iframe>
@@ -2212,39 +1963,13 @@ function closef() {
   document.querySelector('.windowiframefiles').remove();
 }
 
-function toggleFullscreenfiles() {
-  const iframeWindow = document.querySelector('.windowiframefiles');
-  const iframe = document.querySelector('#iframe');
-  
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px';
-    iframeWindow.style.height = '600px';
-    iframe.style.width = '100%';
-    iframe.style.height = '550px';
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)';
-  }
-}
-
 function openURLInIframe() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifram'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>FM Browser</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenbrowser()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closeIframeeeee()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+    <div class="window-header">
+      <span>Browser</span>
+      <button onclick="closeIframeeeee()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMSearch/"></iframe>
@@ -2329,29 +2054,6 @@ function closeIframeeeee() {
   document.querySelector('.windowifram').remove();
 }
 
-function toggleFullscreenbrowser() {
-  const iframeWindow = document.querySelector('.windowifram');
-  const iframe = document.querySelector('#iframe');
-  
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px';
-    iframeWindow.style.height = '600px';
-    iframe.style.width = '100%';
-    iframe.style.height = '550px';
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)';
-  }
-}
-
 function updateTextColorEditor() {
     // Alle Elemente mit der Klasse 'textcoloreditor' auswählen
     var elements = document.querySelectorAll('.textcoloreditor');
@@ -2382,12 +2084,9 @@ function vm() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifra'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>VM</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenvm()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closevm()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closevm()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/BIOS/"></iframe>
@@ -2471,29 +2170,7 @@ function vm() {
 function closevm() {
   document.querySelector('.windowifra').remove();
 }
-function toggleFullscreenvm() {
-  const iframeWindow = document.querySelector('.windowifra');
-  const iframe = document.querySelector('#iframe');
-  
-  if (iframeWindow.classList.contains('fullscreen')) {
-    iframeWindow.classList.remove('fullscreen');
-    iframeWindow.style.top = '50px';
-    iframeWindow.style.left = '50px';
-    iframeWindow.style.width = '600px';
-    iframeWindow.style.height = '600px';
-    iframe.style.width = '100%';
-    iframe.style.height = '550px';
-  } else {
-    iframeWindow.classList.add('fullscreen');
-    iframeWindow.style.top = '0';
-    iframeWindow.style.left = '0';
-    iframeWindow.style.width = '100vw';
-    iframeWindow.style.height = '100vh';
-    iframe.style.width = '100%';
-    iframe.style.height = 'calc(100vh - 20px)';
-  }
-}
-//stlye settings
+
 function uploadFile() {
   const input = document.createElement('input');
   input.type = 'file';
@@ -2541,12 +2218,6 @@ function changeDesktopBackground6() {
   desktopElement.style.backgroundImage = "url('abstract.webp')";
 }
 
-function changeDesktopBackgroundcu29294() {
-  const bodyElement = document.querySelector('body');
-  const desktopElement = bodyElement.querySelector('.desktop');
-  desktopElement.style.backgroundImage = "url('custom.jpg')";
-}
-
 function changeDesktopBackground30() {
   const bodyElement = document.querySelector('body');
   const desktopElement = bodyElement.querySelector('.desktop');
@@ -2590,7 +2261,7 @@ function changeTerminalBackground() {
 }
 
 function thememodern() {
-	changeDesktopBackgroundcu29294();
+	changeDesktopBackground6();
 	setCompactFuturisticTaskbarStyle();
 }
 
@@ -2634,7 +2305,7 @@ function sysfactoriereset() {
     if (userConfirmed) {
         localStorage.removeItem('password');
 		localStorage.removeItem('files');
-		deleteAllFMOSdesktopItems()
+		deleteAllFMOSfolderItems()
     } else {
         // Aktion ausführen, wenn der Benutzer auf "Abbrechen" klickt (optional)
         console.log("Aktion abgebrochen.");
@@ -2679,111 +2350,14 @@ function getAndSetTaskbarBackgroundColor() {
     alert("No color entered. Current color: " + taskbar.style.backgroundColor);
   }
 }
-//apps
-function welcomemsg() {
-  const iframeWindow = document.createElement('div');
-  iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
-  iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>WELCOME TO FMOS</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreencaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="checkTOS()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
-    </div>
-    <div class="window-body">
-      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/Bootscreen/Welcome"></iframe>
-      <div class="resize-handle"></div>
-    </div>
-  `;
-  document.body.appendChild(iframeWindow);
-  iframeWindow.style.top = '50px';
-  iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block'; // show the window
-
-  // Add animation when opening the window
-  iframeWindow.classList.add('animate-in');
-
-  // Add drag functionality
-  let isDragging = false;
-  let offsetX, offsetY;
-
-  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - iframeWindow.offsetLeft;
-    offsetY = e.clientY - iframeWindow.offsetTop;
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  });
-
-  function handleMouseMove(e) {
-    if (isDragging) {
-      const newX = e.clientX - offsetX;
-      const newY = e.clientY - offsetY;
-
-      iframeWindow.style.top = `${newY}px`;
-      iframeWindow.style.left = `${newX}px`;
-    }
-  }
-
-  function handleMouseUp() {
-    isDragging = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  }
-
-  // Add resize functionality
-  let isResizing = false;
-  let startX, startY, startWidth, startHeight;
-
-  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
-    isResizing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startWidth = iframeWindow.offsetWidth;
-    startHeight = iframeWindow.offsetHeight;
-
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeUp);
-  });
-
-  function handleResizeMove(e) {
-    if (isResizing) {
-      const newWidth = startWidth + (e.clientX - startX);
-      const newHeight = startHeight + (e.clientY - startY);
-
-      iframeWindow.style.width = `${newWidth}px`;
-      iframeWindow.style.height = `${newHeight}px`;
-    }
-  }
-
-  function handleResizeUp() {
-    isResizing = false;
-    document.removeEventListener('mousemove', handleResizeMove);
-    document.removeEventListener('mouseup', handleResizeUp);
-  }
-}
-
-function checkTOS() {
-    if (confirm("Do you accept the Terms of Service?")) {
-        document.querySelector('.windowifc').remove();
-        localStorage.setItem('TOS', 'true');
-    } else {
-        location.reload();
-    }
-}
 
 function foldermgr() {
   const iframeWindow = document.createElement('div');
   iframeWindow.className = 'windowifc'; // same class as the HTML preview iframe
   iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="window-header">
       <span>Folder MGR</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreencaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closecaculator()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
+      <button onclick="closecaculator()" style="background:none; border:none;" class="redlightcolor">X</button>
     </div>
     <div class="window-body">
       <iframe id="iframe" frameborder="0" width="100%" height="550px" src="https://fabischau1.github.io/FMOS/Folder/main"></iframe>
@@ -2867,7 +2441,7 @@ function resetTaskbarBackgroundColor() {
   const taskbar = document.querySelector('.taskbar');
   taskbar.style.backgroundColor = '#333';
 }
-//settings and mgrs
+
 function toggleSelectionWindow() {
   const selectionWindow = document.getElementById('selection-window');
   selectionWindow.classList.toggle('active');
@@ -2904,7 +2478,7 @@ function openFullscreen() {
 window.onload = function() {
   openFullscreen();
 };
-//file system
+
 function loads() {
 	alert("Tip: You Can Set A Password By Clicking On Settings Then Password");
     const enteredPassword = prompt("Password:");
@@ -3227,197 +2801,50 @@ function askToRestartOS() {
     }
 }
 
-function openfmosfolder() {
-    if (selectedFile && selectedFile.endsWith('.folder')) {
-        const folderName = selectedFile.slice(0, -'.folder'.length);
-
-        const fullPath = getFullPath(currentPath, folderName);
-        const storageKey = `FMOSfolder${fullPath}`;
-        const folderContent = localStorage.getItem(storageKey);
-
-        if (folderContent) {
-            files = JSON.parse(folderContent);
-            folders = {};
-
-            currentPath = fullPath;
-
-            renderFiles();
-            alert(`Connected to folder at: ${currentPath}`);
-        } else {
-            showError('Folder not found.');
-        }
-    } else {
-        showError('Selected file is not a valid folder.');
-    }
-}
-
-const ROOT_PATH = '/';
-
-function getFullPath(folderPath, folderName) {
-    return `${folderPath}/${folderName}`.replace('//', '/');
-}
-
-let currentPath = ROOT_PATH;
-
-function showCurrentFolder() {
-    const folderName = currentPath.split('/').pop() || '/';
-    alert(`Current folder: ${folderName}\nPath: ${currentPath}`);
-}
-
-function checkIfPathExists(path) {
-    const allKeys = Object.keys(localStorage);
-    return allKeys.includes(`FMOSfolder${path}`);
-}
-
-function saveFolderWithPath() {
-    const folderPath = prompt("Enter folder path (e.g., /path/to/folder):", ROOT_PATH);
-    const folderName = prompt("Enter folder name:");
-
-    if (folderPath && folderName) {
-        const pathSegments = folderPath.split('/').filter(Boolean);
-        let currentFullPath = ROOT_PATH;
-
-        for (const segment of pathSegments) {
-            currentFullPath = getFullPath(currentFullPath, segment);
-            if (!checkIfPathExists(currentFullPath)) {
-                showError(`The path "${currentFullPath}" does not exist.`);
-                return;
-            }
-        }
-
-        // Save the folder if all paths exist
-        const fullPath = getFullPath(folderPath, folderName);
-        const storageKey = `FMOSfolder${fullPath}`;
-        localStorage.setItem(storageKey, JSON.stringify(files));
-        alert(`Folder saved at ${fullPath}`);
-    } else {
-        showError("Folder path or name is invalid.");
-    }
-}
-
-
-function saveFolderWithNameOnly() {
-    const folderName = prompt("Enter folder name:");
-    if (folderName) {
-        const fullPath = getFullPath(ROOT_PATH, folderName);
-        const storageKey = `FMOSfolder${fullPath}`;
-        localStorage.setItem(storageKey, JSON.stringify(files));
-        alert(`Folder saved at ${fullPath}`);
-    } else {
-        showError("Folder name is invalid.");
-    }
-}
-
-function loadFolderWithPath() {
-    const folderPath = prompt("Enter folder path (e.g., /path/to/folder):", ROOT_PATH);
-    if (folderPath) {
-        const storageKey = `FMOSfolder${folderPath}`;
-        const folderContent = localStorage.getItem(storageKey);
-        if (folderContent) {
-            files = JSON.parse(folderContent);
-			currentPath = folderPath;
-            folders = {};
-            renderFiles();
-        } else {
-            showError('Folder not found at the specified path.');
-        }
-    } else {
-        showError('Folder path is invalid.');
-    }
-}
-
-function loadFolderWithNameOnly() {
-    const folderName = prompt("Enter folder name:");
-
-    if (folderName) {
-        const fullPath = getFullPath(currentPath, folderName);
-        const storageKey = `FMOSfolder${fullPath}`;
-        const folderContent = localStorage.getItem(storageKey);
-
-        if (folderContent) {
-            files = JSON.parse(folderContent);
-            folders = {};
-            
-            currentPath = fullPath;
-
-            renderFiles();
-            alert(`Connected to folder at: ${currentPath}`);
-        } else {
-            showError('Folder not found.');
-        }
-    } else {
-        showError('Folder name is invalid.');
-    }
-}
-
-function deleteFolderWithPath() {
-    const folderPath = prompt("Enter folder path to delete (e.g., /path/to/folder):", ROOT_PATH);
-    if (folderPath) {
-        const storageKey = `FMOSfolder${folderPath}`;
-        if (localStorage.getItem(storageKey)) {
-            localStorage.removeItem(storageKey);
-            alert(`Folder at ${folderPath} has been deleted.`);
-        } else {
-            showError('Folder not found at the specified path.');
-        }
-    } else {
-        showError('Folder path is invalid.');
-    }
-}
-
-function deleteFolderWithNameOnly() {
-    const folderName = prompt("Enter folder name to delete:");
-    if (folderName) {
-        const fullPath = getFullPath(ROOT_PATH, folderName);
-        const storageKey = `FMOSfolder${fullPath}`;
-        if (localStorage.getItem(storageKey)) {
-            localStorage.removeItem(storageKey);
-            alert(`Folder '${folderName}' has been deleted.`);
-        } else {
-            showError('Folder not found.');
-        }
-    } else {
-        showError('Folder name is invalid.');
-    }
-}
-
-function deleteAllFolders() {
-    const allKeys = Object.keys(localStorage);
-    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
-    if (fmosFolderKeys.length === 0) {
-        showError('No folders to delete.');
-        return;
-    }
-    if (confirm('Are you sure you want to delete all folders?')) {
-        fmosFolderKeys.forEach(key => localStorage.removeItem(key));
-        alert('All folders have been deleted, and the root path "/" has been reset.');
-    }
-}
-
-function showAllFolders() {
-    const allKeys = Object.keys(localStorage);
-    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
-    if (fmosFolderKeys.length === 0) {
-        showError('No folders found.');
-        return;
-    }
-    const folderNames = fmosFolderKeys.map(key => key.replace('FMOSfolder', ''));
-    alert(`Folders:\n${folderNames.join('\n')}`);
-}
-
-function savedesktopWithCustomName() {
-    const customName = prompt("Desktop Name:");
+function saveFileWithCustomName() {
+    const customName = prompt("Folder Name:");
     if (customName) {
-        const storageKey = `FMOSdesktop${customName}`;
+        const storageKey = `FMOSfolder${customName}`;
         localStorage.setItem(storageKey, JSON.stringify(files));
         alert(`Files Saved In ${storageKey}`);
     }
 }
 
-function loaddesktopContent() {
-    const desktopname = prompt("Desktop Name:");
-    if (desktopname) {
-        const storageKey = `FMOSdesktop${desktopname}`;
+function openfmosfolder() {
+    // Check if a file is selected and ends with .folder
+    if (selectedFile && selectedFile.endsWith('.folder')) {
+        const folderName = selectedFile.slice(0, -'.folder'.length); // Remove '.folder' from filename
+
+        if (folderName) {
+            const storageKey = `FMOSfolder${folderName}`;
+            const folderContent = localStorage.getItem(storageKey);
+
+            if (folderContent) {
+                try {
+                    files = JSON.parse(folderContent);
+                    // Reset the existing folders
+                    folders = {};
+
+                    // Render files and folders
+                    renderFiles();
+                    alert(`Inhalt des Ordners ${folderName} geladen.`);
+                } catch (error) {
+                    showError('A critical error has occurred.');
+                }
+            } else {
+                showError('No Folder Found With That Name.');
+            }
+        }
+	} else {
+        showError('Not A Folder.');
+    }
+}
+
+
+function loadFolderContent() {
+    const folderName = prompt("Folder Name:");
+    if (folderName) {
+        const storageKey = `FMOSfolder${folderName}`;
         const folderContent = localStorage.getItem(storageKey);
 
         if (folderContent) {
@@ -3433,89 +2860,22 @@ function loaddesktopContent() {
     }
 }
 
-function showAllFMOSdesktopNames() {
+function showAllFMOSfolderNames() {
     const allKeys = Object.keys(localStorage);
-    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSdesktop'));
+    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
 
     if (fmosFolderKeys.length === 0) {
         showError('Nothing Found.');
-        console.log('No FMOSdesktop entries found.');
+        console.log('No FMOSfolder entries found.');
         return;
     }
 
-    const folderNames = fmosFolderKeys.map(key => key.replace('FMOSdesktop', ''));
+    const folderNames = fmosFolderKeys.map(key => key.replace('FMOSfolder', ''));
     const message = folderNames.join('\n');
 
-    alert(`FMOSdesktop entries:\n${message}`);
-    console.log('FMOSdesktop entries:');
+    alert(`FMOSfolder entries:\n${message}`);
+    console.log('FMOSfolder entries:');
     console.log(message);
-}
-function deleteAllFMOSdesktopItems() {
-    const allKeys = Object.keys(localStorage);
-    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSdesktop'));
-
-    if (fmosFolderKeys.length === 0) {
-        showError('No Folders To Delete.');
-        console.log('No FMOSdesktop entries found to delete.');
-        return;
-    }
-
-    const confirmation = confirm('Are you sure you want to delete all FMOSdesktop entries? This action cannot be undone.');
-
-    if (!confirmation) {
-        alert('Operation cancelled.');
-        console.log('Operation cancelled.');
-        return;
-    }
-
-    fmosFolderKeys.forEach(key => localStorage.removeItem(key));
-
-    alert('All FMOSdesktop entries have been deleted.');
-    console.log('The following FMOSdesktop entries have been deleted:');
-    console.log(fmosFolderKeys.join('\n'));
-}
-
-function deleteSpecificdesktop() {
-    const desktopname = prompt('Enter the name of the folder to delete:');
-
-    if (!desktopname) {
-        showError('An error has occurred.');
-        return;
-    }
-
-    const folderKey = `FMOSdesktop${desktopname}`;
-
-    if (!localStorage.getItem(folderKey)) {
-        showError('Folder Does Not Ecsist');
-        return;
-    }
-
-    deletedesktopContents(folderKey);
-    localStorage.removeItem(folderKey);
-
-    alert(`Folder '${desktopname}' has been deleted.`);
-    console.log(`Folder '${desktopname}' and its contents have been deleted.`);
-}
-
-function deletedesktopContents(folderKey) {
-    const allKeys = Object.keys(localStorage);
-    const folderKeys = allKeys.filter(key => key.startsWith(folderKey));
-
-    folderKeys.forEach(key => localStorage.removeItem(key));
-}
-
-function migratefolderstodesktops() {
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        
-        if (key.startsWith('FMOSfolder')) {
-            let newKey = key.replace('FMOSfolder', 'FMOSdesktop');
-            
-            localStorage.setItem(newKey, localStorage.getItem(key));
-            
-            localStorage.removeItem(key);
-        }
-    }
 }
 
 function setFullScreenIframeKeyTrue() {
@@ -3532,40 +2892,7 @@ function checkAndShowFullScreenIframe() {
     const isFullScreenAllowed = localStorage.getItem('showFullScreenIframe');
     if (isFullScreenAllowed === 'true') {
         showFullScreenIframe();
-	} else {
-		showboot2();
     }
-}
-
-function checkandshowtos() {
-    const TOS = localStorage.getItem('TOS');
-    if (TOS === 'true') {
-        //nothing
-	} else {
-		welcomemsg();
-    }
-}
-//boot loader
-function showboot2() {
-    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOS12bootnoterm.html';
-
-    const iframe = document.createElement('iframe');
-
-    iframe.src = url;
-
-    iframe.style.position = 'fixed';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.zIndex = '9999';
-
-    document.body.appendChild(iframe);
-
-    setTimeout(() => {
-        document.body.removeChild(iframe);
-    }, 5000);
 }
 
 function showFullScreenIframe() {
@@ -3589,91 +2916,65 @@ function showFullScreenIframe() {
         document.body.removeChild(iframe);
     }, 5000);
 }
-//terminal 2
-        function showNeonTerminal() {
-			showError("WARNING DONT EXECUTE CODE FROM STRANGERS")
-            document.getElementById('neonTerminal').style.display = 'flex';
-            document.getElementById('neonTerminalInput').focus();
-            window.scrollTo(0, 0);
-        }
 
-        function hideNeonTerminal() {
-            document.getElementById('neonTerminal').style.display = 'none';
-        }
+function deleteAllFMOSfolderItems() {
+    const allKeys = Object.keys(localStorage);
+    const fmosFolderKeys = allKeys.filter(key => key.startsWith('FMOSfolder'));
 
-        function toggleTerminalFullscreen() {
-            const terminal = document.getElementById('neonTerminal');
-            if (terminal.style.width === '100vw' && terminal.style.height === '100vh') {
-                terminal.style.width = '400px';
-                terminal.style.height = '300px';
-                terminal.style.top = '50px';
-                terminal.style.left = '50px';
-            } else {
-                terminal.style.width = '100vw';
-                terminal.style.height = '100vh';
-                terminal.style.top = '0';
-                terminal.style.left = '0';
-            }
-        }
+    if (fmosFolderKeys.length === 0) {
+        showError('No Folders To Delete.');
+        console.log('No FMOSfolder entries found to delete.');
+        return;
+    }
 
-        function runNeonTerminalJS() {
-            const code = document.getElementById('neonTerminalInput').value;
-            try {
-                eval(code);
-            } catch (error) {
-                alert(`ERROR: ${error.message}`);
-            }
-        }
+    const confirmation = confirm('Are you sure you want to delete all FMOSfolder entries? This action cannot be undone.');
 
-        // Drag functionality for the terminal
-        let isDraggingTerminal = false;
-        let terminalOffsetX, terminalOffsetY;
+    if (!confirmation) {
+        alert('Operation cancelled.');
+        console.log('Operation cancelled.');
+        return;
+    }
 
-        document.querySelector('.neon-terminal-header').addEventListener('mousedown', (e) => {
-            isDraggingTerminal = true;
-            terminalOffsetX = e.clientX - document.getElementById('neonTerminal').offsetLeft;
-            terminalOffsetY = e.clientY - document.getElementById('neonTerminal').offsetTop;
+    fmosFolderKeys.forEach(key => localStorage.removeItem(key));
 
-            document.addEventListener('mousemove', handleTerminalMouseMove);
-            document.addEventListener('mouseup', handleTerminalMouseUp);
-        });
+    alert('All FMOSfolder entries have been deleted.');
+    console.log('The following FMOSfolder entries have been deleted:');
+    console.log(fmosFolderKeys.join('\n'));
+}
 
-        function handleTerminalMouseMove(e) {
-            if (isDraggingTerminal) {
-                const newX = e.clientX - terminalOffsetX;
-                const newY = e.clientY - terminalOffsetY;
+function deleteSpecificFolder() {
+    const folderName = prompt('Enter the name of the folder to delete:');
 
-                const maxX = window.innerWidth - document.getElementById('neonTerminal').offsetWidth;
-                const maxY = window.innerHeight - document.getElementById('neonTerminal').offsetHeight;
+    if (!folderName) {
+        showError('An error has occurred.');
+        return;
+    }
 
-                if (newX < 0) {
-                    document.getElementById('neonTerminal').style.left = '0';
-                } else if (newX > maxX) {
-                    document.getElementById('neonTerminal').style.left = `${maxX}px`;
-                } else {
-                    document.getElementById('neonTerminal').style.left = `${newX}px`;
-                }
+    const folderKey = `FMOSfolder${folderName}`;
 
-                if (newY < 0) {
-                    document.getElementById('neonTerminal').style.top = '0';
-                } else if (newY > maxY) {
-                    document.getElementById('neonTerminal').style.top = `${maxY}px`;
-                } else {
-                    document.getElementById('neonTerminal').style.top = `${newY}px`;
-                }
-            }
-        }
+    if (!localStorage.getItem(folderKey)) {
+        showError('Folder Does Not Ecsist');
+        return;
+    }
 
-        function handleTerminalMouseUp() {
-            isDraggingTerminal = false;
-            document.removeEventListener('mousemove', handleTerminalMouseMove);
-            document.removeEventListener('mouseup', handleTerminalMouseUp);
-        }
+    deleteFolderContents(folderKey);
+    localStorage.removeItem(folderKey);
+
+    alert(`Folder '${folderName}' has been deleted.`);
+    console.log(`Folder '${folderName}' and its contents have been deleted.`);
+}
+
+function deleteFolderContents(folderKey) {
+    const allKeys = Object.keys(localStorage);
+    const folderKeys = allKeys.filter(key => key.startsWith(folderKey));
+
+    folderKeys.forEach(key => localStorage.removeItem(key));
+}
 		
+
 		checkAndShowFullScreenIframe();
         renderFiles();
 		checkIPAddress();
-		checkandshowtos();
     </script>
 </body>
 </html>
