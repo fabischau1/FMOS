@@ -548,7 +548,6 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Softer shadow for subtle depth */
     display: none;
     z-index: 100;
-    font-family: 'Roboto', sans-serif; /* Modern, clean font */
     width: 100px; /* Narrow width */
     overflow: hidden; /* Hide overflow for a cleaner design */
     backdrop-filter: blur(10px); /* Blur effect for a glass-like appearance */
@@ -762,7 +761,6 @@
     padding: 30px 50px;
     border-radius: 12px; /* Leicht abgerundete Ecken */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Weicher Schatten für Tiefe */
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
     z-index: 1000;
     animation: fadeIn 0.4s ease-in-out;
@@ -2975,6 +2973,7 @@ function handleLogin() {
 
     if (inputPassword === storedPassword) {
         document.getElementById('overlay').style.display = 'none';
+		new Audio('Boot.mp3').play();
     } else {
         errorMessage.textContent = 'Incorrect password, please try again.';
     }
