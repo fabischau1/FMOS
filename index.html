@@ -1270,6 +1270,9 @@
             <button class="settingsmain-butten" onclick="sysfactoriereset()">Reset</button>
             <button class="settingsmain-butten" onclick="passwordmgr()">Password</button>
             <button class="settingsmain-butten" onclick="downloadAllFiles()">Download</button>
+			<button class="settingsmain-butten" onclick="setFullScreenIframeKeyFalse()">Normal Boot Screen</button>
+			<button class="settingsmain-butten" onclick="bootanimation2()">Special Boot Screen</button>
+			<button class="settingsmain-butten" onclick="setFullScreenIframeKeyTrue()">Terminal Boot Screen</button>
 			<button class="settingsmain-butten" onclick="syssettings()">Settings (Menu)</button>
         </div>
         <div class="settingsmain-resize" id="resizeHandle"></div>
@@ -3865,9 +3868,33 @@ function checkAndShowFullScreenIframe() {
     const isFullScreenAllowed = localStorage.getItem('showFullScreenIframe');
     if (isFullScreenAllowed === 'true') {
         showFullScreenIframe();
+    } if (isFullScreenAllowed === 'boot2') {
+        showboot3();
 	} else {
 		showboot2();
     }
+}
+
+function showboot3() {
+    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/boot2';
+
+    const iframe = document.createElement('iframe');
+
+    iframe.src = url;
+
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.zIndex = '9999';
+
+    document.body.appendChild(iframe);
+
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+    }, 5000);
 }
 
 function showboot2() {
@@ -4405,6 +4432,11 @@ function setFullScreenIframeKeyFalse() {
 	askToRestartOS();
 }
 
+function bootanimation2() {
+    localStorage.setItem('showFullScreenIframe', 'boot2');
+	askToRestartOS();
+}
+
 //-------login-settings-----------------------------------------------------------------------------------------
 
 function enablelogin() {
@@ -4675,7 +4707,7 @@ if (!localStorage.getItem('settingadmin')) {
 
 		checkAndShowFullScreenIframe();
 		loadbackground();
-		waitbeforeBootLogin()
+		waitbeforeBootLogin();
         renderFiles();
 		checkIPAddress();
 		checkandshowtos();
