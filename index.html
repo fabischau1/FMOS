@@ -3229,8 +3229,8 @@ function Chatbox1() {
     <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
       <span>Chat Box</span>
       <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenvm()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closevm()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
+        <button onclick="toggleFullscreenchatbox()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
+        <button onclick="closechatbox()" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
       </div>
     </div>
     <div class="window-body">
@@ -3312,10 +3312,10 @@ function Chatbox1() {
   }
 }
 
-function closevm() {
+function closechatbox() {
   document.querySelector('.windowofchatbox').remove();
 }
-function toggleFullscreenvm() {
+function toggleFullscreenchatbox() {
   const iframeWindow = document.querySelector('.windowofchatbox');
   const iframe = document.querySelector('#iframe');
   
