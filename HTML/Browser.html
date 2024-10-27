@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Start Page</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #2c2c2c; /* Slightly lighter than before */
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 2600px;
+			height: 99%;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+            position: relative;
+            animation: fadeIn 1s ease-out;
+			background: url('https://fabischau1.github.io/FMOS/back.jpg') no-repeat;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: var(--primary-color, #ff4c4c); /* Default red */
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .search-section, .favorites-section, .settings-section {
+            margin: 20px 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 5px;
+            width: calc(50% - 20px);
+            border: 2px solid var(--primary-color, #ff4c4c); /* Default red */
+            border-radius: 10px;
+            background: #3e3e3e;
+            color: #fff;
+            font-size: 0.9em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--highlight-color, #ff7b7b); /* Default red */
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--primary-color, #ff4c4c); /* Default red */
+            color: #fff;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--highlight-color, #e03a3a); /* Default red */
+            transform: scale(1.05);
+        }
+
+        .favorites-section {
+            padding: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        li {
+            margin: 10px;
+            padding: 15px;
+            border: 2px solid var(--primary-color, #ff4c4c); /* Default red */
+            border-radius: 10px;
+            background: #333;
+            width: 300px;
+            position: relative;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #444;
+            transform: scale(1.03);
+        }
+
+        a {
+            color: var(--primary-color, #ff4c4c); /* Default red */
+            text-decoration: none;
+            font-size: 0.9em;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        a:hover {
+            color: var(--highlight-color, #ff7b7b); /* Default red */
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--primary-color, #ff4c4c); /* Default red */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: var(--highlight-color, #e03a3a); /* Default red */
+        }
+
+        input[type="text"]#newFavoriteUrl {
+            width: calc(50% - 20px);
+        }
+
+        .settings-section {
+            margin-top: 30px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color, #ff4c4c); /* Default red */
+            background: #3e3e3e;
+            color: #fff;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        select:focus {
+            border-color: var(--highlight-color, #ff7b7b); /* Default red */
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FMOS Pro Browser</h1>
+        </header>
+        
+        <section class="search-section">
+            <input type="text" id="urlInput" placeholder="Enter URL">
+            <button onclick="redirectToUrl()">Go</button>
+            <br>
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="search()">Search</button>
+        </section>
+        
+        <section class="favorites-section">
+            <h2>Favorites</h2>
+            <ul id="favoritesList"></ul>
+            <input type="text" id="newFavoriteUrl" placeholder="New Favorite URL">
+            <button onclick="addFavorite()">Add</button>
+        </section>
+
+        <section class="settings-section">
+            <h2>Change Color Theme</h2>
+            <select id="themeSelector" onchange="changeTheme()">
+                <option value="red">Red</option>
+                <option value="neonRed">Neon Red</option>
+                <option value="green">Green</option>
+                <option value="neonGreen">Neon Green</option>
+                <option value="darkGreen">Dark Green</option>
+                <option value="neonDarkGreen">Neon Dark Green</option>
+                <option value="blue">Blue</option>
+                <option value="neonBlue">Neon Blue</option>
+                <option value="darkBlue">Dark Blue</option>
+                <option value="neonDarkBlue">Neon Dark Blue</option>
+                <option value="pink">Pink</option>
+                <option value="neonPink">Neon Pink</option>
+                <option value="purple">Purple</option>
+                <option value="neonPurple">Neon Purple</option>
+            </select>
+        </section>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadFavorites();
+            changeTheme(); // Apply the default theme
+        });
+
+        function redirectToUrl() {
+            const url = document.getElementById('urlInput').value;
+            if (url) {
+                window.location.href = url;
+            }
+        }
+
+function search() {
+    const query = document.getElementById('searchInput').value;
+    window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+}
+
+        function addFavorite() {
+            const url = document.getElementById('newFavoriteUrl').value;
+            if (url) {
+                let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                favorites.push(url);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                document.getElementById('newFavoriteUrl').value = '';
+                loadFavorites();
+            }
+        }
+
+        function deleteFavorite(urlToDelete) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites = favorites.filter(url => url !== urlToDelete);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            loadFavorites();
+        }
+
+        function loadFavorites() {
+            const favoritesList = document.getElementById('favoritesList');
+            favoritesList.innerHTML = '';
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites.forEach(url => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = url;
+                link.textContent = url;
+                link.target = '_blank';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '✖';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deleteFavorite(url);
+
+                listItem.appendChild(link);
+                listItem.appendChild(deleteBtn);
+                favoritesList.appendChild(listItem);
+
+                listItem.onclick = () => window.location.href = url; // Redirect on click
+            });
+        }
+
+        function changeTheme() {
+            const theme = document.getElementById('themeSelector').value;
+
+            const colors = {
+                red: {
+                    primary: '#ff4c4c',
+                    highlight: '#ff7b7b'
+                },
+                neonRed: {
+                    primary: '#ff073a',
+                    highlight: '#ff0a5a'
+                },
+                green: {
+                    primary: '#4caf50',
+                    highlight: '#66bb6a'
+                },
+                neonGreen: {
+                    primary: '#39ff14',
+                    highlight: '#6aff4c'
+                },
+                darkGreen: {
+                    primary: '#006400',
+                    highlight: '#004d00'
+                },
+                neonDarkGreen: {
+                    primary: '#004d00',
+                    highlight: '#005c00'
+                },
+                blue: {
+                    primary: '#2196f3',
+                    highlight: '#64b5f6'
+                },
+                neonBlue: {
+                    primary: '#00d0ff',
+                    highlight: '#00aaff'
+                },
+                darkBlue: {
+                    primary: '#003366',
+                    highlight: '#002244'
+                },
+                neonDarkBlue: {
+                    primary: '#002244',
+                    highlight: '#003366'
+                },
+                pink: {
+                    primary: '#e91e63',
+                    highlight: '#f06292'
+                },
+                neonPink: {
+                    primary: '#ff0099',
+                    highlight: '#ff3399'
+                },
+                purple: {
+                    primary: '#9c27b0',
+                    highlight: '#ab47bc'
+                },
+                neonPurple: {
+                    primary: '#9b2d77',
+                    highlight: '#ab4f9b'
+                }
+            };
+
+            const selectedColors = colors[theme] || colors.red; // Default to red if invalid theme
+
+            document.documentElement.style.setProperty('--primary-color', selectedColors.primary);
+            document.documentElement.style.setProperty('--highlight-color', selectedColors.highlight);
+        }
+    </script>
+</body>
+</html>

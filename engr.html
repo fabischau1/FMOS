@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Darkmode Website</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #00FF00; /* Neon green text color */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            perspective: 1000px; /* For 3D effects */
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            background: #1e1e1e;
+            transform-style: preserve-3d;
+            animation: rotate 10s infinite linear;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        button {
+            background: transparent;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: #121212;
+            transform: scale(1.05);
+        }
+
+        /* Keyframes for animations */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00, 0 0 15px #00FF00, 0 0 20px #00FF00;
+            }
+            to {
+                text-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00, 0 0 30px #00FF00, 0 0 40px #00FF00;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FMOS</h1>
+        <p>Web OS by Fabischau</p>
+        <button onclick="start()">Get Started</button>
+    </div>
+	<script>
+		function start() {
+			window.location.href = "https://fabischau1.github.io/FMOS";
+		}
+	</script>
+</body>
+</html>

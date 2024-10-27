@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS Minni 2.0</title>
+    <style>
+        body {
+            background-color: #0A0A0A;
+            color: #00FFB0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+			cursor: none;
+        }
+
+        #terminal-container {
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00FFB0;
+            box-shadow: 0 0 15px #00FFB0, 0 0 30px #00FFB0;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+			cursor: none;
+        }
+
+        #terminal {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            flex-grow: 1;
+            color: #FFFFFF;
+			cursor: none;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+			cursor: none;
+        }
+
+        .input-line::before {
+            content: 'user@fmosminni-terminal:~$';
+            color: #00FFB0;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        input {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            outline: none;
+            width: 100%;
+        }
+
+        input::placeholder {
+            color: #FFFFFF;
+            opacity: 0.7;
+        }
+
+        .output {
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            color: #A5FFEC;
+            text-shadow: 0 0 8px #00FFB0;
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: #00FFB0;
+            width: 10px;
+            height: 20px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px #00FFB0, 0 0 20px #00FFB0, 0 0 30px #00FFB0;
+            }
+            50% {
+                box-shadow: 0 0 10px #00FFB0, 0 0 40px #00FFB0, 0 0 60px #00FFB0;
+            }
+            100% {
+                box-shadow: 0 0 5px #00FFB0, 0 0 20px #00FFB0, 0 0 30px #00FFB0;
+            }
+        }
+
+        .neon-text {
+            color: #00FFB0;
+            text-shadow: 0 0 8px #00FFB0, 0 0 16px #00FFB0;
+        }
+
+        #terminal-container:hover {
+            animation: glow 1.5s infinite alternate;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="terminal-container">
+        <div id="terminal">
+            <div class="output" id="output"></div>
+            <div class="input-line">
+                <input type="text" id="input" autofocus placeholder="Type a command...">
+                <div class="cursor"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const commands = {
+            clear() {
+                document.getElementById('output').innerHTML = '';
+            },
+            help() {
+                return `Commands:
+clear - Clear the terminal
+help - Show this help text
+man [command] - Show manual for a command
+echo [text] - Print text to the terminal
+dir - List the contents of the current directory
+cd [path] - Change the current directory
+mkdir [directory] - Create a new directory
+rm [file/directory] - Remove a file or directory
+whoami - Show the current user
+yes [text] - Output text repeatedly
+js [command] - Execute JavaScript code
+ifconfig - Show network interface configuration
+nano [file] - Create or edit a file`;
+            },
+            man(cmd) {
+                switch (cmd) {
+                    case 'clear': return 'clear: Clear the terminal';
+                    case 'help': return 'help: Show this help text';
+                    case 'man': return 'man: Show manual for a command';
+                    case 'echo': return 'echo: Print text to the terminal';
+                    case 'dir': return 'dir: List the contents of the current directory';
+                    case 'cd': return 'cd: Change the current directory';
+                    case 'mkdir': return 'mkdir: Create a new directory';
+                    case 'rm': return 'rm: Remove a file or directory';
+                    case 'whoami': return 'whoami: Show the current user';
+                    case 'yes': return 'yes: Output text repeatedly';
+                    case 'js': return 'js: Execute JavaScript code';
+                    case 'ifconfig': return 'ifconfig: Show network interface configuration';
+                    case 'nano': return 'nano: Create or edit a file';
+                    default: return `No manual entry for ${cmd}`;
+                }
+            },
+            echo(...args) {
+                return args.join(' ');
+            },
+            dir() {
+                return listDirectory();
+            },
+            cd(path) {
+                changeDirectory(path);
+                return `Changed to ${currentPath}`;
+            },
+            mkdir(name) {
+                return createDirectory(name);
+            },
+            rm(name) {
+                return removeItem(name);
+            },
+            whoami() {
+                return 'root';
+            },
+            yes(text = 'y') {
+                let output = '';
+                for (let i = 0; i < 10; i++) {
+                    output += text + '\n';
+                }
+                return output;
+            },
+            js(...args) {
+                const code = args.join(' ');
+                try {
+                    const result = new Function(code)();
+                    return result !== undefined ? result : '';
+                } catch (e) {
+                    return `Error: ${e.message}`;
+                }
+            },
+            ifconfig() {
+                return 'eth0      Link encap:Ethernet  HWaddr 00:00:00:00:00:00\n          inet addr:192.168.0.1  Bcast:192.168.0.255  Mask:255.255.255.0\n';
+            },
+            nano(file) {
+                return editFile(file);
+            }
+        };
+
+        let fileSystem = JSON.parse(localStorage.getItem('fileSystem')) || {
+            '/': {
+                'boot': {},
+                'root': {},
+                'sys': {},
+                'downloads': {},
+                'documents': {}
+            }
+        };
+        let currentPath = '/';
+
+        function saveFileSystem() {
+            localStorage.setItem('fileSystem', JSON.stringify(fileSystem));
+        }
+
+        function listDirectory() {
+            const dir = getDirectory(currentPath);
+            return Object.keys(dir).join('\n');
+        }
+
+        function getDirectory(path) {
+            const parts = path.split('/').filter(Boolean);
+            let dir = fileSystem['/'];
+            for (let part of parts) {
+                dir = dir[part];
+            }
+            return dir;
+        }
+
+        function changeDirectory(path) {
+            const newPath = resolvePath(path);
+            if (getDirectory(newPath)) {
+                currentPath = newPath;
+            } else {
+                throw new Error(`No such directory: ${path}`);
+            }
+        }
+
+        function resolvePath(path) {
+            if (path.startsWith('/')) return path;
+            const parts = (currentPath + '/' + path).split('/').filter(Boolean);
+            const resolvedParts = [];
+            for (let part of parts) {
+                if (part === '..') {
+                    resolvedParts.pop();
+                } else if (part !== '.') {
+                    resolvedParts.push(part);
+                }
+            }
+            return '/' + resolvedParts.join('/');
+        }
+
+        function createDirectory(name) {
+            const dir = getDirectory(currentPath);
+            if (dir[name]) {
+                return `Directory ${name} already exists`;
+            }
+            dir[name] = {};
+            saveFileSystem();
+            return `Directory ${name} created`;
+        }
+
+        function removeItem(name) {
+            const dir = getDirectory(currentPath);
+            if (!dir[name]) {
+                return `No such file or directory: ${name}`;
+            }
+            delete dir[name];
+            saveFileSystem();
+            return `${name} removed`;
+        }
+
+        function editFile(name) {
+            const dir = getDirectory(currentPath);
+            if (!dir[name]) {
+                dir[name] = '';
+            }
+            const newContent = prompt(`Editing ${name}. Current content:\n${dir[name]}`, dir[name]);
+            if (newContent !== null) {
+                dir[name] = newContent;
+                saveFileSystem();
+                return `${name} saved`;
+            }
+            return `${name} not modified`;
+        }
+
+        document.getElementById('input').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const input = this.value.trim();
+                const [cmd, ...args] = input.split(' ');
+                let output = '';
+                if (commands[cmd]) {
+                    try {
+                        output = commands[cmd](...args);
+                    } catch (err) {
+                        output = `Error: ${err.message}`;
+                    }
+                } else {
+                    output = `Command not found: ${cmd}`;
+                }
+                document.getElementById('output').innerHTML += `\n$ ${input}\n${output}\n`;
+                this.value = '';
+                document.getElementById('terminal').scrollTop = document.getElementById('terminal').scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

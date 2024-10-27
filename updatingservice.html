@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS Update</title>
+    <style>
+        /* Modernes Design */
+        body {
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            cursor: none; /* Mauszeiger unsichtbar machen */
+        }
+        
+        .update-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 50%;
+            height: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            margin: 20px auto;
+        }
+        
+        .progress-bar-fill {
+            width: 0%;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            transition: width 5s linear;
+        }
+        
+        .update-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="update-container">
+        <p class="update-text">Updaing FMOS...</p>
+        <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Update-Prozess simulieren
+        let progressBarFill = document.getElementById('progress-bar-fill');
+        let progress = 0;
+        let intervalId = setInterval(() => {
+            progress += 1;
+            progressBarFill.style.width = `${progress}%`;
+            if (progress >= 100) {
+                clearInterval(intervalId);
+                // Weiterleitung nach 5 Minuten
+                setTimeout(() => {
+                    window.location.href = 'https://fabischau1.github.io/FM_OS/';
+                }, 5000);
+            }
+        }, 50); // 50ms = 20x pro Sekunde
+    </script>
+</body>
+</html>

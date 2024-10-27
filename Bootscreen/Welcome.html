@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS - Operating System Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .glitch-text {
+            font-size: 4rem;
+            font-weight: bold;
+            position: relative;
+            animation: glitch 1s infinite;
+        }
+
+        .highlight {
+            color: #00ff99;
+            font-weight: bold;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: 2px solid #00ff99;
+            color: #00ff99;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            animation: float 2s infinite ease-in-out;
+        }
+
+        .btn-tos:hover, .btn-discord:hover {
+            background-color: #00ff99;
+            color: #1f1f1f;
+        }
+
+        .footer-text {
+            margin-top: 30px;
+            font-style: italic;
+            font-size: 1rem;
+            animation: fadeInUp 3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px #00ff99; }
+            25% { text-shadow: -2px -2px #ff0066; }
+            50% { text-shadow: 2px -2px #00ff99; }
+            75% { text-shadow: -2px 2px #ff0066; }
+            100% { text-shadow: 2px 2px #00ff99; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="glitch-text">Hello :)</h1>
+        <p class="intro-text">Welcome to <span class="highlight">FMOS</span></p>
+        <p class="description">FMOS is a little operating system simulation website</p>
+
+        <div class="buttons">
+            <a href="https://fabischau1.github.io/FMOS/Bootscreen/TOS" class="btn btn-tos">Read Terms of Service</a>
+            <a href="https://discord.com/invite/XnPCx68ZN3" class="btn btn-discord">Join the Community Discord</a>
+        </div>
+
+        <p class="footer-text">and also have fun ;)</p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const textElement = document.querySelector('.intro-text');
+            const text = textElement.innerText;
+            textElement.innerText = '';
+            let index = 0;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    textElement.innerText += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+
+            typeWriter();
+        });
+    </script>
+</body>
+</html>

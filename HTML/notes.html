@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            transition: background-color 0.3s ease;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .notes {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .dark-mode {
+            background-color: #111;
+            color: #ccc;
+        }
+
+        .dark-mode button {
+            background-color: #333;
+            color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FMOS Notes</h1>
+            <button id="toggleDarkMode">Dark Mode</button>
+        </header>
+        <div class="notes" id="notes"></div>
+        <textarea id="newNote" placeholder="Enter your note..."></textarea>
+        <button id="addNote">Add Note</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notesContainer = document.getElementById('notes');
+            const newNoteTextarea = document.getElementById('newNote');
+            const addNoteButton = document.getElementById('addNote');
+            const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+            function renderNotes() {
+                notesContainer.innerHTML = '';
+                notes.forEach(function(note, index) {
+                    const noteElement = document.createElement('div');
+                    noteElement.classList.add('note');
+                    noteElement.innerHTML = `
+                        <p>${note}</p>
+                        <button class="delete" data-index="${index}">Delete</button>
+                    `;
+                    notesContainer.appendChild(noteElement);
+                });
+            }
+
+            addNoteButton.addEventListener('click', function() {
+                const newNote = newNoteTextarea.value.trim();
+                if (newNote !== '') {
+                    notes.push(newNote);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    newNoteTextarea.value = '';
+                    renderNotes();
+                }
+            });
+
+            notesContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete')) {
+                    const index = e.target.dataset.index;
+                    notes.splice(index, 1);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    renderNotes();
+                }
+            });
+
+            toggleDarkModeButton.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                toggleDarkModeButton.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+            });
+
+            renderNotes();
+        });
+    </script>
+</body>
+</html>

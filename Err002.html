@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fehlermeldung</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Consolas, monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+        }
+
+        #displayArea {
+            font-size: 1em;
+            color: #0f0;
+            white-space: pre-wrap; /* Preserve formatting */
+            text-align: left;
+            width: 100%;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            background-color: #222;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            word-wrap: break-word;
+            margin: 0 auto;
+        }
+        
+        .message-title {
+            font-size: 2em;
+            color: #f00;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message-title">ERROR :(</div>
+        <div id="displayArea">
+            <!-- Hier wird der Fehlertext angezeigt -->
+        </div>
+        <button class="button" onclick="redirectToMenu()">Booting menu</button>
+    </div>
+    <script>
+        // Die Fehlermeldung, die angezeigt werden soll
+        const errorMessage = `Error:
+
+No Files could Load
+
+Error: SYS*002`;
+
+        // Füge den Fehlertext zum Anzeigebereich hinzu
+        document.getElementById('displayArea').textContent = errorMessage;
+
+        // Funktion zum Weiterleiten
+        function redirectToMenu() {
+            window.location.href = 'https://fabischau1.github.io/FMOS/Bmenu.html';
+        }
+    </script>
+</body>
+</html>

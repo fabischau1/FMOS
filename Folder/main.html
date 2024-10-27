@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM OS 2.0</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+       .desktop {
+            background: none;
+            background-size: cover;
+            position: relative;
+            width: 100%;
+            height: 100%;
+			cursor: default;
+        }
+.taskbar {
+    background-color: #2e2e2e; /* Etwas helleres Dunkelgrau */
+    color: #d1d1d1; /* Helles Grau für besseren Kontrast */
+    height: 40px; /* Zurück zur ursprünglichen Höhe */
+    position: fixed; /* Fixiert am unteren Rand des Bildschirms */
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px; /* Angepasstes Padding für ein kompakteres Layout */
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2); /* Sanfter Schatten für Tiefe */
+    z-index: 1000; /* Taskbar immer oben */
+    border-top: 1px solid #444; /* Dünne obere Border für Struktur */
+}
+
+.selected {
+    border: 2px solid #cc0000; /* Dunkleres Rot für die Auswahl */
+    background-color: rgba(204, 0, 0, 0.2); /* Dunkleres Rot für den Hintergrund */
+    border-radius: 3px; /* Etwas kleinere abgerundete Ecken */
+}
+
+.taskbar button {
+    background: none;
+    border: none;
+    color: #d1d1d1; /* Gleiche Farbe wie die Textfarbe der Taskbar */
+    cursor: pointer;
+    margin-right: 12px; /* Etwas weniger Abstand zwischen Buttons */
+    font-size: 14px; /* Kleinere Schriftgröße für kompakteres Design */
+    transition: color 0.3s, background-color 0.3s; /* Sanfte Übergänge für Hover-Effekte */
+}
+
+.taskbar button:hover {
+    color: #ff4d4d; /* Helleres Rot beim Hover */
+    background-color: rgba(255, 77, 77, 0.1); /* Leichtes Hintergrund-Rot beim Hover */
+    border-radius: 3px; /* Gleiche abgerundete Ecken beim Hover */
+}
+       .window {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 300px;
+            height: 200px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowi {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowstore {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowifram {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowifra {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowifr {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowif {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+			transform: scale(0.5);
+			opacity: 0;
+		}.windowifc {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+			transform: scale(0.5);
+			opacity: 0;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+		}.windowiframefiles {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+.terminal-window {
+  background-color: #333;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  width: 800px;
+  height: 600px;
+  overflow: auto;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s, transform 0.5s; /* add transition effect */
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  cursor: se-resize;
+}
+
+.terminal-header {
+  background-color: #444;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminal-title {
+  color: #fff;
+  font-weight: bold;
+}
+
+.terminal-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.terminal-button:hover {
+  background-color: #666;
+}
+
+.terminal-body {
+  padding: 20px;
+}
+
+.terminal-output {
+  padding: 10px;
+  font-family: monospace;
+  color: #fff;
+}
+
+.terminal-prompt {
+  color: #6c5ce7; /* purple color */
+}
+
+.terminal-result {
+  color: #0f0; /* green color */
+}
+
+.terminal-error {
+  color: #f00; /* red color */
+}
+
+#terminal-input {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-family: monospace;
+  border: none;
+  resize: none;
+  width: 100%;
+}
+
+#selection-window {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8); /* Transparenter Hintergrund für einen Glas-Effekt */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtiler, transparenter Rand */
+  border-radius: 12px; /* Mehr abgerundete Ecken */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2); /* Etwas kleinerer Schatten */
+  display: none;
+  padding: 15px; /* Leicht reduziertes Padding */
+  box-sizing: border-box;
+  width: 220px; /* Kleinere Breite */
+  backdrop-filter: blur(8px); /* Leicht reduzierter Blur-Effekt */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#folsel-window {
+  position: absolute;
+  bottom: 20px;
+  left: 60%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8); /* Transparenter Hintergrund für einen Glas-Effekt */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtiler, transparenter Rand */
+  border-radius: 12px; /* Mehr abgerundete Ecken */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2); /* Etwas kleinerer Schatten */
+  display: none;
+  padding: 15px; /* Leicht reduziertes Padding */
+  box-sizing: border-box;
+  width: 220px; /* Kleinere Breite */
+  backdrop-filter: blur(8px); /* Leicht reduzierter Blur-Effekt */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#folsel-window.active {
+  display: block;
+  opacity: 1;
+}
+
+#selection-window.active {
+  display: block;
+  opacity: 1;
+}
+
+#selection-window button {
+  background: linear-gradient(145deg, #333, #444); /* Verlaufseffekt für Knöpfe */
+  border: none;
+  color: #f0f0f0; /* Helles Grau für den Text */
+  padding: 8px 14px; /* Leicht reduziertes Padding */
+  margin-bottom: 8px; /* Etwas weniger Margin */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px; /* Etwas kleinere Schriftgröße */
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+#folsel-window button {
+  background: linear-gradient(145deg, #333, #444); /* Verlaufseffekt für Knöpfe */
+  border: none;
+  color: #f0f0f0; /* Helles Grau für den Text */
+  padding: 8px 14px; /* Leicht reduziertes Padding */
+  margin-bottom: 8px; /* Etwas weniger Margin */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px; /* Etwas kleinere Schriftgröße */
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+#selection-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
+}
+
+#folsel-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
+}
+
+#selection-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6); /* Blauer Schatten für den Fokus */
+  background: linear-gradient(145deg, #333, #444); /* Konsistenz des Hintergrunds im Fokuszustand */
+}
+
+#folsel-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6); /* Blauer Schatten für den Fokus */
+  background: linear-gradient(145deg, #333, #444); /* Konsistenz des Hintergrunds im Fokuszustand */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #selection-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #folsel-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.windowiframefiles.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifc.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowstore.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifr.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifram.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifra.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+@keyframes animate-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#selection-window button:hover {
+  background-color: #eee;
+}
+
+#folsel-window button:hover {
+  background-color: #eee;
+}
+       .window-header {
+            background-color: rgba(20, 20, 20, 0.7);
+            color: #00ff00;
+			text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+						0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
+            padding: 5px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .window-body {
+            flex: 1;
+            padding: 10px;
+        }
+       .window-footer {
+            padding: 5px;
+            text-align: right;
+        }
+       .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid #000;
+            margin: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease-out;
+            background-size: 100px 100px; /* Größe des Logo-Images anpassen */
+            background-position: center; /* Logo-Image zentrieren */
+        }
+       .icon[data-file$=".js"] {
+            background-image: url('js.jpg');
+        }
+       .icon[data-file$=".fexe"] {
+            background-image: url('fexe.jpg');
+        }
+       .icon[data-file$=".fsys"] {
+            background-image: url('fsys.jpg');
+		}
+		.icon[data-file$=".py"] {
+            background-image: url('py.jpg');
+		}
+       .icon[data-file$=".zfp"] {
+            background-image: url('folder.jpg');
+		}
+       .icon[data-file$=".html"] {
+            background-image: url('html.jpg');
+        }
+		.icon[data-file$=".url"] {
+            background-image: url('url.jpg');
+        }
+		.icon[data-file$=".png"] {
+            background-image: url('png.jpg');
+		}
+		.icon[data-file$=".folder"] {
+            background-image: url('fol.png');
+		}
+		.icon[data-file$=".fak"] {
+            background-image: url('fak.jpg');
+        }
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".folder"]):not([data-file$=".fsys"]):not([data-file$=".fak"]):not([data-file$=".png"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
+            background-image: url('ico.jpg');
+        }
+       .icon[data-folder] {
+            background-image: url('folder.jpg');
+        }
+       .icon.dragging {
+            position: absolute;
+            z-index: 100;
+        }
+       .icon span {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white; /* Weißer Text */
+        }
+.context-menu {
+    position: absolute;
+    background: rgba(30, 30, 30, 0.8); /* Highly transparent dark background */
+    border: none; /* No border for a sleek look */
+    border-radius: 10px; /* Rounded corners for a modern feel */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Softer shadow for subtle depth */
+    display: none;
+    z-index: 100;
+    font-family: 'Roboto', sans-serif; /* Modern, clean font */
+    width: 100px; /* Narrow width */
+    overflow: hidden; /* Hide overflow for a cleaner design */
+    backdrop-filter: blur(10px); /* Blur effect for a glass-like appearance */
+    animation: fadeIn 0.2s ease-out; /* Fade-in animation */
+}
+
+.context-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.context-menu ul li {
+    padding: 8px 12px; /* Adequate padding for a sleek look */
+    cursor: pointer;
+    color: #d0d0d0; /* Light gray text color */
+    background: rgba(30, 30, 30, 0.6); /* Matching semi-transparent background */
+    border-radius: 6px; /* Rounded corners for menu items */
+    transition: background 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.context-menu ul li:hover {
+    background: rgba(30, 30, 30, 0.7); /* Slightly darker transparent background on hover */
+    color: #fff; /* White text color on hover */
+    text-shadow: 0 0 8px #00ff99, 0 0 16px #00ff99; /* Neon green glow effect */
+}
+
+.context-menu ul li:active {
+    background: rgba(30, 30, 30, 0.8); /* Darker transparent background when clicked */
+    color: #fff; /* White text color when active */
+    text-shadow: 0 0 4px #00ff99, 0 0 8px #00ff99; /* Slightly dimmer glow effect on active */
+}
+
+.redlightcolor {
+    color: #ff0000;
+	text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+				0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+}
+
+.greenlightcolor {
+    color: #00ff00;
+	text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+				0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
+}
+
+.textcoloreditor {
+    color: #00000f;
+	text-shadow: 0 0 1px #0000ff, 0 0 2.5px #0000ff, 0 0 5px #0000ff,
+				0 0 5px #0000ff, 0 0 8px #0000ff, 0 0 10px #0000ff;
+	background-color: rgba(20, 20, 20, 0.7);
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.file-label {
+    margin-top: 120px;
+    font-size: 12px;
+    color: #ff0000;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+                 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+}
+
+#sysset-window {
+  position: absolute;
+  bottom: 20px;
+  left: 70%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2);
+  display: none;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 220px;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#sysset-window.active {
+  display: block;
+  opacity: 1;
+}
+
+#sysset-window button {
+  background: linear-gradient(145deg, #333, #444); /* Verlaufseffekt für Knöpfe */
+  border: none;
+  color: #f0f0f0;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+#sysset-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Verlauf für Hover-Effekt */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sanfter Schatten beim Hover */
+}
+
+#sysset-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6);
+  background: linear-gradient(145deg, #333, #444);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #sysset-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+#sysset-window button:hover {
+  background-color: #eee;
+}
+#appsfinder-window {
+  position: absolute;
+  bottom: 70px;
+  left: 7%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 0, 0, 0.2);
+  display: none;
+  padding: 15px;
+  box-sizing: border-box;
+  width: 220px;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#appsfinder-window.active {
+  display: block;
+  opacity: 1;
+}
+
+#appsfinder-window button {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #333, #444); /* Gradient for buttons */
+  border: none;
+  color: #f0f0f0;
+  padding: 8px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#appsfinder-window button:hover .button-icon {
+  transform: translateY(-2px);
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#appsfinder-window button:hover {
+  background: linear-gradient(145deg, #444, #555); /* Gradient for hover effect */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#appsfinder-window button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 170, 255, 0.6);
+  background: linear-gradient(145deg, #333, #444);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #appsfinder-window {
+    animation: fadeInUp 0.5s ease-out;
+  }
+}
+
+#appsfinder-window button:hover {
+  background-color: #eee;
+}
+    </style>
+</head>
+<body>
+    <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
+    </div>
+	<div class="window" id="editorWindow">
+		<div class="window-header">
+			<span id="editorTitle">Editor</span>
+			<button onclick="closeWindow()" style="background:none; border:none;" class="redlightcolor">X</button>
+		</div>
+		<div class="window-body">
+			<textarea id="fileContent" style="width: 100%; height: 100%; border: 1px solid rgba(255, 255, 255, 0.2); overflow: auto;" class="textcoloreditor" ></textarea>
+		</div>
+		<div class="window-footer">
+			<button onclick="saveFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Save</button>
+			<button onclick="deleteFile()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Delete</button>
+			<button onclick="executeJS()" style="background:none; border:none; border: 1px solid rgba(255, 255, 255, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); transform: perspective(1px) translateZ(0); outline:none;" class="greenlightcolor" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 20px rgba(0, 255, 0, 1)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 10px rgba(0, 255, 0, 0.5)';">Run</button>
+		</div>
+	</div>
+
+	<!-- Add a new window for HTML preview -->
+	<div class="windowi" id="htmlPreviewWindow" style="display: none;">
+		<div class="window-header">
+			<span id="htmlPreviewTitle">HTML Preview</span>
+			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none;" class="textcoloreditor" >X</button>
+		</div>
+		<div class="window-body">
+			<iframe id="htmlPreview" frameborder="0" width="100%" height="100%"></iframe>
+		</div>
+	</div>
+    <div class="context-menu" id="contextMenu">
+        <ul>
+			<li onclick="createFile()">New</li>
+			<li onclick="folsell()">Folders</li>
+			<li onclick="executeJS()">Run</li>
+            <li onclick="renameFile()">Rename</li>
+            <li onclick="deleteFile()">Delete</li>
+			<li onclick="saveFileWithCustomName()">Save To Folder</li>
+			<li onclick="hideContextMenu()">Close</li>
+        </ul>
+    </div>
+
+    <script>
+		let files = {
+		"test.txt": `hello`
+		};
+        let folders = {};
+        let selectedFile = null;
+        let currentDraggedFile = null;
+
+        function createFile() {
+            const fileName = prompt("Filename:");
+            if (fileName) {
+                if (!files[fileName]) {
+                    files[fileName] = "";
+                    renderFiles();
+                } else {
+                    alert("File alredy exsists.");
+                }
+            }
+        }
+
+        function createFolder() {
+          const folderName = prompt("Foldername:");
+          if (folderName) {
+            if (!folders[folderName]) {
+              folders[folderName] = {};
+              renderFiles();
+            } else {
+              alert("Ordner alredy exsists.");
+            }
+          }
+        }
+
+function renderFiles() {
+  const desktop = document.getElementById('desktop');
+  desktop.innerHTML = '';
+  for (const folderName in folders) {
+    const folderIcon = document.createElement('div');
+    folderIcon.className = 'icon';
+	folderIcon.dataset.folder = folderName;
+    folderIcon.innerHTML = folderName;
+    folderIcon.onclick = () => openFolder(folderName);
+    folderIcon.oncontextmenu = (e) => {
+      selectedFile = folderName;
+      showContextMenu(e);
+      return false;
+    };
+    folderIcon.dataset.folder = folderName;
+    desktop.appendChild(folderIcon);
+  }
+	const showFileNames = localStorage.getItem('fmosfilenamessetting') === 'true';
+
+	for (const fileName in files) {
+		const fileIcon = document.createElement('div');
+		fileIcon.className = 'icon';
+
+		// Only create and append the file label if showFileNames is true
+		if (showFileNames) {
+			const fileLabel = document.createElement('div');
+			fileLabel.className = 'file-label';
+			fileLabel.innerText = fileName;
+			fileIcon.appendChild(fileLabel);
+		}
+
+		fileIcon.dataset.file = fileName;
+		fileIcon.onclick = () => openFile(fileName);
+		fileIcon.oncontextmenu = (e) => {
+			selectedFile = fileName;
+			showContextMenu(e);
+			return false;
+		};
+
+		desktop.appendChild(fileIcon);
+	}
+	positionIcons();
+}
+
+function enableFileNames() {
+    localStorage.setItem('fmosfilenamessetting', 'true');
+    renderFiles();
+}
+function disableFileNames() {
+    localStorage.setItem('fmosfilenamessetting', 'false');
+    renderFiles();
+}
+function closeHTMLPreviewWindow() {
+        document.getElementById('htmlPreviewWindow').style.display = 'none';
+    }
+
+        function openFile(fileName) {
+		  new Audio('click.mp3').play();
+          selectedFile = fileName;
+          document.getElementById('editorTitle').innerText = `Editor - ${fileName}`;
+          document.getElementById('fileContent').value = files[fileName];
+          openWindow();
+          if (fileName === "12345.js") {
+            eval("alert(\"You found an easter egg! 🎉\");");
+          }
+		  if (selectedFile && selectedFile.endsWith('.folder')) {
+		    openfmosfolder()
+		  }
+		  if (fileName === "BIOS") {
+		    eval("alert(\"You found an easter egg! 🎉\");");
+            window.location.href = "https://fabischau1.github.io/BIOS/";
+          }
+		  if (fileName === "old.fsys") {
+		    eval("alert(\"You found an easter egg! 🎉\");");
+            window.location.href = "https://fabischau1.github.io/FMOSold/";
+          }
+		  if (fileName === "oops") {
+		    eval("alert(\"You found an easter egg! 🎉\");");
+            window.location.href = "https://fabischau1.github.io/oops/";
+          }
+		  if (fileName === "BSOD") {
+		    eval("alert(\"You found an easter egg! 🎉\");");
+            window.location.href = "https://fabischau1.github.io/BSOD/";
+          }
+        }
+
+        function openFolder(folderName) {
+          const folderContent = folders[folderName];
+          const folderWindow = document.createElement('div');
+          folderWindow.className = 'window';
+          folderWindow.innerHTML = `
+            <div class="window-header">
+              <span>${folderName}</span>
+              <button onclick="closeFolder()">X</button>
+            </div>
+            <div class="window-body">
+              <ul>
+                ${Object.keys(folderContent).map((fileName) => `<li>${fileName}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+          document.body.appendChild(folderWindow);
+          folderWindow.style.top = '50px';
+          folderWindow.style.left = '50px';
+        }
+
+        function closeFolder() {
+          const folderWindow = document.querySelector('.window');
+          folderWindow.remove();
+        }
+
+        function saveFile() {
+            if (selectedFile) {
+                files[selectedFile] = document.getElementById('fileContent').value;
+                alert('File saved.');
+            }
+        }
+
+        function deleteFile() {
+            if (selectedFile) {
+                const confirmDelete = confirm('Möchten Sie die Datei wirklich löschen?');
+                if (confirmDelete) {
+                    delete files[selectedFile];
+                    closeWindow();
+                    renderFiles();
+                    selectedFile = null;
+                }
+            }
+        }
+
+        function renameFile() {
+            if (selectedFile) {
+                const newFileName = prompt("Neuer Dateiname:", selectedFile);
+                if (newFileName &&!files[newFileName]) {
+                    files[newFileName] = files[selectedFile];
+                    delete files[selectedFile];
+                    selectedFile = newFileName;
+                    renderFiles();
+                } else {
+                    alert("ERROR");
+                }
+            }
+        }
+
+        function openWindow() {
+            document.getElementById('editorWindow').style.display = 'flex';
+            document.getElementById('fileContent').focus();
+            window.scrollTo(0, 0);
+        }
+
+        function closeWindow() {
+            document.getElementById('editorWindow').style.display = 'none';
+            document.getElementById('fileContent').blur();
+        }
+
+        function showContextMenu(event) {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.top = `${event.clientY}px`;
+            contextMenu.style.left = `${event.clientX}px`;
+            contextMenu.style.display = 'block';
+            document.addEventListener('click', hideContextMenu);
+        }
+
+        function hideContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+            document.removeEventListener('click', hideContextMenu);
+        }
+
+        		function executeHTML() {
+			if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
+				const htmlContent = files[selectedFile];
+				const iframe = document.getElementById('htmlPreview');
+				iframe.srcdoc = htmlContent;
+				iframe.width = '100%';
+				iframe.height = '550px'; // set height to 600px
+				document.getElementById('htmlPreviewWindow').style.display = 'block';
+			} else {
+				alert('ERROR This Filetype can not run HTML.');
+			}
+		}
+
+		// Update the executeJS function to call executeHTML for HTML files
+		function executeJS() {
+			alert("Be Carefull with running commands or code")
+		    if (selectedFile && (selectedFile.endsWith('.fexe') || selectedFile.endsWith('.js') || selectedFile.endsWith('.py') || selectedFile.endsWith('.zfp') || selectedFile.endsWith('.fsys'))) {
+		        try {
+		            eval(files[selectedFile]);
+		        } catch (error) {
+		            alert(`ERROR: ${error.message}`);
+		        }
+		    } else if (selectedFile && selectedFile.endsWith('.html') || selectedFile.endsWith('.png') || selectedFile.endsWith('.fak') || selectedFile.endsWith('.url')) {
+		        executeHTML();
+		    } else {
+		        alert('ERROR This Filetype can not run Javaskript.');
+		    }
+		}
+
+        // Drag functionality for the window
+        // Drag functionality for the window
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        document.querySelector('.window-header').addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - document.getElementById('editorWindow').offsetLeft;
+            offsetY = e.clientY - document.getElementById('editorWindow').offsetTop;
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        });
+
+        function handleMouseMove(e) {
+            if (isDragging) {
+                const newX = e.clientX - offsetX;
+                const newY = e.clientY - offsetY;
+
+                const maxX = window.innerWidth - document.getElementById('editorWindow').offsetWidth;
+                const maxY = window.innerHeight - document.getElementById('editorWindow').offsetHeight;
+
+                if (newX < 0) {
+                    document.getElementById('editorWindow').style.left = '0';
+                } else if (newX > maxX) {
+                    document.getElementById('editorWindow').style.left = `${maxX}px`;
+                } else {
+                    document.getElementById('editorWindow').style.left = `${newX}px`;
+                }
+
+                if (newY < 0) {
+                    document.getElementById('editorWindow').style.top = '0';
+                } else if (newY > maxY) {
+                    document.getElementById('editorWindow').style.top = `${maxY}px`;
+                } else {
+                    document.getElementById('editorWindow').style.top = `${newY}px`;
+                }
+            }
+        }
+
+        function handleMouseUp() {
+            isDragging = false;
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        }
+
+        // Drag functionality for the icons
+        let currentDraggedElement = null;
+
+        document.querySelector('.desktop').addEventListener('mousedown', (e) => {
+            if (e.target.classList.contains('icon')) {
+                currentDraggedElement = e.target;
+                currentDraggedFile = e.target.dataset.file;
+                e.target.classList.add('dragging');
+            }
+        });
+
+        document.querySelector('.desktop').addEventListener('mousemove', (e) => {
+            if (currentDraggedElement) {
+                const newX = e.clientX - currentDraggedElement.offsetWidth / 2;
+                const newY = e.clientY - currentDraggedElement.offsetHeight / 2;
+
+                const maxX = window.innerWidth - currentDraggedElement.offsetWidth;
+                const maxY = window.innerHeight - currentDraggedElement.offsetHeight;
+
+                if (newX < 0) {
+                    currentDraggedElement.style.left = '0';
+                } else if (newX > maxX) {
+                    currentDraggedElement.style.left = `${maxX}px`;
+                } else {
+                    currentDraggedElement.style.left = `${newX}px`;
+                }
+
+                if (newY < 0) {
+                    currentDraggedElement.style.top = '0';
+                } else if (newY > maxY) {
+                    currentDraggedElement.style.top = `${maxY}px`;
+                } else {
+                    currentDraggedElement.style.top = `${newY}px`;
+                }
+            }
+        });
+
+        document.querySelector('.desktop').addEventListener('mouseup', () => {
+            if (currentDraggedElement) {
+                currentDraggedElement.classList.remove('dragging');
+                currentDraggedElement = null;
+                currentDraggedFile = null;
+            }
+        });
+
+        function positionIcons() {
+            const icons = document.querySelectorAll('.icon');
+            const desktopWidth = document.getElementById('desktop').offsetWidth;
+            const iconWidth = icons[0].offsetWidth;
+            const iconHeight = icons[0].offsetHeight;
+            let x = 10;
+            let y = 10;
+
+            icons.forEach((icon) => {
+                icon.style.left = `${x}px`;
+                icon.style.top = `${y}px`;
+                x += iconWidth + 10;
+                if (x > desktopWidth - iconWidth - 10) {
+                    x = 10;
+                    y += iconHeight + 10;
+                }
+            });
+        }
+		
+const desktop = document.getElementById('desktop');
+let selection = null;
+let startX = 0;
+let startY = 0;
+
+// Define color and border properties
+const borderWidth = '2px'; // Border width
+
+desktop.addEventListener('mousedown', (event) => {
+  if (event.button !== 0) return; // only handle left mouse button
+  startX = event.clientX;
+  startY = event.clientY;
+  selection = document.createElement('div');
+  selection.className = 'selected';
+  selection.style.position = 'absolute'; // Ensure positioning is absolute
+  selection.style.left = `${startX}px`;
+  selection.style.top = `${startY}px`;
+  selection.style.width = '0px';
+  selection.style.height = '0px';
+  selection.style.borderWidth = borderWidth;
+  desktop.appendChild(selection);
+});
+
+document.addEventListener('mousemove', (event) => {
+  if (event.buttons !== 1) return; // only handle mouse move while left mouse button is pressed
+  if (!selection) return; // nothing to select
+  const x = event.clientX;
+  const y = event.clientY;
+  const width = Math.abs(x - startX);
+  const height = Math.abs(y - startY);
+  const left = Math.min(x, startX);
+  const top = Math.min(y, startY);
+  selection.style.left = `${left}px`;
+  selection.style.top = `${top}px`;
+  selection.style.width = `${width}px`;
+  selection.style.height = `${height}px`;
+
+  // Check if the selection intersects with any file
+  const files = document.querySelectorAll('.file');
+  files.forEach((file) => {
+    const fileLeft = file.offsetLeft;
+    const fileTop = file.offsetTop;
+    const fileWidth = file.offsetWidth;
+    const fileHeight = file.offsetHeight;
+
+    if (
+      left < fileLeft + fileWidth &&
+      top < fileTop + fileHeight &&
+      left + width > fileLeft &&
+      top + height > fileTop
+    ) {
+      // If the selection intersects with the file, add the 'selected' class to it
+      file.classList.add('selected');
+    } else {
+      // Otherwise, remove the 'selected' class from the file
+      file.classList.remove('selected');
+    }
+  });
+});
+
+document.addEventListener('mouseup', (event) => {
+  if (event.button !== 0) return; // only handle left mouse button
+  if (!selection) return; // nothing to select
+
+  // Remove the selection element from the DOM
+  selection.remove();
+  selection = null; // Clear the selection reference
+});
+function getFilesFromLocalStorage() {
+    // Initialisiere ein leeres Objekt für die Dateien
+    files = {};
+
+    // Durchlaufe alle Einträge im localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+        // Hole den Schlüssel des aktuellen Eintrags
+        let key = localStorage.key(i);
+
+        // Überprüfe, ob der Schlüssel mit "FMOSfolder" beginnt
+        if (key.startsWith("FMOSfolder")) {
+            // Entferne "FMOSfolder" vom Schlüssel und hänge ".folder" an
+            let newKey = key.replace("FMOSfolder", "") + ".folder";
+
+            // Füge das Paar aus neuem Schlüssel und leerem String dem files-Objekt hinzu
+            files[newKey] = '';
+        }
+    }
+}
+
+function saveFileWithCustomName() {
+    const customName = prompt("Folder Name:");
+    if (customName) {
+        const storageKey = `FMOSfolder${customName}`;
+        localStorage.setItem(storageKey, JSON.stringify(files));
+        alert(`Files Saved In ${storageKey}`);
+    }
+}
+
+function openfmosfolder() {
+    // Check if a file is selected and ends with .folder
+    if (selectedFile && selectedFile.endsWith('.folder')) {
+        const folderName = selectedFile.slice(0, -'.folder'.length); // Remove '.folder' from filename
+
+        if (folderName) {
+            const storageKey = `FMOSfolder${folderName}`;
+            const folderContent = localStorage.getItem(storageKey);
+
+            if (folderContent) {
+                try {
+                    files = JSON.parse(folderContent);
+                    // Reset the existing folders
+                    folders = {};
+
+                    // Render files and folders
+                    renderFiles();
+                } catch (error) {
+                    alert(`ERROR: Fehler beim Parsen des Ordnerinhalts - ${error.message}`);
+                }
+            } else {
+                alert(`Kein Ordner mit dem Namen ${folderName} gefunden.`);
+            }
+        }
+	} else {
+        alert('ERROR: Not A Folder.');
+    }
+}
+		getFilesFromLocalStorage();
+        renderFiles();
+    </script>
+</body>
