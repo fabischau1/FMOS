@@ -4022,7 +4022,7 @@ function loadbackground() {
 function checkandshowtos() {
     const TOS = localStorage.getItem('TOS');
     if (TOS === 'true') {
-        //nothing
+        	checkIPAddress();
 	} else {
 		welcomemsg();
     }
@@ -4876,7 +4876,6 @@ if (!localStorage.getItem('settingadmin')) {
 		waitbeforeBootLogin();
         renderFiles();
 		checkandshowtos();
-		checkIPAddress();
 
 
 
