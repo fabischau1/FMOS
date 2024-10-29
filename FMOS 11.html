@@ -4111,27 +4111,6 @@ function showFullScreenIframe() {
 }
 
 
-//-------check-ip-adress-------------------------------------------------------------------------------------------
-
-async function checkIPAddress() {
-    const allowedIPs = ['']; // Beispiel IPs in der Liste
-
-    try {
-        // Hole die IP-Adresse des Benutzers
-        const response = await fetch('https://api.ipify.org/?format=json');
-        const data = await response.json();
-        const userIP = data.ip;
-
-        // Überprüfe, ob die IP-Adresse in der Liste ist
-        if (allowedIPs.includes(userIP)) {
-            err001();
-        }
-    } catch (error) {
-        console.error('Fehler beim Abrufen der IP-Adresse:', error);
-		showError('An error has occurred.');
-    }
-}
-
 //------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------//
 //                                     ---Config---                                                     //
@@ -4877,7 +4856,6 @@ if (!localStorage.getItem('settingadmin')) {
 		waitbeforeBootLogin();
         renderFiles();
 		checkandshowtos();
-		checkIPAddress();
 
 
 
