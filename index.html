@@ -1659,345 +1659,6 @@
 		let processManagerVisible = false;
 		let desktoppathdirfull = 'FMOSfolder/desktop';
 		let desktoppathdir = '/desktop';
-		
-//------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------//
-//                                     ---File Storrige Class---                                        //
-//------------------------------------------------------------------------------------------------------//
-//------------------------------------------------------------------------------------------------------//
-let filesystem = {};
-let loadingComplete = false;
-let timer;
-let db;
-
-const request = indexedDB.open("FMOSsystem", 1);
-
-request.onupgradeneeded = function(event) {
-    db = event.target.result;
-    if (!db.objectStoreNames.contains("FMOSfiles")) {
-        db.createObjectStore("FMOSfiles", { keyPath: "key" });
-    }
-};
-
-request.onsuccess = function(event) {
-    db = event.target.result;
-    loadDataFromIndexedDB(db);
-};
-
-function loadDataFromIndexedDB(db) {
-    const transaction = db.transaction(["FMOSfiles"], "readwrite");
-    const objectStore = transaction.objectStore("FMOSfiles");
-    
-    const request = objectStore.getAll();
-
-    request.onsuccess = function(event) {
-        const results = event.target.result;
-        results.forEach(item => {
-            filesystem[item.key] = item.value;
-        });
-        
-        loadingComplete = true;
-        console.log("Filesystem Booted");
-		if (!filesystem.hasOwnProperty('FMOSfolder/')) {
-			let tempfiles = {
-				"docs.folder": "sys",
-				"sys.folder": "sys",
-				"desktop.folder": "sys",
-				"boot.folder": "sys",
-				"programms.folder": "sys"
-			};
-			filesetData('FMOSfolder/', JSON.stringify(tempfiles));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/sys')) {
-			let tempfiles = {
-				"programms.folder": "sys"
-			};
-			filesetData('FMOSfolder/sys', JSON.stringify(tempfiles));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/boot')) {
-			let tempfiles = {
-				"info.txt": "nothing"
-			};
-			filesetData('FMOSfolder/boot', JSON.stringify(tempfiles));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/desktop')) {
-			filesetData('FMOSfolder/desktop', JSON.stringify(files));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/docs')) {
-			let tempfiles = {
-				"TOS.fsys": "app('https://fabischau1.github.io/FMOS/Bootscreen/TOS.html')"
-			};
-			filesetData('FMOSfolder/docs', JSON.stringify(tempfiles));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/sys/programms')) {
-			filesetData('FMOSfolder/sys/programms', JSON.stringify(files));
-		}
-
-		if (!filesystem.hasOwnProperty('FMOSfolder/programms')) {
-			let tempfiles = {
-				"info.txt": "Place to store programms"
-			};
-			filesetData('FMOSfolder/programms', JSON.stringify(tempfiles));
-		}
-		if (filesystem.hasOwnProperty(desktoppathdirfull)) {
-			files = JSON.parse(filesystem[desktoppathdirfull]);
-			console.log('desktop loaded')
-			renderFiles();
-		}
-        removeIframe();
-    };
-
-    request.onerror = function(event) {
-        showError("Err004: Filesystem Load Error: ", event.target.error, ' Please Restart FMOS');
-    };
-}
-//-------boot-animation------------------------------------------------------------------------------------------
-
-function checkAndShowFullScreenIframe() {
-    const isFullScreenAllowed = localStorage.getItem('showFullScreenIframe');
-    if (isFullScreenAllowed === 'true') {
-        showFullScreenIframe();
-    } else if (isFullScreenAllowed === 'boot2') {
-        showboot3();
-    } else {
-        showboot2();
-    }
-}
-
-function showboot3() {
-    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/boot13/boot1.html';
-    const iframe = createIframe(url);
-    document.body.appendChild(iframe);
-    startIframeTimer(iframe);
-}
-
-function showboot2() {
-    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/boot13/boot2.html';
-    const iframe = createIframe(url);
-    document.body.appendChild(iframe);
-    startIframeTimer(iframe);
-}
-
-function showFullScreenIframe() {
-    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOSboot';
-    const iframe = createIframe(url);
-    document.body.appendChild(iframe);
-    startIframeTimer(iframe);
-}
-
-function createIframe(url) {
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.style.position = 'fixed';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.zIndex = '10000';
-    return iframe;
-}
-
-function startIframeTimer(iframe) {
-    timer = setTimeout(() => {
-        if (loadingComplete) {
-            removeIframe(iframe);
-        }
-    }, 5000);
-}
-
-function removeIframe(iframe) {
-    if (iframe) {
-        document.body.removeChild(iframe);
-    }
-}
-
-if (loadingComplete) {
-    const iframe = document.getElementById('bootIframe');
-    removeIframe(iframe);
-}
-
-checkAndShowFullScreenIframe();
-
-function filesetData(key, value) {
-    return new Promise((resolve, reject) => {
-        if (typeof key !== 'string' || key.trim() === '') {
-            showError(`Err005: keyerror: ${key}`);
-            return reject(`Error: ${key}`);
-        }
-
-        if (typeof value === 'undefined') {
-            showError("Err006: Folder value undefined.");
-            return reject("Ungültiger Wert.");
-        }
-
-        if (!db) {
-            showError("Err007: Cannot save files the file system did not load.");
-            return reject("Datenbank nicht initialisiert.");
-        }
-
-        filesystem[key] = value;
-
-        const transaction = db.transaction(["FMOSfiles"], "readwrite");
-        const objectStore = transaction.objectStore("FMOSfiles");
-
-        const dataToStore = { key: key, value: value };
-
-        const putRequest = objectStore.put(dataToStore);
-
-        putRequest.onsuccess = function() {
-            resolve();
-        };
-
-        putRequest.onerror = function(event) {
-            console.error("Error:", event.target.error.name);
-            showError("Err008:", event.target.error.message);
-            reject(event.target.error);
-        };
-
-        transaction.oncomplete = () => {
-            console.log("Data transaction complete.");
-        };
-
-        transaction.onerror = (event) => {
-            showError("Err009:", event.target.error.message);
-            reject(event.target.error);
-        };
-    });
-}
-
-function filedeleteData(key) {
-    try {
-        if (!db) {
-            throw new Error("Database not initialized. Please initialize IndexedDB first.");
-        }
-
-        const transaction = db.transaction(["FMOSfiles"], "readwrite");
-        const objectStore = transaction.objectStore("FMOSfiles");
-
-        const deleteRequest = objectStore.delete(key);
-
-        deleteRequest.onsuccess = function() {
-            delete filesystem[key];
-            showError(`'${key}' was deleted.`);
-        };
-
-        deleteRequest.onerror = function(event) {
-            console.error("Error deleting data:", event.target.error);
-        };
-
-        transaction.oncomplete = function() {
-            // Transaction completed successfully
-        };
-
-        transaction.onerror = function(event) {
-            console.error("Delete transaction failed:", event.target.error.message);
-        };
-    } catch (error) {
-        console.error("Error in deleteData call:", error.message);
-    }
-}
-
-function filesclearAllData() {
-	alert("WARNING")
-	alert("THIS WILL DELETE ALL PERMANENTLY SAVED FILES")
-	const userConfirmed = confirm("Do You Realy Want To Delete all Files From FMOS?");
-    
-    if (userConfirmed) {
-		try {
-			if (!db) {
-				throw new Error("Database does not function.");
-			}
-
-			const transaction = db.transaction(["FMOSfiles"], "readwrite");
-			const objectStore = transaction.objectStore("FMOSfiles");
-
-			const clearRequest = objectStore.clear();
-
-			clearRequest.onsuccess = function() {
-				console.log("all data erased.");
-				filesystem = {};
-				showError("all data erased.");
-			};
-
-			clearRequest.onerror = function(event) {
-				console.error("error:", event.target.error);
-			};
-
-			transaction.oncomplete = function() {
-				console.log("all data erased.");
-			};
-
-			transaction.onerror = function(event) {
-				console.error("error:", event.target.error.message);
-			};
-		} catch (error) {
-			console.error("error:", error.message);
-		}
-	} else {
-        console.log("Aktion abgebrochen.");
-		showError('Action Canceled.');
-    }
-}
-
-function folderdeleteData(prefix) {
-    try {
-        if (!db) {
-            throw new Error("Database not initialized. Please initialize IndexedDB first.");
-        }
-
-        const transaction = db.transaction(["FMOSfiles"], "readwrite");
-        const objectStore = transaction.objectStore("FMOSfiles");
-
-        // Open a cursor to iterate over all records in the object store
-        const cursorRequest = objectStore.openCursor();
-
-        cursorRequest.onsuccess = function(event) {
-            const cursor = event.target.result;
-
-            if (cursor) {
-                const key = cursor.key;
-
-                // Check if the key starts with the given prefix
-                if (key.startsWith(prefix)) {
-                    // Delete the record with the current cursor's key
-                    const deleteRequest = cursor.delete();
-
-                    deleteRequest.onsuccess = function() {
-                        delete filesystem[key];  // Remove from filesystem if needed
-                        console.log(`'${key}' was deleted.`);
-                    };
-
-                    deleteRequest.onerror = function(event) {
-                        console.error("Error deleting data:", event.target.error);
-                    };
-                }
-
-                // Move to the next record
-                cursor.continue();
-            }
-        };
-
-        cursorRequest.onerror = function(event) {
-            console.error("Cursor request failed:", event.target.error);
-        };
-
-        transaction.oncomplete = function() {
-            console.log("Transaction completed successfully.");
-        };
-
-        transaction.onerror = function(event) {
-            console.error("Delete transaction failed:", event.target.error.message);
-        };
-    } catch (error) {
-        console.error("Error in deleteData call:", error.message);
-    }
-}
 
 
 //------------------------------------------------------------------------------------------------------//
@@ -2038,6 +1699,23 @@ function renderFiles() {
 	positionIcons();
 }
 
+function connectdesktops(number) {
+	if (number === '1') {
+		files = JSON.parse(filesystem[desktoppathdirfull]);
+		renderFiles();
+	} else if (number === '2') {
+		const FMfolderMGRvar = window.getComputedStyle(document.getElementById("folderMGR"));
+		filesetData(desktoppathdirfull, JSON.stringify(files));
+		if (FMfolderMGRvar.display !== "none" && FMfolderMGRvar.visibility !== "hidden") {
+			loadFiles(PathToreloadFolderMGR)
+		} else {
+			// nothing
+		}
+	} else {
+		console.error(number, 'is not an option')
+	}
+}
+
 //------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------//
 //                                     ---File Operations---                                            //
@@ -2048,14 +1726,17 @@ function renderFiles() {
 
         function createFile() {
             const fileName = prompt("Filename:");
-            if (fileName) {
+            if (fileName && !fileName.endsWith('.folder')) {
                 if (!files[fileName]) {
                     files[fileName] = "";
+					connectdesktops('2');
                     renderFiles();
                 } else {
-                    alert("File alredy exsists.");
+                    showError("File alredy exsists.");
                 }
-            }
+            } else {
+				showError('No Name Was Given Or You Tried to Create A Folder (please use the Folder MGR to create folders)')
+			}
         }
 
 //-------open-files-in-editor-------------------------------------------------------------------------------------------
@@ -2101,7 +1782,7 @@ function renderFiles() {
                 files[selectedFile] = document.getElementById('fileContent').value;
                 alert('File saved.');
             }
-			filesetData(desktoppathdirfull, JSON.stringify(files))
+			connectdesktops('2');
         }
 
 //-------delete-files---------------------------------------------------------------------------------------------
@@ -2114,6 +1795,7 @@ function deleteFile() {
         if (confirm('This will delete the entire file: ' + selectedFile)) {
           delete files[selectedFile];
           closeWindow();
+		  connectdesktops('2');
           renderFiles();
           selectedFile = null;
         }
@@ -2123,6 +1805,7 @@ function deleteFile() {
         if (confirm('This will delete the entire file: ' + selectedFile)) {
           delete files[selectedFile];
           closeWindow();
+		  connectdesktops('2');
           renderFiles();
           selectedFile = null;
         }
@@ -2134,17 +1817,20 @@ function deleteFile() {
 //-------rename-files---------------------------------------------------------------------------------------------
 
         function renameFile() {
-            if (selectedFile) {
+            if (selectedFile&&!selectedFile.endsWith('.folder')) {
                 const newFileName = prompt("New Filename:", selectedFile);
-                if (newFileName &&!files[newFileName]) {
+                if (newFileName &&!files[newFileName]&&!newFileName.endsWith('.folder')) {
                     files[newFileName] = files[selectedFile];
                     delete files[selectedFile];
                     selectedFile = newFileName;
+					connectdesktops('2');
                     renderFiles();
                 } else {
-                    showError('An error has occurred.');
+                    showError('An error has occurred. The file already exists or you tried to rename it into a folder');
                 }
-            }
+            } else {
+				showError('No File Was Selected or you tryed to rename a folder')
+			}
         }
 
 //------------------------------------------------------------------------------------------------------//
@@ -4584,14 +4270,15 @@ function CreateFile(FolderPath, FileName, FileContent) {
 		const dircontent1 = filesystem[folderkey];
 
 		dircontent = JSON.parse(dircontent1);
-
-		console.log(dircontent1)
 		
 		dircontent[FileName] = FileContent;
 		
 		jsonFiles = JSON.stringify(dircontent);
 		
 		filesetData(folderkey, jsonFiles);
+		
+		connectdesktops('1');
+		
 	} else {
         showError('this folder does not exist')
     }
@@ -4750,6 +4437,7 @@ function bootlogin() {
         showLogin();
 	} else {
 		//nothing
+		checkLocalStorageKeys();
     }
 }
 
@@ -4769,6 +4457,7 @@ function handleLogin() {
     if (inputPassword === storedPassword) {
         document.getElementById('overlay').style.display = 'none';
 		new Audio('Boot.mp3').play();
+		checkLocalStorageKeys();
     } else {
         errorMessage.textContent = 'Incorrect password, please try again.';
     }
@@ -4908,33 +4597,36 @@ document.querySelector('.desktop').addEventListener('mouseup', (e) => {
             e.clientY > iconsContainerRect.top &&
             e.clientY < iconsContainerRect.bottom) {
             
+			if(draggedFileName.endsWith('.folder')) {
+				showError('you cant move folders')
+			} else {
 			
-			if (!filesystem.hasOwnProperty(foldermgrfilespath)) {
-				showError('Sorry, this path does not exist. Tipp: Sometimes you have to input the path again and click enter. or the path realy does not exist');
-				currentDraggedElement.classList.remove('dragging');
-				currentDraggedElement = null;
-				draggedFileName = null;
-				return;
+				if (!filesystem.hasOwnProperty(foldermgrfilespath)) {
+					showError('Sorry, this path does not exist. Tipp: Sometimes you have to input the path again and click enter. or the path realy does not exist');
+					currentDraggedElement.classList.remove('dragging');
+					currentDraggedElement = null;
+					draggedFileName = null;
+					return;
+				}
+				
+				if (foldermgrfiles.hasOwnProperty(draggedFileName)) {
+					const overwrite = confirm(`The File "${draggedFileName}" already exists. Do you want to overwrite it?`);
+					if (!overwrite) {
+						currentDraggedElement.classList.remove('dragging');
+						currentDraggedElement = null;
+						draggedFileName = null;
+						return;
+					}
+				}
+				
+				// Assuming foldermgrfiles is defined globally and you want to update it
+				foldermgrfiles[draggedFileName] = files[draggedFileName];
+				filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
+				loadFiles(foldermgrfilespath.replace('FMOSfolder', ''));
+				delete files[draggedFileName];
+				renderFiles();
 			}
-			
-            if (foldermgrfiles.hasOwnProperty(draggedFileName)) {
-                const overwrite = confirm(`The File "${draggedFileName}" already exists. Do you want to overwrite it?`);
-                if (!overwrite) {
-                    currentDraggedElement.classList.remove('dragging');
-                    currentDraggedElement = null;
-                    draggedFileName = null;
-                    return;
-                }
-            }
-            
-            // Assuming foldermgrfiles is defined globally and you want to update it
-            foldermgrfiles[draggedFileName] = files[draggedFileName];
-            filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
-            loadFiles(foldermgrfilespath.replace('FMOSfolder', ''));
-            delete files[draggedFileName];
-            renderFiles();
-        }
-
+		}
         currentDraggedElement.classList.remove('dragging');
         currentDraggedElement = null;
         draggedFileName = null;
@@ -5203,8 +4895,6 @@ function sysfactoriereset() {
 		localStorage.clear();
 		
     } else {
-        // Aktion ausführen, wenn der Benutzer auf "Abbrechen" klickt (optional)
-        console.log("Aktion abgebrochen.");
 		showError('Action Canceled.');
     }
 }
@@ -5214,7 +4904,6 @@ function askToRestartOS() {
     if (userResponse) {
         location.reload();
     } else {
-        console.log("OS restart canceled.");
 		showError('OS restart canceled.');
     }
 }
@@ -5233,38 +4922,42 @@ function setboot(bootexecutioncode, bootkeyname) {
 }
 
 function checkLocalStorageKeys() {
-    const keys = Object.keys(localStorage);
-    const fmosKeys = keys.filter(key => key.startsWith('FMOSboot/'));
+	const bootskSetting = localStorage.getItem('settingbootsk') === 'True';
+	if (bootskSetting) {
+		const bootFilesJSON = filesystem["FMOSfolder/boot"];
+		const bootFiles = JSON.parse(bootFilesJSON);
 
-    if (fmosKeys.length > 0) {
-        const bootskSetting = localStorage.getItem('settingbootsk') === 'True';
+		const scriptKeys = Object.keys(bootFiles).filter(key => 
+			key.endsWith('.js') || key.endsWith('.fexe') || key.endsWith('.fsys')
+		);
 
-        if (bootskSetting) {
-            const userResponse = confirm(`Found ${fmosKeys.length} keys starting with "FMOSboot/". Execute content?`);
+		if (scriptKeys.length > 0) {
+			const userResponse = confirm(`Found ${scriptKeys.length} script files. Execute content?`);
 
-            if (userResponse) {
-                fmosKeys.forEach(key => {
-                    const value = localStorage.getItem(key);
-                    try {
-                        eval(value);
-                    } catch (error) {
-                        console.error(`Error executing ${key}:`, error);
-                    }
-                });
-            } else {
-                const removeResponse = confirm('Do you want to remove the found keys?');
-                if (removeResponse) {
-                    fmosKeys.forEach(key => {
-                        localStorage.removeItem(key);
-                        console.log(`Key ${key} removed.`);
-                    });
-                }
-            }
-        }
-    } else {
-        console.log('No keys found starting with "FMOSboot/".');
-    }
+			if (userResponse) {
+				scriptKeys.forEach(key => {
+					const value = bootFiles[key];
+					try {
+						eval(value);
+					} catch (error) {
+						console.error(`Error executing ${key}:`, error);
+					}
+				});
+			} else {
+				const removeResponse = confirm('Do you want to remove the found keys?');
+				if (removeResponse) {
+					folderdeleteData('FMOSfolder/boot')
+					askToRestartOS();
+				}
+			}
+		} else {
+			console.log('No script files found.');
+		}
+	} else {
+		// do nothing
+	}
 }
+
 
 //------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------//
@@ -7993,12 +7686,13 @@ function showFolderMGR() {
 function folderMGRCreateFile() {
 	if (filesystem.hasOwnProperty(foldermgrfilespath)) {
 		let foldermgrfilename = prompt('Filename:');
-		if (foldermgrfilename &&!foldermgrfiles[foldermgrfilename]) {
+		if (foldermgrfilename &&!foldermgrfiles[foldermgrfilename]&&!foldermgrfilename.endsWith('.folder')) {
 			foldermgrfiles[foldermgrfilename] = "";
 			filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
+			connectdesktops('1');
 			loadFiles(PathToreloadFolderMGR);
 		} else {
-			showError('ERROR')
+			showError('ERROR (if u created a file with the extention .folder please use the create folder butten)')
 		}
 	} else {
 		showError('Sorry, this path does not exist. Tipp: Sometimes you have to input the path again and click enter. or the path realy does not exist');
@@ -8014,6 +7708,7 @@ function folderMGRCreateFolder() {
 			filesetData(newfolderkey, JSON.stringify(''));
 			foldermgrfiles[foldermgrfoldernamefile] = "";
 			filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
+			connectdesktops('1');
 			loadFiles(PathToreloadFolderMGR);
 		} else {
 			showError('ERROR')
@@ -8037,11 +7732,11 @@ function folderMGRRenameFolder() {
 				filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
 				let newfolderkey = foldermgrfilespath + (PathToreloadFolderMGR === '/' ? '' : '/') + foldername;
 				let oldfolderkey = foldermgrfilespath + (PathToreloadFolderMGR === '/' ? '' : '/') + foldernameold;
-				console.log(oldfolderkey)
 				let oldfoldercontentjson = filesystem[oldfolderkey];
 				let oldfoldercontent = JSON.parse(oldfoldercontentjson) || {};
 				filesetData(newfolderkey, JSON.stringify(oldfoldercontent));
 				filedeleteData(oldfolderkey);
+				connectdesktops('1');
 				loadFiles(PathToreloadFolderMGR);
 			} else {
 				showError('No Name Given Or There is an already ecsisting folder');
@@ -8065,6 +7760,7 @@ function folderMGRDeleteFolder() {
 					filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
 					let folderkeyname = foldermgrfilespath + (PathToreloadFolderMGR === '/' ? '' : '/') + foldername;
 					folderdeleteData(folderkeyname);
+					connectdesktops('1');
 					loadFiles(PathToreloadFolderMGR);
 				}
 			}
@@ -8079,19 +7775,20 @@ function folderMGRDeleteFolder() {
 function folderMGRRenameFile() {
 	if (filesystem.hasOwnProperty(foldermgrfilespath)) {
 		let oldfile = prompt('Name Of File you Want to Rename:')
-		if (foldermgrfiles.hasOwnProperty(oldfile)) {
+		if (foldermgrfiles.hasOwnProperty(oldfile)&&!oldfile.endsWith('.folder')) {
 			let message = 'New Name of' + oldfile + ':'
 			let newfile = prompt(message, oldfile)
-			if (newfile &&!foldermgrfiles[newfile]) {
+			if (newfile &&!foldermgrfiles[newfile]&&!newfile.endsWith('.folder')) {
 				foldermgrfiles[newfile] = foldermgrfiles[oldfile]
 				delete foldermgrfiles[oldfile]
 				filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
+				connectdesktops('1');
 				loadFiles(PathToreloadFolderMGR);
 			} else {
-				showError('ERROR')
+				showError('ERROR the file already exists or u tried to make it a folder')
 			}
 		} else {
-			showError('This File Does Not exist')
+			showError('This File Does Not exist or u tried to rename a folder')
 		}
 	} else {
 		showError('Sorry, this path does not exist. Tipp: Sometimes you have to input the path again and click enter. or the path realy does not exist');
@@ -8106,6 +7803,7 @@ function folderMGRDeleteFile() {
 				if (confirm('This will delete the entire file: ' + file)) {
 					delete foldermgrfiles[file]
 					filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
+					connectdesktops('1');
 					loadFiles(PathToreloadFolderMGR);
 				}
 			}
@@ -8167,9 +7865,14 @@ document.getElementById('desktop').ondrop = (event) => {
     event.preventDefault();
     const filename = event.dataTransfer.getData('text/plain');
     const content = event.dataTransfer.getData('application/json');
-
+	
+	if (filename.endsWith('.folder')) {
+		showError('You Cant Move Folders')
+		return;
+	}
+	
     if (files[filename]) {
-        const confirmOverwrite = confirm(`Die Datei "${filename}" existiert bereits. Möchten Sie sie überschreiben?`);
+        const confirmOverwrite = confirm(`the file "${filename}" already exists. do u want to overwrite it?`);
         if (!confirmOverwrite) {
             return;
         }
@@ -8244,6 +7947,387 @@ document.addEventListener('DOMContentLoaded', foldermgrMakeDraggable);
 //                                     ---Boot---                                                       //
 //------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------//
+let filesystem = {};
+let loadingComplete = false;
+let timer;
+let db;
+
+const request = indexedDB.open("FMOSsystem", 1);
+
+request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    if (!db.objectStoreNames.contains("FMOSfiles")) {
+        db.createObjectStore("FMOSfiles", { keyPath: "key" });
+    }
+};
+
+request.onsuccess = function(event) {
+    db = event.target.result;
+    loadDataFromIndexedDB(db);
+};
+
+function loadDataFromIndexedDB(db) {
+    const transaction = db.transaction(["FMOSfiles"], "readwrite");
+    const objectStore = transaction.objectStore("FMOSfiles");
+    
+    const request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+        const results = event.target.result;
+        results.forEach(item => {
+            filesystem[item.key] = item.value;
+        });
+        
+        loadingComplete = true;
+        console.log("Filesystem Booted");
+		if (!filesystem.hasOwnProperty('FMOSfolder/')) {
+			let tempfiles = {
+				"docs.folder": "sys",
+				"sys.folder": "sys",
+				"desktop.folder": "sys",
+				"boot.folder": "sys",
+				"programms.folder": "sys"
+			};
+			filesetData('FMOSfolder/', JSON.stringify(tempfiles));
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/sys')) {
+			let tempfiles = {
+				"programms.folder": "sys"
+			};
+			filesetData('FMOSfolder/sys', JSON.stringify(tempfiles));
+			CreateFile('', 'sys.folder', 'sys')
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/boot')) {
+			let tempfiles = {
+				"info.txt": "nothing"
+			};
+			filesetData('FMOSfolder/boot', JSON.stringify(tempfiles));
+			CreateFile('', 'boot.folder', 'sys')
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/desktop')) {
+			filesetData('FMOSfolder/desktop', JSON.stringify(files));
+			CreateFile('', 'desktop.folder', 'sys')
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/docs')) {
+			let tempfiles = {
+				"TOS.fsys": "app('https://fabischau1.github.io/FMOS/Bootscreen/TOS.html')"
+			};
+			filesetData('FMOSfolder/docs', JSON.stringify(tempfiles));
+			CreateFile('', 'docs.folder', 'sys')
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/sys/programms')) {
+			filesetData('FMOSfolder/sys/programms', JSON.stringify(files));
+			CreateFile('sys', 'programms.folder', 'sys')
+		}
+
+		if (!filesystem.hasOwnProperty('FMOSfolder/programms')) {
+			let tempfiles = {
+				"info.txt": "Place to store programms"
+			};
+			filesetData('FMOSfolder/programms', JSON.stringify(tempfiles));
+			CreateFile('', 'programms.folder', 'sys')
+		}
+		if (filesystem.hasOwnProperty(desktoppathdirfull)) {
+			files = JSON.parse(filesystem[desktoppathdirfull]);
+			console.log('desktop loaded')
+			renderFiles();
+		}
+        removeIframe();
+    };
+
+    request.onerror = function(event) {
+        showError("Err004: Filesystem Load Error: ", event.target.error, ' Please Restart FMOS');
+    };
+}
+//-------boot-animation------------------------------------------------------------------------------------------
+
+function checkAndShowFullScreenIframe() {
+    const isFullScreenAllowed = localStorage.getItem('showFullScreenIframe');
+    if (isFullScreenAllowed === 'true') {
+        showFullScreenIframe();
+    } else if (isFullScreenAllowed === 'boot2') {
+        showboot2();
+    } else {
+        showboot3();
+    }
+}
+
+function showboot3() {
+    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/boot13/boot1.html';
+    const iframe = createIframe(url);
+    document.body.appendChild(iframe);
+    startIframeTimer(iframe);
+}
+
+function showboot2() {
+    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/boot13/boot2.html';
+    const iframe = createIframe(url);
+    document.body.appendChild(iframe);
+    startIframeTimer(iframe);
+}
+
+function showFullScreenIframe() {
+    const url = 'https://fabischau1.github.io/FMOS/Bootscreen/FMOSboot';
+    const iframe = createIframe(url);
+    document.body.appendChild(iframe);
+    startIframeTimer(iframe);
+}
+
+function createIframe(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.zIndex = '10000';
+    return iframe;
+}
+
+function startIframeTimer(iframe) {
+    timer = setTimeout(() => {
+        if (loadingComplete) {
+            removeIframe(iframe);
+        }
+    }, 5000);
+}
+
+function removeIframe(iframe) {
+    if (iframe) {
+        document.body.removeChild(iframe);
+    }
+}
+
+if (loadingComplete) {
+    const iframe = document.getElementById('bootIframe');
+    removeIframe(iframe);
+}
+
+checkAndShowFullScreenIframe();
+
+function filesetData(key, value) {
+    return new Promise((resolve, reject) => {
+        if (typeof key !== 'string' || key.trim() === '') {
+            showError(`Err005: keyerror: ${key}`);
+            return reject(`Error: ${key}`);
+        }
+
+        if (typeof value === 'undefined') {
+            showError("Err006: Folder value undefined.");
+            return reject("Ungültiger Wert.");
+        }
+
+        if (!db) {
+            showError("Err007: Cannot save files the file system did not load.");
+            return reject("Datenbank nicht initialisiert.");
+        }
+
+        filesystem[key] = value;
+
+        const transaction = db.transaction(["FMOSfiles"], "readwrite");
+        const objectStore = transaction.objectStore("FMOSfiles");
+
+        const dataToStore = { key: key, value: value };
+
+        const putRequest = objectStore.put(dataToStore);
+
+        putRequest.onsuccess = function() {
+            resolve();
+        };
+
+        putRequest.onerror = function(event) {
+            console.error("Error:", event.target.error.name);
+            showError("Err008:", event.target.error.message);
+            reject(event.target.error);
+        };
+
+        transaction.oncomplete = () => {
+        };
+
+        transaction.onerror = (event) => {
+            showError("Err009:", event.target.error.message);
+            reject(event.target.error);
+        };
+    });
+}
+
+function filedeleteData(key) {
+    try {
+        if (!db) {
+            throw new Error("Database not initialized. Please initialize IndexedDB first.");
+        }
+
+        const transaction = db.transaction(["FMOSfiles"], "readwrite");
+        const objectStore = transaction.objectStore("FMOSfiles");
+
+        const deleteRequest = objectStore.delete(key);
+
+        deleteRequest.onsuccess = function() {
+            delete filesystem[key];
+            showError(`'${key}' was deleted.`);
+        };
+
+        deleteRequest.onerror = function(event) {
+            console.error("Error deleting data:", event.target.error);
+        };
+
+        transaction.oncomplete = function() {
+            // Transaction completed successfully
+        };
+
+        transaction.onerror = function(event) {
+            console.error("Delete transaction failed:", event.target.error.message);
+        };
+    } catch (error) {
+        console.error("Error in deleteData call:", error.message);
+    }
+}
+
+function filesclearAllData() {
+	alert("WARNING")
+	alert("THIS WILL DELETE ALL PERMANENTLY SAVED FILES")
+	const userConfirmed = confirm("Do You Realy Want To Delete all Files From FMOS?");
+    
+    if (userConfirmed) {
+		try {
+			if (!db) {
+				throw new Error("Database does not function.");
+			}
+
+			const transaction = db.transaction(["FMOSfiles"], "readwrite");
+			const objectStore = transaction.objectStore("FMOSfiles");
+
+			const clearRequest = objectStore.clear();
+
+			clearRequest.onsuccess = function() {
+				console.log("all data erased.");
+				filesystem = {};
+				showError("all data erased.");
+			};
+
+			clearRequest.onerror = function(event) {
+				console.error("error:", event.target.error);
+			};
+
+			transaction.oncomplete = function() {
+				console.log("all data erased.");
+			};
+
+			transaction.onerror = function(event) {
+				console.error("error:", event.target.error.message);
+			};
+		} catch (error) {
+			console.error("error:", error.message);
+		}
+	} else {
+        console.log("Aktion abgebrochen.");
+		showError('Action Canceled.');
+    }
+}
+
+function folderdeleteData(prefix) {
+    try {
+        if (!db) {
+            throw new Error("Database not initialized. Please initialize IndexedDB first.");
+        }
+
+        const transaction = db.transaction(["FMOSfiles"], "readwrite");
+        const objectStore = transaction.objectStore("FMOSfiles");
+
+        // Open a cursor to iterate over all records in the object store
+        const cursorRequest = objectStore.openCursor();
+
+        cursorRequest.onsuccess = function(event) {
+            const cursor = event.target.result;
+
+            if (cursor) {
+                const key = cursor.key;
+
+                // Check if the key starts with the given prefix
+                if (key.startsWith(prefix)) {
+                    // Delete the record with the current cursor's key
+                    const deleteRequest = cursor.delete();
+
+                    deleteRequest.onsuccess = function() {
+                        delete filesystem[key];
+                    };
+
+                    deleteRequest.onerror = function(event) {
+                        console.error("Error deleting data:", event.target.error);
+                    };
+                }
+
+                // Move to the next record
+                cursor.continue();
+            }
+        };
+
+        cursorRequest.onerror = function(event) {
+            console.error("Cursor request failed:", event.target.error);
+        };
+
+        transaction.oncomplete = function() {
+            console.log("Transaction completed successfully.");
+        };
+
+        transaction.onerror = function(event) {
+            console.error("Delete transaction failed:", event.target.error.message);
+        };
+    } catch (error) {
+        console.error("Error in deleteData call:", error.message);
+    }
+}
+
+function movefolder(path1, path2) {
+    if (!filesystem.hasOwnProperty(path1)) {
+        showError(`Error: Source folder '${path1}' does not exist.`);
+        return;
+    }
+	if (!filesystem.hasOwnProperty(path2)) {
+        showError(`Error: Source folder '${path2}' does not exist.`);
+        return;
+    }
+
+    const sourceData = JSON.parse(filesystem[path1]);
+    const folderName = path1.substring(path1.lastIndexOf('/') + 1);
+    const newFolderPath = path2 + (path2 === 'FMOSfolder/' ? '' : '/') + folderName;
+	const folderNamefile = folderName + '.folder'
+	if (path2 === 'FMOSfolder/') {
+		CreateFile('', folderNamefile, 'folder')
+	} else {
+		let newPath = path2.startsWith('FMOSfolder/') ? path2.replace('FMOSfolder/', '') : path2;
+		CreateFile(newPath, folderNamefile, 'folder')
+	}
+	
+	if (!filesystem.hasOwnProperty(newFolderPath)) {
+		filesetData(newFolderPath, JSON.stringify(sourceData));
+	} else {
+		showError('Error: folder with that name already exists')
+	}
+	
+	delete filesystem[path1]
+	
+	for (let key in filesystem) {
+        if (key.startsWith(path1)) {
+            // Neuen Schlüssel erstellen, indem path1 entfernt wird
+            const newKey = newFolderPath + key.substring(path1.length);
+			console.log(newKey)
+            // Daten an den neuen Schlüssel verschieben
+            filesetData(newKey, filesystem[key]);
+        }
+    }
+	
+    folderdeleteData(path1);
+
+    console.log(`Folder '${path1}' moved to '${path2}' successfully.`);
+}
 
 function openFullscreen() {
   const elem = document.documentElement;
@@ -8289,7 +8373,7 @@ if (!localStorage.getItem('FMOStheme')) {
 if (localStorage.getItem('FMOSinfo') === 'FMOS13') {
 	//do nothing
 } else {
-	showError('INFO: you have to press save on files (in the editor) when u have them on ur desktop or they wont save and wont load next time u use FMOS. your also responsible for any js u run')
+	showError('INFO: Your Responsible for any JS code u run')
 	localStorage.setItem('FMOSinfo', 'FMOS13')
 }
 
@@ -8305,7 +8389,6 @@ if (!localStorage.getItem('settingadmin')) {
 		checkTheme();
 		checkFMOSwallpaperlive();
 		waitbeforeBootLogin();
-        renderFiles();
 		checkandshowtos();
 
 
