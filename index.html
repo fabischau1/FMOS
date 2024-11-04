@@ -3528,6 +3528,15 @@ function welcomemsg() {
   }
 }
 
+function checkTOS() {
+    if (confirm("Do you accept the Terms of Service?")) {
+        document.querySelector('.windowifc').remove();
+        localStorage.setItem('TOS', 'true');
+    } else {
+        location.reload();
+    }
+}
+
 //-------chat-box-1-----------------------------------------------------------------------------------------
 
 function Chatbox1() {
@@ -4625,6 +4634,7 @@ document.querySelector('.desktop').addEventListener('mouseup', (e) => {
 				loadFiles(foldermgrfilespath.replace('FMOSfolder', ''));
 				delete files[draggedFileName];
 				renderFiles();
+				connectdesktops('2')
 			}
 		}
         currentDraggedElement.classList.remove('dragging');
@@ -4632,6 +4642,7 @@ document.querySelector('.desktop').addEventListener('mouseup', (e) => {
         draggedFileName = null;
     }
 });
+
 
         function positionIcons() {
             const icons = document.querySelectorAll('.icon');
@@ -4893,7 +4904,7 @@ function sysfactoriereset() {
 		localStorage.removeItem('files');
 		deleteAllFMOSdesktopItems();
 		localStorage.clear();
-		
+		filesclearAllData();
     } else {
 		showError('Action Canceled.');
     }
@@ -7883,6 +7894,7 @@ document.getElementById('desktop').ondrop = (event) => {
     filesetData(foldermgrfilespath, JSON.stringify(foldermgrfiles));
     loadFiles(PathToreloadFolderMGR);
     renderFiles();
+	connectdesktops('2');
 };
 
 document.getElementById('desktop').ondragover = (event) => {
@@ -7978,8 +7990,15 @@ function loadDataFromIndexedDB(db) {
             filesystem[item.key] = item.value;
         });
         
-        loadingComplete = true;
         console.log("Filesystem Booted");
+        loadingComplete = true;
+		if (filesystem.hasOwnProperty(desktoppathdirfull)) {
+			files = JSON.parse(filesystem[desktoppathdirfull]);
+			console.log('desktop loaded')
+			renderFiles();
+		} else {
+			renderFiles();
+		}
 		if (!filesystem.hasOwnProperty('FMOSfolder/')) {
 			let tempfiles = {
 				"docs.folder": "sys",
@@ -8031,11 +8050,6 @@ function loadDataFromIndexedDB(db) {
 			};
 			filesetData('FMOSfolder/programms', JSON.stringify(tempfiles));
 			CreateFile('', 'programms.folder', 'sys')
-		}
-		if (filesystem.hasOwnProperty(desktoppathdirfull)) {
-			files = JSON.parse(filesystem[desktoppathdirfull]);
-			console.log('desktop loaded')
-			renderFiles();
 		}
         removeIframe();
     };
