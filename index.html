@@ -4300,102 +4300,211 @@ function CreateFile(FolderPath, FileName, FileContent) {
 // usage: app('url')
 
 function app(url) {
-  const uniqueId = generateUniqueId();
-  const iframeWindow = document.createElement('div');
-  iframeWindow.id = uniqueId;
-  iframeWindow.className = 'windowifra';
-  
-  iframeWindow.innerHTML = `
-    <div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <span>App</span>
-      <div style="display: flex; gap: 5px;">
-        <button onclick="toggleFullscreenIframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
-        <button onclick="closeiframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
-      </div>
-    </div>
-    <div class="window-body">
-      <iframe id="iframe" frameborder="0" width="100%" height="550px" src="${url}"></iframe>
-      <div class="resize-handle"></div>
-    </div>
-  `;
-  
-  document.body.appendChild(iframeWindow);
-  iframeWindow.style.top = '50px';
-  iframeWindow.style.left = '50px';
-  iframeWindow.style.display = 'block';
+  const usersecureconfirm = confirm('this will open an iframe (wich can possibly be dangerous if its an unsafe webside) if u want to open this iframe click ok (on ur own risk). only use this on trusted websides in the iframe!!')
+  if (usersecureconfirm) {
+	  const uniqueId = generateUniqueId();
+	  const iframeWindow = document.createElement('div');
+	  iframeWindow.id = uniqueId;
+	  iframeWindow.className = 'windowifra';
+	  
+	  iframeWindow.innerHTML = `
+		<div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+		  <span>App</span>
+		  <div style="display: flex; gap: 5px;">
+			<button onclick="toggleFullscreenIframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
+			<button onclick="closeiframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
+		  </div>
+		</div>
+		<div class="window-body">
+		  <iframe id="iframe" frameborder="0" width="100%" height="550px" src="${url}" sandbox="allow-top-navigation-by-user-activation allow-modals allow-popups allow-same-origin allow-scripts allow-forms allow-pointer-lock"></iframe>
+		  <div class="resize-handle"></div>
+		</div>
+	  `;
+	  
+	  document.body.appendChild(iframeWindow);
+	  iframeWindow.style.top = '50px';
+	  iframeWindow.style.left = '50px';
+	  iframeWindow.style.display = 'block';
 
-  // Add animation when opening the window
-  iframeWindow.classList.add('animate-in');
+	  // Add animation when opening the window
+	  iframeWindow.classList.add('animate-in');
 
-  // Add drag functionality
-  let isDragging = false;
-  let offsetX, offsetY;
+	  // Add drag functionality
+	  let isDragging = false;
+	  let offsetX, offsetY;
 
-  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - iframeWindow.offsetLeft;
-    offsetY = e.clientY - iframeWindow.offsetTop;
+	  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+		isDragging = true;
+		offsetX = e.clientX - iframeWindow.offsetLeft;
+		offsetY = e.clientY - iframeWindow.offsetTop;
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  });
+		document.addEventListener('mousemove', handleMouseMove);
+		document.addEventListener('mouseup', handleMouseUp);
+	  });
 
-  function handleMouseMove(e) {
-    if (isDragging) {
-      const newX = e.clientX - offsetX;
-      const newY = e.clientY - offsetY;
+	  function handleMouseMove(e) {
+		if (isDragging) {
+		  const newX = e.clientX - offsetX;
+		  const newY = e.clientY - offsetY;
 
-      iframeWindow.style.top = `${newY}px`;
-      iframeWindow.style.left = `${newX}px`;
-    }
-  }
+		  iframeWindow.style.top = `${newY}px`;
+		  iframeWindow.style.left = `${newX}px`;
+		}
+	  }
 
-  function handleMouseUp() {
-    isDragging = false;
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  }
+	  function handleMouseUp() {
+		isDragging = false;
+		document.removeEventListener('mousemove', handleMouseMove);
+		document.removeEventListener('mouseup', handleMouseUp);
+	  }
 
-  // Add resize functionality
-  let isResizing = false;
-  let startX, startY, startWidth, startHeight;
+	  // Add resize functionality
+	  let isResizing = false;
+	  let startX, startY, startWidth, startHeight;
 
-  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
-    isResizing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startWidth = iframeWindow.offsetWidth;
-    startHeight = iframeWindow.offsetHeight;
+	  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+		isResizing = true;
+		startX = e.clientX;
+		startY = e.clientY;
+		startWidth = iframeWindow.offsetWidth;
+		startHeight = iframeWindow.offsetHeight;
 
-    document.addEventListener('mousemove', handleResizeMove);
-    document.addEventListener('mouseup', handleResizeUp);
-  });
+		document.addEventListener('mousemove', handleResizeMove);
+		document.addEventListener('mouseup', handleResizeUp);
+	  });
 
-  function handleResizeMove(e) {
-    if (isResizing) {
-      const newWidth = startWidth + (e.clientX - startX);
-      const newHeight = startHeight + (e.clientY - startY);
+	  function handleResizeMove(e) {
+		if (isResizing) {
+		  const newWidth = startWidth + (e.clientX - startX);
+		  const newHeight = startHeight + (e.clientY - startY);
 
-      iframeWindow.style.width = `${newWidth}px`;
-      iframeWindow.style.height = `${newHeight}px`;
+		  iframeWindow.style.width = `${newWidth}px`;
+		  iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
-      const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
-    }
-  }
+		  // Update iframe width and height
+		  const iframe = iframeWindow.querySelector('#iframe');
+		  iframe.style.width = `${newWidth}px`;
+		  iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+		}
+	  }
 
-  function handleResizeUp() {
-    isResizing = false;
-    document.removeEventListener('mousemove', handleResizeMove);
-    document.removeEventListener('mouseup', handleResizeUp);
-  }	
+	  function handleResizeUp() {
+		isResizing = false;
+		document.removeEventListener('mousemove', handleResizeMove);
+		document.removeEventListener('mouseup', handleResizeUp);
+	  }	
 
-  openedWindows.push({
-    type: 'App',
-    id: uniqueId
-  });
+	  openedWindows.push({
+		type: 'App',
+		id: uniqueId
+	  });
+	} else {
+		showError('You canceled the iframe')
+	}
+}
+
+function sandboxapp(url) {
+  const usersecureconfirm = confirm('this will open an iframe (wich can possibly be dangerous if its an unsafe webside) if u want to open this iframe click ok (on ur own risk). only use this on trusted websides in the iframe!!')
+  if (usersecureconfirm) {
+	  const uniqueId = generateUniqueId();
+	  const iframeWindow = document.createElement('div');
+	  iframeWindow.id = uniqueId;
+	  iframeWindow.className = 'windowifra';
+	  
+	  iframeWindow.innerHTML = `
+		<div class="window-header" style="display: flex; justify-content: space-between; align-items: center;">
+		  <span>App</span>
+		  <div style="display: flex; gap: 5px;">
+			<button onclick="toggleFullscreenIframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">🗖</button>
+			<button onclick="closeiframe('${uniqueId}')" style="background:none; border:none; color: #ff5c5c; font-size: 16px;" class="redlightcolor">X</button>
+		  </div>
+		</div>
+		<div class="window-body">
+		  <iframe id="iframe" frameborder="0" width="100%" height="550px" src="${url}" sandbox="allow-top-navigation-by-user-activation allow-scripts allow-forms"></iframe>
+		  <div class="resize-handle"></div>
+		</div>
+	  `;
+	  
+	  document.body.appendChild(iframeWindow);
+	  iframeWindow.style.top = '50px';
+	  iframeWindow.style.left = '50px';
+	  iframeWindow.style.display = 'block';
+
+	  // Add animation when opening the window
+	  iframeWindow.classList.add('animate-in');
+
+	  // Add drag functionality
+	  let isDragging = false;
+	  let offsetX, offsetY;
+
+	  iframeWindow.querySelector('.window-header').addEventListener('mousedown', (e) => {
+		isDragging = true;
+		offsetX = e.clientX - iframeWindow.offsetLeft;
+		offsetY = e.clientY - iframeWindow.offsetTop;
+
+		document.addEventListener('mousemove', handleMouseMove);
+		document.addEventListener('mouseup', handleMouseUp);
+	  });
+
+	  function handleMouseMove(e) {
+		if (isDragging) {
+		  const newX = e.clientX - offsetX;
+		  const newY = e.clientY - offsetY;
+
+		  iframeWindow.style.top = `${newY}px`;
+		  iframeWindow.style.left = `${newX}px`;
+		}
+	  }
+
+	  function handleMouseUp() {
+		isDragging = false;
+		document.removeEventListener('mousemove', handleMouseMove);
+		document.removeEventListener('mouseup', handleMouseUp);
+	  }
+
+	  // Add resize functionality
+	  let isResizing = false;
+	  let startX, startY, startWidth, startHeight;
+
+	  iframeWindow.querySelector('.resize-handle').addEventListener('mousedown', (e) => {
+		isResizing = true;
+		startX = e.clientX;
+		startY = e.clientY;
+		startWidth = iframeWindow.offsetWidth;
+		startHeight = iframeWindow.offsetHeight;
+
+		document.addEventListener('mousemove', handleResizeMove);
+		document.addEventListener('mouseup', handleResizeUp);
+	  });
+
+	  function handleResizeMove(e) {
+		if (isResizing) {
+		  const newWidth = startWidth + (e.clientX - startX);
+		  const newHeight = startHeight + (e.clientY - startY);
+
+		  iframeWindow.style.width = `${newWidth}px`;
+		  iframeWindow.style.height = `${newHeight}px`;
+
+		  // Update iframe width and height
+		  const iframe = iframeWindow.querySelector('#iframe');
+		  iframe.style.width = `${newWidth}px`;
+		  iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+		}
+	  }
+
+	  function handleResizeUp() {
+		isResizing = false;
+		document.removeEventListener('mousemove', handleResizeMove);
+		document.removeEventListener('mouseup', handleResizeUp);
+	  }	
+
+	  openedWindows.push({
+		type: 'App',
+		id: uniqueId
+	  });
+	} else {
+		showError('You canceled the iframe')
+	}
 }
 
 //-------error-message------------------------------------------------------------------------------------------
