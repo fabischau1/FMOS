@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Kopieren</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        textarea {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border: 1px solid #444;
+            padding: 10px;
+            width: 300px;
+            height: 150px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            resize: none;
+        }
+
+        textarea:hover {
+            border-color: #00bcd4;
+            box-shadow: 0 0 10px #00bcd4;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #00bcd4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #008c9e;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <textarea id="codeField" readonly>
+function createCustomMovableResizableWindowWithFPS() {
+    const windowDiv = document.createElement("div");
+    Object.assign(windowDiv.style, {
+        position: "absolute",
+        top: "50px",
+        left: "50px",
+        width: "220px",
+        height: "180px",
+        background: "linear-gradient(135deg, #121212, #3a3a3a)",
+        color: "#1de9b6",
+        padding: "10px",
+        boxSizing: "border-box",
+        borderRadius: "15px",
+        boxShadow: "0px 0px 20px rgba(30, 233, 182, 0.7)",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Arial, sans-serif",
+        overflow: "hidden",
+        userSelect: "none",
+        transform: "scale(0.8)",
+        opacity: "0",
+        transition: "transform 0.3s ease, opacity 0.3s ease",
+        zIndex: "9998",
+    });
+    document.body.appendChild(windowDiv);
+    requestAnimationFrame(() => {
+        windowDiv.style.transform = "scale(1)";
+        windowDiv.style.opacity = "1";
+    });
+
+    const title = document.createElement("div");
+    title.textContent = "System Performance";
+    Object.assign(title.style, {
+        fontSize: "16px",
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#1de9b6",
+        marginBottom: "6px",
+    });
+    windowDiv.appendChild(title);
+
+    const fpsDisplay = document.createElement("div");
+    Object.assign(fpsDisplay.style, {
+        height: "20px",
+        fontSize: "14px",
+        marginBottom: "8px",
+        textAlign: "center",
+        color: "#80deea",
+    });
+    windowDiv.appendChild(fpsDisplay);
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "✖";
+    Object.assign(closeButton.style, {
+        position: "absolute",
+        top: "8px",
+        right: "10px",
+        backgroundColor: "transparent",
+        border: "none",
+        color: "#80deea",
+        fontSize: "16px",
+        cursor: "pointer",
+        transition: "transform 0.2s, color 0.3s",
+    });
+    closeButton.onmouseenter = () => {
+        closeButton.style.color = "#ff4081";
+        closeButton.style.transform = "scale(1.1)";
+    };
+    closeButton.onmouseleave = () => {
+        closeButton.style.color = "#80deea";
+        closeButton.style.transform = "scale(1)";
+    };
+    closeButton.onclick = () => {
+        windowDiv.style.transform = "scale(0.8)";
+        windowDiv.style.opacity = "0";
+        setTimeout(() => document.body.removeChild(windowDiv), 300);
+    };
+    windowDiv.appendChild(closeButton);
+
+    const graphContainer = document.createElement("div");
+    Object.assign(graphContainer.style, {
+        flexGrow: "1",
+        display: "flex",
+        alignItems: "flex-end",
+        gap: "1px",
+        padding: "5px 0",
+        background: "rgba(255, 255, 255, 0.05)",
+        borderRadius: "8px",
+    });
+    windowDiv.appendChild(graphContainer);
+
+    const maxBars = 60;
+    const fpsBars = Array.from({ length: maxBars }, () => {
+        const bar = document.createElement("div");
+        Object.assign(bar.style, {
+            width: "3px",
+            height: "0px",
+            backgroundColor: "#1de9b6",
+            borderRadius: "3px",
+            transition: "height 0.1s ease",
+        });
+        graphContainer.appendChild(bar);
+        return bar;
+    });
+
+    let isDragging = false, offsetX, offsetY;
+    windowDiv.addEventListener("mousedown", (e) => {
+        if (e.target !== closeButton && e.target !== resizeHandle) {
+            isDragging = true;
+            offsetX = e.clientX - windowDiv.offsetLeft;
+            offsetY = e.clientY - windowDiv.offsetTop;
+            e.preventDefault();
+        }
+    });
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            windowDiv.style.left = `${e.clientX - offsetX}px`;
+            windowDiv.style.top = `${e.clientY - offsetY}px`;
+        }
+    });
+    document.addEventListener("mouseup", () => (isDragging = false));
+
+    let isResizing = false, initialWidth, initialHeight;
+    const resizeHandle = document.createElement("div");
+    Object.assign(resizeHandle.style, {
+        position: "absolute",
+        bottom: "5px",
+        right: "5px",
+        width: "10px",
+        height: "10px",
+        cursor: "se-resize",
+        backgroundColor: "#1de9b6",
+        borderRadius: "50%",
+        transition: "background-color 0.2s",
+    });
+    resizeHandle.onmouseenter = () => resizeHandle.style.backgroundColor = "#ff4081";
+    resizeHandle.onmouseleave = () => resizeHandle.style.backgroundColor = "#1de9b6";
+    resizeHandle.addEventListener("mousedown", (e) => {
+        isResizing = true;
+        initialWidth = windowDiv.offsetWidth;
+        initialHeight = windowDiv.offsetHeight;
+        offsetX = e.clientX;
+        offsetY = e.clientY;
+        e.preventDefault();
+    });
+    document.addEventListener("mousemove", (e) => {
+        if (isResizing) {
+            const newWidth = initialWidth + (e.clientX - offsetX);
+            const newHeight = initialHeight + (e.clientY - offsetY);
+            windowDiv.style.width = `${Math.max(newWidth, 100)}px`;
+            windowDiv.style.height = `${Math.max(newHeight, 100)}px`;
+        }
+    });
+    document.addEventListener("mouseup", () => (isResizing = false));
+    windowDiv.appendChild(resizeHandle);
+
+    let lastTime = performance.now(), frames = 0;
+    function updateFPS() {
+        const now = performance.now();
+        frames++;
+        if (now - lastTime >= 1000) {
+            const fps = frames;
+            fpsDisplay.textContent = `FPS: ${fps}`;
+            frames = 0;
+            lastTime = now;
+
+            const height = Math.min(100, fps) + "px";
+            fpsBars.push(fpsBars.shift());
+            fpsBars.forEach((bar, i) => {
+                bar.style.height = i === fpsBars.length - 1 ? height : bar.style.height;
+                bar.style.backgroundColor = i === fpsBars.length - 1 ? "#ff4081" : "#1de9b6";
+            });
+        }
+        requestAnimationFrame(updateFPS);
+    }
+    updateFPS();
+}
+
+createCustomMovableResizableWindowWithFPS();
+        </textarea>
+        <br>
+        <button id="copyButton">Copy</button>
+    </div>
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            var codeField = document.getElementById('codeField');
+            codeField.select();
+            document.execCommand('copy');
+            alert('Code Copyed!');
+        });
+    </script>
+</body>
+</html>
