@@ -347,6 +347,17 @@
     opacity: 1;
   }
 }
+
+@keyframes animate-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
 /* -------terminal-one------------------------------------------------------------------------------------------------------- */
 .terminal-window {
   background-color: #333;
@@ -3643,14 +3654,21 @@ function Chatbox1() {
 
 function closeiframe(windowId) {
   const vmWindow = document.getElementById(windowId);
-  if (vmWindow) {
+  if (!vmWindow) return;
+
+  vmWindow.style.animation = 'animate-out 0.3s forwards';
+
+  setTimeout(() => {
     vmWindow.remove();
+
     const index = openedWindows.findIndex(win => win.id === windowId);
     if (index !== -1) {
       openedWindows.splice(index, 1);
     }
-  }
+  }, 250);
 }
+
+
 
 function toggleFullscreenIframe(windowId) {
   const iframeWindow = document.getElementById(windowId);
