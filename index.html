@@ -5946,11 +5946,73 @@ function applyGamingTheme() {
             }
         }
     `;
-    document.head.appendChild(style);
+	document.head.appendChild(style);
+	const newRules = Array.from(style.sheet.cssRules);
+	document.head.removeChild(style);
+
+	function cssTextToObject(cssText) {
+		return cssText
+			.split(';')
+			.map(rule => rule.trim().split(':'))
+			.filter(rule => rule.length === 2)
+			.reduce((acc, [property, value]) => {
+				acc[property.trim()] = value.trim();
+				return acc;
+			}, {});
+	}
+
+	function mergeCSSRules(existingRules, newRules) {
+		return { ...existingRules, ...newRules };
+	}
+
+	function objectToCSSText(cssObject) {
+		return Object.entries(cssObject)
+			.map(([property, value]) => `${property}: ${value};`)
+			.join(' ');
+	}
+
+	function updateOrMergeRule(selector, ruleText, backupStyle) {
+		const newRuleObject = cssTextToObject(ruleText.split('{')[1].split('}')[0]);
+
+		let ruleUpdated = false;
+
+		for (const sheet of document.styleSheets) {
+			try {
+				for (let i = 0; i < sheet.cssRules.length; i++) {
+					const rule = sheet.cssRules[i];
+					if (rule.selectorText === selector && rule.style) {
+						const existingRuleObject = cssTextToObject(rule.style.cssText);
+						const mergedRuleObject = mergeCSSRules(existingRuleObject, newRuleObject);
+						const mergedRuleText = `${selector} { ${objectToCSSText(mergedRuleObject)} }`;
+						sheet.deleteRule(i);
+						sheet.insertRule(mergedRuleText, i);
+						ruleUpdated = true;
+						return;
+					}
+				}
+			} catch (e) {
+				console.warn("Zugriff auf Stylesheet nicht möglich:", e);
+			}
+		}
+
+		if (!ruleUpdated) {
+			backupStyle.appendChild(document.createTextNode(ruleText));
+		}
+	}
+
+	const backupStyle = document.createElement('style');
+	document.head.appendChild(backupStyle);
+
+	for (const rule of newRules) {
+		const selector = rule.selectorText;
+		const ruleText = rule.cssText;
+		updateOrMergeRule(selector, ruleText, backupStyle);
+	}
 }
 
 function applyLoveTheme() {
-    const styles = `
+	const style = document.createElement('style');
+    style.innerHTML	= `
         .resize-handle {
             background-color: #ff4c4c;
         }
@@ -6108,10 +6170,68 @@ function applyLoveTheme() {
         }
     `;
 
-    const styleElement = document.createElement("style");
-    styleElement.type = "text/css";
-    styleElement.innerHTML = styles;
-    document.head.appendChild(styleElement);
+	document.head.appendChild(style);
+	const newRules = Array.from(style.sheet.cssRules);
+	document.head.removeChild(style);
+
+	function cssTextToObject(cssText) {
+		return cssText
+			.split(';')
+			.map(rule => rule.trim().split(':'))
+			.filter(rule => rule.length === 2)
+			.reduce((acc, [property, value]) => {
+				acc[property.trim()] = value.trim();
+				return acc;
+			}, {});
+	}
+
+	function mergeCSSRules(existingRules, newRules) {
+		return { ...existingRules, ...newRules };
+	}
+
+	function objectToCSSText(cssObject) {
+		return Object.entries(cssObject)
+			.map(([property, value]) => `${property}: ${value};`)
+			.join(' ');
+	}
+
+	function updateOrMergeRule(selector, ruleText, backupStyle) {
+		const newRuleObject = cssTextToObject(ruleText.split('{')[1].split('}')[0]);
+
+		let ruleUpdated = false;
+
+		for (const sheet of document.styleSheets) {
+			try {
+				for (let i = 0; i < sheet.cssRules.length; i++) {
+					const rule = sheet.cssRules[i];
+					if (rule.selectorText === selector && rule.style) {
+						const existingRuleObject = cssTextToObject(rule.style.cssText);
+						const mergedRuleObject = mergeCSSRules(existingRuleObject, newRuleObject);
+						const mergedRuleText = `${selector} { ${objectToCSSText(mergedRuleObject)} }`;
+						sheet.deleteRule(i);
+						sheet.insertRule(mergedRuleText, i);
+						ruleUpdated = true;
+						return;
+					}
+				}
+			} catch (e) {
+				console.warn("Zugriff auf Stylesheet nicht möglich:", e);
+			}
+		}
+
+		if (!ruleUpdated) {
+			backupStyle.appendChild(document.createTextNode(ruleText));
+		}
+	}
+
+	const backupStyle = document.createElement('style');
+	document.head.appendChild(backupStyle);
+
+	for (const rule of newRules) {
+		const selector = rule.selectorText;
+		const ruleText = rule.cssText;
+		updateOrMergeRule(selector, ruleText, backupStyle);
+	}
 }
 
 function applyNightTheme() {
@@ -6461,7 +6581,68 @@ function applyNightTheme() {
             }
         }
     `;
-    document.head.appendChild(style);
+	document.head.appendChild(style);
+	const newRules = Array.from(style.sheet.cssRules);
+	document.head.removeChild(style);
+
+	function cssTextToObject(cssText) {
+		return cssText
+			.split(';')
+			.map(rule => rule.trim().split(':'))
+			.filter(rule => rule.length === 2)
+			.reduce((acc, [property, value]) => {
+				acc[property.trim()] = value.trim();
+				return acc;
+			}, {});
+	}
+
+	function mergeCSSRules(existingRules, newRules) {
+		return { ...existingRules, ...newRules };
+	}
+
+	function objectToCSSText(cssObject) {
+		return Object.entries(cssObject)
+			.map(([property, value]) => `${property}: ${value};`)
+			.join(' ');
+	}
+
+	function updateOrMergeRule(selector, ruleText, backupStyle) {
+		const newRuleObject = cssTextToObject(ruleText.split('{')[1].split('}')[0]);
+
+		let ruleUpdated = false;
+
+		for (const sheet of document.styleSheets) {
+			try {
+				for (let i = 0; i < sheet.cssRules.length; i++) {
+					const rule = sheet.cssRules[i];
+					if (rule.selectorText === selector && rule.style) {
+						const existingRuleObject = cssTextToObject(rule.style.cssText);
+						const mergedRuleObject = mergeCSSRules(existingRuleObject, newRuleObject);
+						const mergedRuleText = `${selector} { ${objectToCSSText(mergedRuleObject)} }`;
+						sheet.deleteRule(i);
+						sheet.insertRule(mergedRuleText, i);
+						ruleUpdated = true;
+						return;
+					}
+				}
+			} catch (e) {
+				console.warn("Zugriff auf Stylesheet nicht möglich:", e);
+			}
+		}
+
+		if (!ruleUpdated) {
+			backupStyle.appendChild(document.createTextNode(ruleText));
+		}
+	}
+
+	const backupStyle = document.createElement('style');
+	document.head.appendChild(backupStyle);
+
+	for (const rule of newRules) {
+		const selector = rule.selectorText;
+		const ruleText = rule.cssText;
+		updateOrMergeRule(selector, ruleText, backupStyle);
+	}
 }
 
 function applyRetroTheme() {
@@ -6997,7 +7178,68 @@ function applyCyberpunkTheme() {
             box-shadow: 0 4px 20px rgba(0, 255, 255, 0.5);
         }
     `;
-    document.head.appendChild(style);
+	document.head.appendChild(style);
+	const newRules = Array.from(style.sheet.cssRules);
+	document.head.removeChild(style);
+
+	function cssTextToObject(cssText) {
+		return cssText
+			.split(';')
+			.map(rule => rule.trim().split(':'))
+			.filter(rule => rule.length === 2)
+			.reduce((acc, [property, value]) => {
+				acc[property.trim()] = value.trim();
+				return acc;
+			}, {});
+	}
+
+	function mergeCSSRules(existingRules, newRules) {
+		return { ...existingRules, ...newRules };
+	}
+
+	function objectToCSSText(cssObject) {
+		return Object.entries(cssObject)
+			.map(([property, value]) => `${property}: ${value};`)
+			.join(' ');
+	}
+
+	function updateOrMergeRule(selector, ruleText, backupStyle) {
+		const newRuleObject = cssTextToObject(ruleText.split('{')[1].split('}')[0]);
+
+		let ruleUpdated = false;
+
+		for (const sheet of document.styleSheets) {
+			try {
+				for (let i = 0; i < sheet.cssRules.length; i++) {
+					const rule = sheet.cssRules[i];
+					if (rule.selectorText === selector && rule.style) {
+						const existingRuleObject = cssTextToObject(rule.style.cssText);
+						const mergedRuleObject = mergeCSSRules(existingRuleObject, newRuleObject);
+						const mergedRuleText = `${selector} { ${objectToCSSText(mergedRuleObject)} }`;
+						sheet.deleteRule(i);
+						sheet.insertRule(mergedRuleText, i);
+						ruleUpdated = true;
+						return;
+					}
+				}
+			} catch (e) {
+				console.warn("Zugriff auf Stylesheet nicht möglich:", e);
+			}
+		}
+
+		if (!ruleUpdated) {
+			backupStyle.appendChild(document.createTextNode(ruleText));
+		}
+	}
+
+	const backupStyle = document.createElement('style');
+	document.head.appendChild(backupStyle);
+
+	for (const rule of newRules) {
+		const selector = rule.selectorText;
+		const ruleText = rule.cssText;
+		updateOrMergeRule(selector, ruleText, backupStyle);
+	}
 }
 
 //-------live-wallpaper----------------------------------------------------------------------------------------
