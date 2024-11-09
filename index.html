@@ -358,6 +358,7 @@
     opacity: 0;
   }
 }
+
 /* -------terminal-one------------------------------------------------------------------------------------------------------- */
 .terminal-window {
   background-color: #333;
@@ -1308,7 +1309,7 @@
 		<button class="taskbar-button" id="toggle-selection" onclick="toggleSelectionWindow()">Style_Settings</button>
 		<button class="taskbar-button" id="toggle-selection" onclick="settingcheck()">Settings</button>
 		<button class="taskbar-button" id="toggle-selection" onclick="folsell()">Folders</button>
-		<div id="selection-window" class="hidden">
+		<div id="selection-window" class="hidden" data-div-id="stlyes">
 			<button id="option1" onclick="updateTextColorEditor()">Texteditor:White</button>
 			<button id="option1" onclick="updateTextColorEditordef()">Texteditor:Default</button>
 			<button id="option1" onclick="thememodern()">Theme:Modern</button>
@@ -1316,6 +1317,25 @@
 			<button id="option1" onclick="theme_love()">Theme:Love</button>
 			<button id="option1" onclick="theme_cyberpunk()">Theme:Cyberpunk</button>
 			<button id="option1" onclick="theme_night()">Theme:Night</button>
+			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
+			<button id="option6" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
+			<button id="option1" onclick="theme_default()">Theme:Default</button>
+			<button id="option1" onclick="animationsettings()">App Animation Settings</button>
+			<button id="option1" onclick="wallpapersettings()">Wallpaper Settings</button>
+			<button id="option7" onclick="toggleSelectionWindow()">Close</button>
+		</div>
+		<div id="selection-window" style="left: 40%;" class="hidden" data-div-id="animations">
+			<button id="option1" onclick="set_animation_default()">default</button>
+			<button id="option1" onclick="set_animation_Bounce_and_Rotate_Slide()">Bounce and Rotate Slide</button>
+			<button id="option1" onclick="set_animation_Pop_and_Slide()">Pop and Slide</button>
+			<button id="option1" onclick="set_animation_Smooth_Blur_Transition()">Smooth Blur Transition</button>
+			<button id="option1" onclick="set_animation_Elegant_Fade_and_Slide_Animation()">Elegant Fade and Slide Animation</button>
+			<button id="option1" onclick="set_animation_Dynamic_Bouncy_Entrance()">Dynamic Bouncy</button>
+			<button id="option1" onclick="set_animation_Scale_and_Blur()">Scale and Blur</button>
+			<button id="option1" onclick="set_animation_Elastic_Pop_Animation()">Elastic Pop Animation</button>
+			<button id="option1" onclick="animationsettings()">Close</button>
+		</div>
+		<div id="selection-window" style="left: 30%;" class="hidden" data-div-id="wallpapers">
 			<button id="option2" onclick="changeDesktopBackground2()">Wallpaper:Hacker</button>
 			<button id="option2" onclick="changeDesktopBackgrounddarkfmos()">Wallpaper:FMOS</button>
 			<button id="option1" onclick="changeDesktopBackground()">Wallpaper:Space</button>
@@ -1328,10 +1348,7 @@
 			<button id="option4" onclick="changeDesktopBackgroundcu29294()">Wallpaper:Abstract 2.0</button>
 			<button id="option5" onclick="changeDesktopBackground5()">Wallpaper:Custom</button>
 			<button id="option2" onclick="wallpaper_off()">Live Wallpaper OFF</button>
-			<button id="option6" onclick="changeTerminalBackground()">Terminal:Custom</button>
-			<button id="option6" onclick="getAndSetTaskbarBackgroundColor()">Taskbar:Color</button>
-			<button id="option1" onclick="theme_default()">Theme:Default</button>
-			<button id="option7" onclick="toggleSelectionWindow()">Close</button>
+			<button id="option2" onclick="wallpapersettings()">Close</button>
 		</div>
 <!------folder-actions------------------------------------------------------------------------------------------------>
 		<div id="folsel-window" class="hidden">
@@ -3812,7 +3829,17 @@ function togglesettingwinold() {
 //-------style-settings---------------------------------------------------------------------------------------
 
 function toggleSelectionWindow() {
-  const selectionWindow = document.getElementById('selection-window');
+  const selectionWindow = document.querySelector('[data-div-id="stlyes"]');
+  selectionWindow.classList.toggle('active');
+}
+
+function animationsettings() {
+  const selectionWindow = document.querySelector('[data-div-id="animations"]');
+  selectionWindow.classList.toggle('active');
+}
+
+function wallpapersettings() {
+  const selectionWindow = document.querySelector('[data-div-id="wallpapers"]');
   selectionWindow.classList.toggle('active');
 }
 
@@ -7814,6 +7841,390 @@ function gamingWallpaper() {
     draw();
 }
 
+function animation_default() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: scale(0.5);
+		opacity: 0;
+	  }
+	  100% {
+		transform: scale(1);
+		opacity: 1;
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: scale(1);
+		opacity: 1;
+	  }
+	  100% {
+		transform: scale(0.5);
+		opacity: 0;
+	  }
+	}
+  `);
+}
+
+function set_animation_default() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '1')
+	animation_default();
+}
+
+function animation_Bounce_and_Rotate_Slide() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+    @keyframes animate-in {
+      0% {
+        transform: scale(0.3) rotate(5deg);
+        opacity: 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+      50% {
+        transform: scale(1.05) rotate(-3deg);
+        opacity: 0.7;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      }
+    }
+  `);
+
+  style.sheet.insertRule(`
+    @keyframes animate-out {
+      0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      }
+      50% {
+        transform: scale(1.05) rotate(3deg);
+        opacity: 0.7;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
+      100% {
+        transform: scale(0.3) rotate(-5deg);
+        opacity: 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+    }
+  `);
+}
+
+function set_animation_Bounce_and_Rotate_Slide() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '2')
+	animation_Bounce_and_Rotate_Slide();
+}
+
+function animation_Pop_and_Slide() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: scale(0.8) translateY(-50px);
+		opacity: 0;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+		border-radius: 10px;
+	  }
+	  50% {
+		transform: scale(1.05) translateY(10px);
+		opacity: 0.6;
+		box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+		border-radius: 15px;
+	  }
+	  100% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
+	  }
+	  50% {
+		transform: scale(1.05) translateY(10px);
+		opacity: 0.6;
+		box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+		border-radius: 15px;
+	  }
+	  100% {
+		transform: scale(0.8) translateY(-50px);
+		opacity: 0;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+		border-radius: 10px;
+	  }
+	}
+  `);
+}
+
+function set_animation_Pop_and_Slide() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '3')
+	animation_Pop_and_Slide();
+}
+
+function animation_Smooth_Blur_Transition() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: scale(0.6) translateY(-20px);
+		opacity: 0;
+		filter: blur(5px);
+	  }
+	  70% {
+		transform: scale(1.05) translateY(5px);
+		opacity: 0.8;
+		filter: blur(2px);
+	  }
+	  100% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+		filter: blur(0);
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+		filter: blur(0);
+	  }
+	  70% {
+		transform: scale(1.05) translateY(-5px);
+		opacity: 0.8;
+		filter: blur(2px);
+	  }
+	  100% {
+		transform: scale(0.6) translateY(20px);
+		opacity: 0;
+		filter: blur(5px);
+	  }
+	}
+  `);
+}
+
+function set_animation_Smooth_Blur_Transition() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '4')
+	animation_Smooth_Blur_Transition();
+}
+
+function animation_Elegant_Fade_and_Slide_Animation() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: translateX(-100%) scale(0.8);
+		opacity: 0;
+	  }
+	  100% {
+		transform: translateX(0) scale(1);
+		opacity: 1;
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: translateX(0) scale(1);
+		opacity: 1;
+	  }
+	  100% {
+		transform: translateX(100%) scale(0.8);
+		opacity: 0;
+	  }
+	}
+  `);
+}
+
+function set_animation_Elegant_Fade_and_Slide_Animation() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '5')
+	animation_Elegant_Fade_and_Slide_Animation();
+}
+
+function animation_Dynamic_Bouncy_Entrance() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: scale(0.5) translateY(-50px);
+		opacity: 0;
+	  }
+	  40% {
+		transform: scale(1.1) translateY(10px);
+		opacity: 1;
+	  }
+	  70% {
+		transform: scale(0.9) translateY(-5px);
+		opacity: 1;
+	  }
+	  100% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+	  }
+	  40% {
+		transform: scale(0.9) translateY(5px);
+		opacity: 1;
+	  }
+	  100% {
+		transform: scale(0.5) translateY(50px);
+		opacity: 0;
+	  }
+	}
+  `);
+}
+
+function set_animation_Dynamic_Bouncy_Entrance() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '6')
+	animation_Dynamic_Bouncy_Entrance();
+}
+
+function animation_Scale_and_Blur() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: translateX(-100%) scale(0.8);
+		opacity: 0;
+		filter: blur(8px);
+	  }
+	  100% {
+		transform: translateX(0) scale(1);
+		opacity: 1;
+		filter: blur(0);
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: translateX(0) scale(1);
+		opacity: 1;
+		filter: blur(0);
+	  }
+	  100% {
+		transform: translateX(100%) scale(0.8);
+		opacity: 0;
+		filter: blur(8px);
+	  }
+	}
+  `);
+}
+
+function set_animation_Scale_and_Blur() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '7')
+	animation_Scale_and_Blur();
+}
+
+function animation_Elastic_Pop_Animation() {
+  const style = document.createElement('style');
+  document.head.appendChild(style);
+
+  style.sheet.insertRule(`
+	@keyframes animate-in {
+	  0% {
+		transform: scale(0.4) translateY(-30px);
+		opacity: 0;
+	  }
+	  60% {
+		transform: scale(1.1) translateY(10px);
+		opacity: 1;
+	  }
+	  100% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+	  }
+	}
+  `);
+
+  style.sheet.insertRule(`
+	@keyframes animate-out {
+	  0% {
+		transform: scale(1) translateY(0);
+		opacity: 1;
+	  }
+	  40% {
+		transform: scale(1.1) translateY(-10px);
+		opacity: 0.8;
+	  }
+	  100% {
+		transform: scale(0.4) translateY(30px);
+		opacity: 0;
+	  }
+	}
+  `);
+}
+
+function set_animation_Elastic_Pop_Animation() {
+	localStorage.setItem('FMOSsettingAnimationIframe', '8')
+	animation_Elastic_Pop_Animation();
+}
+
+function checkIframeAnimation() {
+	valuetheme = localStorage.getItem('FMOSsettingAnimationIframe');
+    if (valuetheme === '1') {
+		// do nothing
+    } else if (valuetheme === '2') {
+        animation_Bounce_and_Rotate_Slide();
+    } else if (valuetheme === '3') {
+        animation_Pop_and_Slide();
+	} else if (valuetheme === '4') {
+		animation_Smooth_Blur_Transition();
+	} else if (valuetheme === '5') {
+		animation_Elegant_Fade_and_Slide_Animation();
+	} else if (valuetheme === '6') {
+		animation_Dynamic_Bouncy_Entrance();
+	} else if (valuetheme === '7') {
+		animation_Scale_and_Blur();
+	} else if (valuetheme === '8') {
+		animation_Elastic_Pop_Animation();
+    } else {
+        showError('Animation error ERROR')
+		localStorage.setItem('FMOSsettingAnimationIframe', '1')
+    }
+}
+
 //-------save-themes-and-wallpapers--------------------------------------------------------------------------------------
 
 function wallpaper_Matrix() {
@@ -8761,6 +9172,10 @@ if (localStorage.getItem('FMOSinfo') === 'FMOS13') {
 	localStorage.setItem('FMOSinfo', 'FMOS13')
 }
 
+if (!localStorage.getItem('FMOSsettingAnimationIframe')) {
+    localStorage.setItem('FMOSsettingAnimationIframe', '1');
+}
+
 if (!localStorage.getItem('settinglogin')) {
     localStorage.setItem('settinglogin', 'False');
 }
@@ -8771,6 +9186,7 @@ if (!localStorage.getItem('settingadmin')) {
 
 		loadbackground();
 		checkTheme();
+		checkIframeAnimation();
 		checkFMOSwallpaperlive();
 		waitbeforeBootLogin();
 		checkandshowtos();
