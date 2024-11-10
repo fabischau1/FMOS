@@ -2561,10 +2561,9 @@ function musik() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -2662,10 +2661,9 @@ function store() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -2763,10 +2761,9 @@ function caculator() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -2892,10 +2889,9 @@ function passwordmgr() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -2993,10 +2989,9 @@ function crdits() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3094,10 +3089,9 @@ function code() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3198,10 +3192,9 @@ function secfil() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3300,10 +3293,9 @@ function openURLInIframe() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3401,10 +3393,9 @@ function vm() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3502,10 +3493,9 @@ function foldermgr() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -3699,10 +3689,9 @@ function Chatbox1() {
       iframeWindow.style.width = `${newWidth}px`;
       iframeWindow.style.height = `${newHeight}px`;
 
-      // Update iframe width and height
       const iframe = iframeWindow.querySelector('#iframe');
-      iframe.style.width = `${newWidth}px`;
-      iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+      iframe.style.width = `${newWidth -20}px`;
+      iframe.style.height = `${newHeight -50}px`;
     }
   }
 
@@ -4476,20 +4465,19 @@ function app(url) {
 		document.addEventListener('mouseup', handleResizeUp);
 	  });
 
-	  function handleResizeMove(e) {
+	function handleResizeMove(e) {
 		if (isResizing) {
-		  const newWidth = startWidth + (e.clientX - startX);
-		  const newHeight = startHeight + (e.clientY - startY);
+			const newWidth = startWidth + (e.clientX - startX);
+			const newHeight = startHeight + (e.clientY - startY);
 
-		  iframeWindow.style.width = `${newWidth}px`;
-		  iframeWindow.style.height = `${newHeight}px`;
+			iframeWindow.style.width = `${newWidth}px`;
+			iframeWindow.style.height = `${newHeight}px`;
 
-		  // Update iframe width and height
-		  const iframe = iframeWindow.querySelector('#iframe');
-		  iframe.style.width = `${newWidth}px`;
-		  iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+			const iframe = iframeWindow.querySelector('#iframe');
+			iframe.style.width = `${newWidth -20}px`;
+			iframe.style.height = `${newHeight -50}px`;
 		}
-	  }
+	}
 
 	  function handleResizeUp() {
 		isResizing = false;
@@ -4580,20 +4568,20 @@ function sandboxapp(url) {
 		document.addEventListener('mouseup', handleResizeUp);
 	  });
 
-	  function handleResizeMove(e) {
+	function handleResizeMove(e) {
 		if (isResizing) {
-		  const newWidth = startWidth + (e.clientX - startX);
-		  const newHeight = startHeight + (e.clientY - startY);
+			const newWidth = startWidth + (e.clientX - startX);
+			const newHeight = startHeight + (e.clientY - startY);
 
-		  iframeWindow.style.width = `${newWidth}px`;
-		  iframeWindow.style.height = `${newHeight}px`;
+			iframeWindow.style.width = `${newWidth}px`;
+			iframeWindow.style.height = `${newHeight}px`;
 
-		  // Update iframe width and height
-		  const iframe = iframeWindow.querySelector('#iframe');
-		  iframe.style.width = `${newWidth}px`;
-		  iframe.style.height = `${newHeight - 20}px`; // 20px is the height of the window-header
+			const iframe = iframeWindow.querySelector('#iframe');
+			iframe.style.width = `${newWidth -20}px`;
+			iframe.style.height = `${newHeight -50}px`;
 		}
-	  }
+	}
+
 
 	  function handleResizeUp() {
 		isResizing = false;
