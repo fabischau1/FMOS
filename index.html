@@ -23,30 +23,37 @@
         }
 /* -------taskbar-------------------------------------------------------------------------------------------------------- */
 .taskbar {
-    background-color: #2e2e2e; /* Etwas helleres Dunkelgrau */
-    color: #d1d1d1; /* Helles Grau für besseren Kontrast */
-    height: 40px; /* Zurück zur ursprünglichen Höhe */
-    position: fixed; /* Fixiert am unteren Rand des Bildschirms */
+    background-color: #2e2e2e;
+    color: #d1d1d1;
+    height: 40px;
+    position: fixed;
     bottom: 0;
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 0 15px; /* Angepasstes Padding für ein kompakteres Layout */
-    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2); /* Sanfter Schatten für Tiefe */
-    z-index: 1000; /* Taskbar immer oben */
-    border-top: 1px solid #444; /* Dünne obere Border für Struktur */
+    padding: 0 15px;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-top: 1px solid #444;
 }
+
 .taskbar-button {
     background: transparent;
     color: #d1d1d1;
-    padding: 10px 20px;
+    height: 100%;
+    padding: 0 10px;
     border: none;
-    border-radius: 0;
+    border-radius: 6px;  /* Runde Ecken */
     font-size: 14px;
-    position: relative;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     transition: color 0.3s, background-color 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;  /* Verhindert, dass Elemente außerhalb des Buttons sichtbar sind */
 }
+
 .taskbar-button::after {
     content: '';
     position: absolute;
@@ -57,9 +64,11 @@
     background: #d1d1d1;
     transition: width 0.3s, left 0.3s;
 }
+
 .taskbar-button:hover {
     color: #ff4d4d;
     background-color: rgba(255, 77, 77, 0.1);
+    transform: scale(1.05); /* Leichte Vergrößerung des gesamten Buttons */
 }
 
 .taskbar-button:hover::after {
@@ -69,8 +78,21 @@
 
 .taskbar-button:active {
     transform: scale(0.95);
-    color: #ff00ff; 
+    color: #ff00ff;
 }
+
+.taskbar-button img.taskbar-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.taskbar-button:hover img.taskbar-icon {
+    transform: scale(1.1);
+}
+
 /* -------context-menu------------------------------------------------------------------------------------------------------- */
 .context-menu {
     position: absolute;
@@ -480,7 +502,6 @@
   position: absolute;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
@@ -537,7 +558,6 @@
   position: absolute;
   bottom: 20px;
   left: 60%;
-  transform: translateX(-50%);
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
@@ -604,7 +624,6 @@
   position: absolute;
   bottom: 20px;
   left: 70%;
-  transform: translateX(-50%);
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
@@ -1291,24 +1310,50 @@
     </div>
 <!------taskbar------------------------------------------------------------------------------------------------->
     <div class="taskbar">
-		<button class="taskbar-button" onclick="askToRestartOS()">Restart</button>
-        <button class="taskbar-button" onclick="createFile()">New</button>
-        <button class="taskbar-button" onclick="secfil()">Files</button>
-		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
-		<button class="taskbar-button" onclick="showNeonTerminal()">Terminal2</button>
-		<button class="taskbar-button" onclick="showFolderMGR()">FolderMGR</button>
-		<button class="taskbar-button" onclick="toggleProcessManager()">ProcessMGR</button>
-		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
-		<button class="taskbar-button" onclick="vm()">VM</button>
-	    <button class="taskbar-button" onclick="store()">Store</button>
-		<button class="taskbar-button" onclick="loads()">Load_Files</button>
-		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
-		<button class="taskbar-button" onclick="openDiscordLink()">Discord</button>
-		<button class="taskbar-button" onclick="Chatbox1()">ChatBox</button>
-		<button class="taskbar-button" id="toggle-selection" onclick="appwindowfinder()">Apps</button>
-		<button class="taskbar-button" id="toggle-selection" onclick="toggleSelectionWindow()">Style_Settings</button>
-		<button class="taskbar-button" id="toggle-selection" onclick="settingcheck()">Settings</button>
-		<button class="taskbar-button" id="toggle-selection" onclick="folsell()">Folders</button>
+		<button class="taskbar-button" onclick="startmenu()">
+			<img src="fsys.jpg" class="taskbar-icon">
+			Start Menu
+		</button>
+		<button class="taskbar-button" onclick="showNeonTerminal()">
+			<img src="termapp.png" class="taskbar-icon">
+			Terminal
+		</button>
+		<button class="taskbar-button" onclick="secfil()">
+			<img src="fol.png" class="taskbar-icon">
+			Secure Folder
+		</button>
+		<button class="taskbar-button" onclick="showFolderMGR()">
+			<img src="f.png" class="taskbar-icon">
+			FolderMGR
+		</button>
+		<button class="taskbar-button" onclick="toggleProcessManager()">
+			<img src="fexe.jpg" class="taskbar-icon">
+			ProcesMGR
+		</button>
+		<button class="taskbar-button" onclick="openURLInIframe()">
+			<img src="t.jpg" class="taskbar-icon">
+			Browser
+		</button>
+		<button class="taskbar-button" onclick="vm()">
+			<img src="vmapp.png" class="taskbar-icon">
+			VM
+		</button>
+		<button class="taskbar-button" onclick="store()">
+			<img src="storeapp.png" class="taskbar-icon">
+			Store
+		</button>
+		<button class="taskbar-button" id="toggle-selection" onclick="appwindowfinder()">
+			<img src="fsys.jpg" class="taskbar-icon">
+			Apps
+		</button>
+		<button class="taskbar-button" id="toggle-selection" onclick="toggleSelectionWindow()">
+			<img src="styleapp.png" class="taskbar-icon">
+			Style
+		</button>
+		<button class="taskbar-button" id="toggle-selection" onclick="settingcheck()">
+			<img src="settingsapp.png" class="taskbar-icon">
+			Settings
+		</button>
 		<div id="selection-window" class="hidden" data-div-id="stlyes">
 			<button id="option1" onclick="updateTextColorEditor()">Texteditor:White</button>
 			<button id="option1" onclick="updateTextColorEditordef()">Texteditor:Default</button>
@@ -1349,6 +1394,13 @@
 			<button id="option5" onclick="changeDesktopBackground5()">Wallpaper:Custom</button>
 			<button id="option2" onclick="wallpaper_off()">Live Wallpaper OFF</button>
 			<button id="option2" onclick="wallpapersettings()">Close</button>
+		</div>
+		<div id="selection-window" style="bottom: 50px; left: 0%;" class="hidden" data-div-id="Startmenu">
+			<button id="option2" onclick="settingcheck()">Settings</button>
+			<button id="option2" onclick="toggleSelectionWindow()">Style</button>
+			<button id="option2" onclick="appwindowfinder()">Apps</button>
+			<button id="option2" onclick="askToRestartOS()">Restart</button>
+			<button id="option2" onclick="startmenu()">Close</button>
 		</div>
 <!------folder-actions------------------------------------------------------------------------------------------------>
 		<div id="folsel-window" class="hidden">
@@ -3840,6 +3892,11 @@ function animationsettings() {
 
 function wallpapersettings() {
   const selectionWindow = document.querySelector('[data-div-id="wallpapers"]');
+  selectionWindow.classList.toggle('active');
+}
+
+function startmenu() {
+  const selectionWindow = document.querySelector('[data-div-id="Startmenu"]');
   selectionWindow.classList.toggle('active');
 }
 
