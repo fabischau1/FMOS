@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM OS 8</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="styles/context-menu.css">
+	<link rel="stylesheet" href="styles/iframe-windows.css">
+	<link rel="stylesheet" href="styles/taskbar.css">
+	<link rel="stylesheet" href="styles/terminals.css">
+</head>
+<body>
+    <div class="desktop" id="desktop" oncontextmenu="showContextMenu(event); return false;">
+    </div>
+    <div class="taskbar">
+        <button onclick="createFile()">New File</button>
+        <button onclick="secfil()">Files</button>
+		<button onclick="malwareScan()">FA AntiVira</button>
+		<button class="taskbar-button" onclick="executeJSInTerminal()">Terminal</button>
+		<button class="taskbar-button" onclick="restartOS()">Restart</button>
+		<button class="taskbar-button" onclick="openURLInIframe()">Browser</button>
+		<button class="taskbar-button" onclick="vm()">VM</button>
+		<button class="taskbar-button" onclick="code()">CodeSpace</button>
+		<button class="taskbar-button" onclick="musik()">Musik</button>
+		<button class="taskbar-button" onclick="downloadAllFiles()">Download</button>
+		<button class="taskbar-button" onclick="uploadFile()">Upload</button>
+    </div>
+	<div class="window" id="editorWindow">
+		<div class="window-header">
+			<span id="editorTitle">Editor</span>
+			<button onclick="closeWindow()" style="background:none; border:none; color:white;">X</button>
+		</div>
+		<div class="window-body">
+			<textarea id="fileContent" style="width: 100%; height: 100%;"></textarea>
+		</div>
+		<div class="window-footer">
+			<button onclick="saveFile()">Save</button>
+			<button onclick="deleteFile()">Delete</button>
+			<button onclick="executeJS()">Run</button>
+		</div>
+	</div>
+
+	<!-- Add a new window for HTML preview -->
+	<div class="windowi" id="htmlPreviewWindow" style="display: none;">
+		<div class="window-header">
+			<span id="htmlPreviewTitle">HTML Preview</span>
+			<button onclick="closeHTMLPreviewWindow()" style="background:none; border:none; color:white;">X</button>
+		</div>
+		<div class="window-body">
+			<iframe id="htmlPreview" frameborder="0" width="100%" height="100%"></iframe>
+		</div>
+	</div>
+    <div class="context-menu" id="contextMenu">
+        <ul>
+            <li onclick="renameFile()">Rename</li>
+            <li onclick="deleteFile()">Delete</li>
+			<li onclick="executeJS()">Run</li>
+        </ul>
+    </div>
+	<script src="scripts/variables.js"></script>
+	<script>console.log("Variables script was Loaded")</script>
+	<script src="scripts/files.js"></script>
+	<script>console.log("files script was Loaded")</script>
+	<script src="scripts/system.js"></script>
+	<script>console.log("system script was Loaded")</script>
+	<script src="scripts/filesystem.js"></script>
+	<script>console.log("filesystem script was Loaded")</script>
+	<script src="scripts/system-apps.js"></script>
+	<script>console.log("system-apps script was Loaded")</script>
+	<script src="scripts/apps.js"></script>
+	<script>console.log("apps script was Loaded")</script>
+	<script src="scripts/extras.js"></script>
+	<script>console.log("extras script was Loaded")</script>
+	<script src="scripts/boot.js"></script>
+	<script>console.log("boot script was Loaded")</script>
+</body>
+</html>

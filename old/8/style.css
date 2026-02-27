@@ -1,0 +1,74 @@
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+       .desktop {
+            background: url('icons/123.jpg') no-repeat;
+            background-size: cover;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+       .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid #000;
+            margin: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease-out;
+            background-size: 100px 100px; /* Größe des Logo-Images anpassen */
+            background-position: center; /* Logo-Image zentrieren */
+        }
+       .icon[data-file$=".js"] {
+            background-image: url('icons/js.jpg');
+        }
+       .icon[data-file$=".fexe"] {
+            background-image: url('icons/fexe.jpg');
+        }
+       .icon[data-file$=".fsys"] {
+            background-image: url('icons/fsys.jpg');
+		}
+		.icon[data-file$=".py"] {
+            background-image: url('icons/py.jpg');
+		}
+       .icon[data-file$=".zfp"] {
+            background-image: url('icons/folder.jpg');
+		}
+       .icon[data-file$=".html"] {
+            background-image: url('icons/html.jpg');
+        }
+		.icon[data-file$=".url"] {
+            background-image: url('icons/url.jpg');
+        }
+		.icon[data-file$=".png"] {
+            background-image: url('icons/png.jpg');
+        }
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".fsys"]):not([data-file$=".png"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
+            background-image: url('icons/ico.jpg');
+        }
+       .icon[data-folder] {
+            background-image: url('icons/folder.jpg');
+        }
+       .icon.dragging {
+            position: absolute;
+            z-index: 100;
+        }
+       .icon span {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white; /* Weißer Text */
+        }
