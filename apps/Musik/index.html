@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instrument</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+   .instrument-button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+   .instrument-button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <h1>Instrument</h1>
+  <button class="instrument-button" id="button-1">E (1)</button>
+  <button class="instrument-button" id="button-2">A (2)</button>
+  <button class="instrument-button" id="button-3">D (3)</button>
+  <button class="instrument-button" id="button-4">G (4)</button>
+  <button class="instrument-button" id="button-5">H (5)</button>
+  <button class="instrument-button" id="button-6">E (6)</button>
+
+  <audio id="sound-1" src="sound1.mp3"></audio>
+  <audio id="sound-2" src="sound2.mp3"></audio>
+  <audio id="sound-3" src="sound3.mp3"></audio>
+  <audio id="sound-4" src="sound4.mp3"></audio>
+  <audio id="sound-5" src="sound5.mp3"></audio>
+  <audio id="sound-6" src="sound6.mp3"></audio>
+
+  <script>
+    const buttons = document.querySelectorAll('.instrument-button');
+    const sounds = document.querySelectorAll('audio');
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        sounds[index].play();
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const key = event.key;
+      if (key >= '1' && key <= '6') {
+        const soundIndex = parseInt(key) - 1;
+        sounds[soundIndex].play();
+      }
+    });
+  </script>
+</body>
+</html>

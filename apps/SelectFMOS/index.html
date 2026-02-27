@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS Setup</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 50px;
+            color: #00ffcc;
+            text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc, 0 0 45px #00ffcc;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 15px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            color: #00ffcc;
+            background: transparent;
+            border: 2px solid #00ffcc;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #00ffcc;
+            color: #0a0a0a;
+            box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc, 0 0 45px #00ffcc;
+        }
+
+        .button:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, #00ffcc 10%, transparent 10.01%);
+            transition: all 0.75s ease;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 1;
+        }
+
+        .button:hover:before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 40px #00ffcc;
+            }
+            to {
+                text-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc, 0 0 40px #00ffcc, 0 0 50px #00ffcc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FMOS Setup</h1>
+		<a href="https://fabischau1.github.io/FMOSold/" class="button">FMOS Minni 1</a>
+        <a href="https://fabischau1.github.io/FMOS/1.html" class="button">FMOS 1</a>
+        <a href="https://fabischau1.github.io/FMOS/FM%20OS%202.0.htm" class="button">FMOS 2</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%203.0%20.html" class="button">FMOS 3</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%204%20.html" class="button">FMOS 4</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%205%20.html" class="button">FMOS 5</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%206.html" class="button">FMOS 6</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%207%20.html" class="button">FMOS 7</a>
+        <a href="https://fabischau1.github.io/FMOS/Admin.html" class="button">FMOS 9</a>
+        <a href="https://fabischau1.github.io/FMOS/9" class="button">FMOS 9 Pro</a>
+		<a href="https://fabischau1.github.io/FMOS/FMOSminni/2" class="button">FMOS Minni 2</a>
+        <a href="https://fabischau1.github.io/FMOS/FMOS%2010%20.html" class="button">FMOS 10</a>
+	<a href="https://fabischau1.github.io/FMOS/FMOS%2011.html" class="button">FMOS 11</a>
+        <a href="https://fabischau1.github.io/FMOS/" class="button">Newest Version</a>
+    </div>
+</body>
+</html>

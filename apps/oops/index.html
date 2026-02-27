@@ -1,0 +1,74 @@
+<pre style="background-color: #000; color: #fff; padding: 10px; border-radius: 10px;">
+<br>
+<br>
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+<br>
+IP: [<c083a1f4>] sysctl_vm_drop_caches+0x14/0x30
+<br>
+PGD 7f3f46067 PUD 7f3f46067 PMD 0 
+<br>
+Oops: 0002 [#1] SMP 
+<br>
+Modules linked in: nfs lockd fscache nfs_acl auth_rpcgss oid_registry sunrpc 8021q garp mrp stp llc bonding ip6t_REJECT nf_reject_ipv6 ip6table_filter ip6_tables ipv6
+<br>
+CPU: 3 PID: 12345 Comm: sysctl Not tainted 4.15.0-45-generic #48-Ubuntu
+<br>
+Hardware name: Dell Inc. PowerEdge R730/0HTRHP, BIOS 2.5.3 02/26/2019
+<br>
+task: ffff88007f3f4600 task.stack: ffff88007f3f4000
+<br>
+RIP: 0010:[<c083a1f4>]  [<c083a1f4>] sysctl_vm_drop_caches+0x14/0x30
+<br>
+RSP: 0018:ffff88007f3f5e08  EFLAGS: 00010202
+<br>
+RAX: 0000000000000000 RBX: ffff88007f3f4600 RCX: 0000000000000000
+<br>
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88007f3f4600
+<br>
+RBP: ffff88007f3f5e28 R08: 0000000000000000 R09: 0000000000000000
+<br>
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88007f3f4600
+<br>
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+<br>
+FS:  00007f3f460670(0000) GS:ffff88007f3f4000(0000) knlGS:0000000000000000
+<br>
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<br>
+CR2: 0000000000000000 CR3: 000000007f3f4000 CR4: 00000000000006f0
+<br>
+Call Trace:
+<br>
+ [<c083a1f0>]? sysctl_vm_drop_caches+0x10/0x30
+<br>
+ [<c083a240>] sysctl_vm_drop_caches+0x50/0x30
+<br>
+ [<c0409f40>]? sysctl_do_table+0x10/0x10
+<br>
+ [<c040a030>] sysctl_do_table+0x130/0x130
+<br>
+ [<c040a030>]? sysctl_do_table+0x130/0x130
+<br>
+ [<c040a240>] sysctl_do_table+0x160/0x130
+<br>
+ [<c040a240>]? sysctl_do_table+0x160/0x130
+<br>
+ [<c040a2f0>] sysctl_do_table+0x1b0/0x130
+<br>
+ [<c040a2f0>]? sysctl_do_table+0x1b0/0x130
+<br>
+ [<c040a3c0>] sysctl_do_table+0x2c0/0x130
+<br>
+ [<c040a3c0>]? sysctl_do_table+0x2c0/0x130
+<br>
+ [<c040a440>] sysctl_do_table+0x440/0x130
+<br>
+ [<c040a440>]? sysctl_do_table+0x440/0x130
+<br>
+ [<c040a4f0>] sysctl_do_table+0x4f0/0x130
+<br>
+ [<c040a4f0>]? sysctl_do_table+0x4f0/0x130
+<br>
+ [<c040a560>] sysctl_do_table+0x560/0x130
+<br>
+ [<c040a560>]? sysctl_do_table+0x560/0x130

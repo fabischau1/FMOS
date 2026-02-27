@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FM Code</title>
+  <style>
+    :root {
+      --hue: 210; /* Blue */
+      --accent-hue: 120; /* Green */
+      --text-color-normal: hsl(var(--hue), 70%, 75%);
+      --popup-background: #121212;
+      --codespace-background: #272727;
+      --codespace-color: #99FF99; /* Light green */
+      --button-background: hsl(var(--accent-hue), 70%, 50%);
+      --button-hover-background: hsl(var(--accent-hue), 70%, 60%);
+      --button-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    body {
+      background-color: var(--popup-background);
+      color: var(--text-color-normal);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+    }
+    .codespace-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 800px;
+      height: 500px;
+      border-radius: 8px;
+      box-shadow: var(--button-shadow);
+    }
+    .codespace {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 16px;
+      font-size: 16px;
+      background-color: var(--codespace-background);
+      color: var(--codespace-color);
+      border: none;
+      resize: vertical;
+      border-radius: 8px;
+      animation: fade-in 1s ease-out forwards;
+    }
+    @keyframes fade-in {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .copy-button {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: var(--button-background);
+      color: var(--text-color-normal);
+      font-size: 16px;
+      transition: background-color 0.2s ease-out;
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      z-index: 1;
+      border: none;
+      outline: none;
+      user-select: none;
+    }
+    .copy-button:hover {
+      background-color: var(--button-hover-background);
+    }
+    .copy-button:active {
+      transform: scale(0.95);
+    }
+    .download-button {
+      position: absolute;
+      right: 126px;
+      bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items:center;
+      width: 100px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: var(--button-background);
+     color: var(--text-color-normal);
+      font-size: 16px;
+      transition: background-color 0.2s ease-out;
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      z-index: 1;
+      border: none;
+      outline: none;
+      user-select: none;
+    }
+    .download-button:hover {
+      background-color: var(--button-hover-background);
+    }
+    .download-button:active {
+      transform: scale(0.95);
+    }
+    .toggle-button {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: var(--button-background);
+      color: var(--text-color-normal);
+      font-size: 16px;
+      transition: background-color 0.2s ease-out;
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      z-index: 1;
+      border: none;
+      outline: none;
+      user-select: none;
+    }
+    .toggle-button:hover {
+      background-color: var(--button-hover-background);
+    }
+    .toggle-button:active {
+      transform: scale(0.95);
+    }
+    .select-language {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: var(--button-background);
+      color: var(--text-color-normal);
+      font-size: 16px;
+      transition: background-color 0.2s ease-out;
+      cursor: pointer;
+      box-shadow: var(--button-shadow);
+      z-index: 1;
+      border: none;
+      outline: none;
+      user-select: none;
+    }
+    .select-language:hover {
+      background-color: var(--button-hover-background);
+    }
+    .select-language:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="codespace-container">
+    <textarea class="codespace" spellcheck="false" wrap="off">#Made With FM Code</textarea>
+    <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+    <button class="download-button" onclick="downloadCode()">Download</button>
+    <button class="toggle-button" onclick="toggleMode()">Dark mode</button>
+    <select class="select-language" onchange="changeLanguage()">
+      <option value="txt">Text</option>
+      <option value="py">Python</option>
+      <option value="js">JavaScript</option>
+      <option value="java">Java</option>
+      <option value="cpp">C++</option>
+      <option value="csharp">C#</option>
+      <option value="rb">Ruby</option>
+      <option value="go">Go</option>
+      <option value="rs">Rust</option>
+      <option value="swift">Swift</option>
+      <option value="sql">SQL</option>
+      <option value="html">HTML</option>
+      <option value="css">CSS</option>
+      <option value="scss">SCSS</option>
+      <option value="json">JSON</option>
+      <option value="xml">XML</option>
+<option value="bat">Batch</option>
+      <option value="ps1">Powershell</option>
+    </select>
+  </div><script>
+    function copyToClipboard() {
+      const codespace = document.querySelector('.codespace');
+      codespace.select();
+      document.execCommand('copy');
+      const copyButton = document.querySelector('.copy-button');
+      copyButton.textContent = 'Copied';
+      setTimeout(() => {
+        copyButton.textContent = 'Copy';
+      }, 2000);
+    }
+    function downloadCode() {
+      const codespace = document.querySelector('.codespace');
+      const code = codespace.value;
+      const language = document.querySelector('.select-language').value;
+      const extension = language;
+      const blob = new Blob([code], { type: 'text/' + extension });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'code.' + extension;
+      a.click();
+      URL.revokeObjectURL(url);
+      const downloadButton = document.querySelector('.download-button');
+      downloadButton.textContent = 'Downloaded';
+      setTimeout(() => {
+        downloadButton.textContent = 'Download';
+      }, 2000);
+    }
+    function toggleMode() {
+      const popupBackground = document.querySelector(':root').style.getPropertyValue('--popup-background');
+      const codespaceBackground = document.querySelector(':root').style.getPropertyValue('--codespace-background');
+      const textColorNormal = document.querySelector(':root').style.getPropertyValue('--text-color-normal');
+      const buttonBackground = document.querySelector(':root').style.getPropertyValue('--button-background');
+      const buttonHoverBackground = document.querySelector(':root').style.getPropertyValue('--button-hover-background');
+      if (popupBackground === '#121212') {
+        document.querySelector(':root').style.setProperty('--popup-background', '#FFFFFF');
+        document.querySelector(':root').style.setProperty('--codespace-background', '#F7F7F7');
+        document.querySelector(':root').style.setProperty('--text-color-normal', '#222222');
+        document.querySelector(':root').style.setProperty('--button-background', '#444444');
+        document.querySelector(':root').style.setProperty('--button-hover-background', '#666666');
+        document.querySelector('.toggle-button').textContent = 'Dark mode';
+      } else {
+        document.querySelector(':root').style.setProperty('--popup-background', '#121212');
+        document.querySelector(':root').style.setProperty('--codespace-background', '#272727');
+        document.querySelector(':root').style.setProperty('--text-color-normal', '#99FF99');
+        document.querySelector(':root').style.setProperty('--button-background', '#4CAF50');
+        document.querySelector(':root').style.setProperty('--button-hover-background', '#5EBE5B');
+        document.querySelector('.toggle-button').textContent = 'Light mode';
+      }
+    }
+    function changeLanguage() {
+      const selectLanguage = document.querySelector('.select-language');
+      const codespace = document.querySelector('.codespace');
+      const extension = selectLanguage.value;
+      codespace.value = selectLanguage.options[selectLanguage.selectedIndex].text + ':\n\n' + codespace.value;
+    }
+  </script>
+</body>
+</html>

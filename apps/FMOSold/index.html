@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FMOS</title>
+  <style>
+    /* Retro terminal styling */
+    body {
+      background-color: #000;
+      font-family: monospace;
+    }
+    #terminal {
+      font-size: 24px;
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal">
+    <div id="output"></div>
+    <div id="input-line">
+      <span id="prompt">Admin:~$ </span>
+      <span id="input" contenteditable="true"></span>
+    </div>
+  </div>
+
+  <script>
+    const terminal = document.getElementById('terminal');
+    const output = document.getElementById('output');
+    const prompt = document.getElementById('prompt');
+    const input = document.getElementById('input');
+    let command = '';
+    let history = [];
+    let historyIndex = -1;
+
+    input.focus();
+
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        handleInput(input.textContent);
+        input.textContent = ''; // Clear the input field
+      }
+    });
+
+    function handleInput(command) {
+      try {
+        if (command.trim() === 'sudo install sandwich') {
+          const outputLine = document.createElement('div');
+          outputLine.innerHTML = `<div>${command}</div>`;
+          output.appendChild(outputLine);
+
+          setTimeout(() => {
+            const installingLine = document.createElement('div');
+            installingLine.innerHTML = `<div>Installing...</div>`;
+            output.appendChild(installingLine);
+          }, 500);
+
+          setTimeout(() => {
+            const gettingTomatoLine = document.createElement('div');
+            gettingTomatoLine.innerHTML = `<div>Getting tomato...</div>`;
+            output.appendChild(gettingTomatoLine);
+          }, 1000);
+
+          setTimeout(() => {
+            const gettingCheeseLine = document.createElement('div');
+            gettingCheeseLine.innerHTML = `<div>Getting cheese...</div>`;
+            output.appendChild(gettingCheeseLine);
+          }, 1500);
+
+          setTimeout(() => {
+            const gettingBreadLine = document.createElement('div');
+            gettingBreadLine.innerHTML = `<div>Getting bread...</div>`;
+            output.appendChild(gettingBreadLine);
+          }, 2000);
+
+          setTimeout(() => {
+            const installingHamLine = document.createElement('div');
+            installingHamLine.innerHTML = `<div>Installing ham...</div>`;
+            output.appendChild(installingHamLine);
+          }, 2500);
+
+          setTimeout(() => {
+            const failedToInstallHamLine = document.createElement('div');
+            failedToInstallHamLine.innerHTML = `<div>Failed to install ham. Try using a toaster instead!</div>`;
+            output.appendChild(failedToInstallHamLine);
+          }, 3000);
+        } else if (command.trim() === 'l') {
+          const trainLine = document.createElement('div');
+          trainLine.innerHTML = `<div>_______</div><div>|       |</div><div>|  o  o  |</div><div>|_______|</div><div>  ^  ^  ^</div>`;
+          output.appendChild(trainLine);
+        } else if (command.startsWith('cowsay')) {
+          const message = command.substring(7);
+          const cowLine = document.createElement('div');
+          cowLine.innerHTML = `<div> _______</div><div><${message}></div><div>        \   ^__^</div><div>         \  (oo)\__</div><div>          (__)\       )\/\</div><div>              ||----w |</div><div>              ||     ||</div>`;
+          output.appendChild(cowLine);
+        } else if (command.trim() === 'fortune') {
+          const fortunes = [
+            'Why do programmers prefer dark mode? Because light attracts bugs.',
+            'I told my wife she was drawing her eyebrows too high. She looked surprised.',
+            'Why do programmers prefer dark mode? Because light attracts bugs.',
+            'What do you call a fake noodle? An impasta.',
+            'Why do programmers prefer dark mode? Because light attracts bugs.',
+          ];
+          const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+          const fortuneLine = document.createElement('div');
+          fortuneLine.innerHTML = `<div>${randomFortune}</div>`;
+          output.appendChild(fortuneLine);
+        } else if (command.trim() === 'telnet towel.blinkenlights.nl') {
+          const towelLine = document.createElement('div');
+          towelLine.innerHTML = `<div>_______</div><div>|       |</div><div>|  TOWEL  |</div><div>|_______|</div><div>  ^  ^  ^</div>`;
+          output.appendChild(towelLine);
+// Add animation logic here
+        } else if (command.trim() === 'apt-get install beer') {
+          const errorLine = document.createElement('div');
+          errorLine.innerHTML = `<div>Error: Beer is not a valid package. Try using a fridge instead!</div>`;
+          output.appendChild(errorLine);
+        } else if (command.trim() === 'rm -rf /') {
+          const errorLine = document.createElement('div');
+          errorLine.innerHTML = `<div>Error: You're not root. And even if you were, I wouldn't let you do that.</div>`;
+          output.appendChild(errorLine);
+        } else if (command.trim() === 'udo make me a sandwich') {
+          const errorLine = document.createElement('div');
+          errorLine.innerHTML = `<div>Error: Sandwich not found. Try using a recipe instead.</div>`;
+          output.appendChild(errorLine);
+        } else if (command.trim() === 'apt-get install procrastination') {
+          const errorLine = document.createElement('div');
+          errorLine.innerHTML = `<div>Error: Package not found. But I'm sure you'll find a way to procrastinate anyway.</div>`;
+          output.appendChild(errorLine);
+        } else if (command.trim() === 'python print("Hello, World!")') {
+          const outputLine = document.createElement('div');
+          outputLine.innerHTML = `<div>Hello, World! (But this is a Linux terminal, not a Python interpreter...)</div>`;
+          output.appendChild(outputLine);
+        } else if (command.trim() === 'git commit -m "Fix everything"') {
+          const outputLine = document.createElement('div');
+          outputLine.innerHTML = `<div>Commit successful! (But let's be real, you probably just broke everything)</div>`;
+          output.appendChild(outputLine);
+        } else {
+          const result = eval(command);
+          const outputLine = document.createElement('div');
+          outputLine.innerHTML = `<div>${command}</div><div>Result: ${result}</div>`;
+          output.appendChild(outputLine);
+        }
+      } catch (e) {
+        const outputLine = document.createElement('div');
+        outputLine.innerHTML = `<div>${command}</div><div>Error: ${e.message}</div>`;
+        output.appendChild(outputLine);
+      }
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+  </script>
+</body>
+</html>

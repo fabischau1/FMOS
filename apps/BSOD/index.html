@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>help</title>
+    <style>
+      body {
+        background-color: #0078D7;
+        font-family: Segoe UI;
+        font-size: 24px;
+        color: #FFFFFF;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: none;
+      }
+     .sad-face {
+        font-size: 72px;
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="sad-face">:(</div>
+      <h1>Your PC ran into a problem and needs to restart.</h1>
+      <p>We're sorry for the inconvenience.</p>
+      <p>STOP CODE: SOME_RANDOM_ERROR_IDK</p>
+      <p>If you'd like to know more, you can search online later for this error: SOME_RANDOM_ERROR_IDK</p>
+      <p id="timer">System will restart in <span id="countdown">60</span> seconds.</p>
+    </div>
+    <script>
+      let countdown = 60;
+      let timer = document.getElementById("timer");
+      let countdownSpan = document.getElementById("countdown");
+      
+      setInterval(function() {
+        countdown--;
+        countdownSpan.textContent = countdown;
+        if (countdown <= 0) {
+          window.location.href = "https://fabischau1.github.io/FM_OS/";
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

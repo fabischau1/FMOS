@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristischer Taschenrechner</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #000);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.8);
+            padding: 30px;
+            width: 350px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .calculator:hover {
+            box-shadow: 0px 0px 30px rgba(0, 255, 255, 1);
+            transform: translateY(-10px);
+        }
+
+        .screen {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 2.5rem;
+            text-align: right;
+            box-shadow: inset 0px 0px 20px rgba(0, 255, 255, 0.4);
+            color: #00ffff;
+            min-height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .button {
+            background: rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 10px;
+            color: #00ffff;
+            font-size: 1.5rem;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+            flex: 1;
+            margin: 0 5px;
+            box-shadow: 0px 4px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 20px rgba(0, 255, 255, 0.5);
+            background-color: rgba(0, 255, 255, 0.2);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: none;
+            background-color: rgba(0, 255, 255, 0.3);
+        }
+
+        .button.double {
+            flex: 2;
+        }
+
+        .button-row:nth-child(4) .button:last-child {
+            background: rgba(255, 69, 0, 0.8);
+            color: #fff;
+        }
+
+        .button-row:nth-child(4) .button:last-child:hover {
+            background: rgba(255, 69, 0, 1);
+        }
+
+        .button.memory {
+            background: rgba(0, 191, 255, 0.8);
+        }
+
+        .button.memory:hover {
+            background: rgba(0, 191, 255, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div id="screen" class="screen">0</div>
+        <div class="button-row">
+            <button class="button memory" onclick="memoryStore()">M+</button>
+            <button class="button memory" onclick="memoryRecall()">MR</button>
+            <button class="button memory" onclick="memoryClear()">MC</button>
+            <button class="button" onclick="clearScreen()">C</button>
+        </div>
+        <div class="button-row">
+            <button class="button" onclick="appendNumber('7')">7</button>
+            <button class="button" onclick="appendNumber('8')">8</button>
+            <button class="button" onclick="appendNumber('9')">9</button>
+            <button class="button" onclick="setOperation('/')">/</button>
+        </div>
+        <div class="button-row">
+            <button class="button" onclick="appendNumber('4')">4</button>
+            <button class="button" onclick="appendNumber('5')">5</button>
+            <button class="button" onclick="appendNumber('6')">6</button>
+            <button class="button" onclick="setOperation('*')">*</button>
+        </div>
+        <div class="button-row">
+            <button class="button" onclick="appendNumber('1')">1</button>
+            <button class="button" onclick="appendNumber('2')">2</button>
+            <button class="button" onclick="appendNumber('3')">3</button>
+            <button class="button" onclick="setOperation('-')">-</button>
+        </div>
+        <div class="button-row">
+            <button class="button" onclick="appendNumber('0')">0</button>
+            <button class="button" onclick="appendNumber('.')">.</button>
+            <button class="button" onclick="calculate()">=</button>
+            <button class="button" onclick="setOperation('+')">+</button>
+        </div>
+        <div class="button-row">
+            <button class="button double" onclick="calculateSquareRoot()">√</button>
+            <button class="button double" onclick="calculatePower()">x²</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';
+        let previousInput = '';
+        let operation = null;
+        let memory = 0;
+
+        function appendNumber(number) {
+            if (currentInput.includes('.') && number === '.') return;
+            currentInput += number;
+            updateScreen();
+        }
+
+        function updateScreen() {
+            const screen = document.getElementById('screen');
+            screen.textContent = currentInput || '0';
+        }
+
+        function clearScreen() {
+            currentInput = '';
+            previousInput = '';
+            operation = null;
+            updateScreen();
+        }
+
+        function setOperation(op) {
+            if (currentInput === '') return;
+            if (previousInput !== '') {
+                calculate();
+            }
+            operation = op;
+            previousInput = currentInput;
+            currentInput = '';
+        }
+
+        function calculate() {
+            let result;
+            const prev = parseFloat(previousInput);
+            const current = parseFloat(currentInput);
+            if (isNaN(prev) || isNaN(current)) return;
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+            currentInput = result;
+            operation = null;
+            previousInput = '';
+            updateScreen();
+        }
+
+        function calculateSquareRoot() {
+            if (currentInput === '') return;
+            currentInput = Math.sqrt(parseFloat(currentInput));
+            updateScreen();
+        }
+
+        function calculatePower() {
+            if (currentInput === '') return;
+            currentInput = Math.pow(parseFloat(currentInput), 2);
+            updateScreen();
+        }
+
+        function memoryStore() {
+            memory = parseFloat(currentInput) || 0;
+        }
+
+        function memoryRecall() {
+            currentInput = memory.toString();
+            updateScreen();
+        }
+
+        function memoryClear() {
+            memory = 0;
+        }
+    </script>
+</body>
+
+</html>

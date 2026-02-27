@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #f0f4f8;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .container.dark-mode {
+            background-color: #444;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h1.dark-mode {
+            color: #f0f4f8;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9fafb;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        input[type="password"]:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+
+        input[type="password"].dark-mode {
+            background-color: #555;
+            border-color: #666;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        button.dark-mode {
+            background-color: #555;
+            color: #f0f4f8;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .dark-mode .error {
+            color: #f56565;
+        }
+
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+
+    <div class="container">
+        <h1>Password Management</h1>
+
+        <div id="createPasswordSection" class="hidden">
+            <h2>Create a New Password</h2>
+            <input type="password" id="newPassword" placeholder="Enter new password">
+            <button onclick="savePassword()">Save Password</button>
+            <div id="createPasswordError" class="error hidden">Please enter a new password.</div>
+        </div>
+
+        <div id="changePasswordSection" class="hidden">
+            <h2>Change Your Password</h2>
+            <input type="password" id="currentPassword" placeholder="Enter current password">
+            <input type="password" id="newPasswordChange" placeholder="Enter new password">
+            <button onclick="changePassword()">Change Password</button>
+            <div id="changePasswordError" class="error hidden">Incorrect current password or new password is empty.</div>
+        </div>
+    </div>
+
+    <script>
+        // Check if a password is already stored in localStorage
+        if (localStorage.getItem('password')) {
+            document.getElementById('changePasswordSection').classList.remove('hidden');
+        } else {
+            document.getElementById('createPasswordSection').classList.remove('hidden');
+        }
+
+        // Function to save the new password in localStorage
+        function savePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const errorMessage = document.getElementById('createPasswordError');
+            if (newPassword) {
+                localStorage.setItem('password', newPassword);
+                alert('Password successfully saved!');
+                window.location.reload(); // Reload the page to use the new password
+            } else {
+                errorMessage.classList.remove('hidden');
+            }
+        }
+
+        // Function to change the existing password
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPasswordChange').value;
+            const storedPassword = localStorage.getItem('password');
+            const errorMessage = document.getElementById('changePasswordError');
+
+            if (currentPassword === storedPassword && newPassword) {
+                localStorage.setItem('password', newPassword);
+                alert('Password successfully changed!');
+                window.location.reload(); // Reload the page to use the new password
+            } else {
+                errorMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    errorMessage.classList.add('hidden');
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPasswordChange').value = '';
+                }, 30000);
+            }
+        }
+
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const elements = document.querySelectorAll('.container, input[type="password"], button, .error');
+            elements.forEach(element => element.classList.toggle('dark-mode'));
+        }
+    </script>
+
+</body>
+</html>

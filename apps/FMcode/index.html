@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vollbild-Code-Editor</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            overflow: hidden;
+        }
+
+        .editor-container {
+            display: flex;
+            flex-grow: 1;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .line-numbers {
+            background-color: #161b22;
+            padding: 10px 0;
+            text-align: right;
+            user-select: none;
+            overflow-y: auto;
+            border-right: 1px solid #30363d;
+            box-shadow: inset -3px 0 5px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .line-numbers span {
+            display: block;
+            padding: 0 10px;
+            line-height: 1.5em;
+            height: 1.5em;
+            color: #58a6ff; /* Futuristic blue */
+            font-family: 'Fira Code', monospace;
+        }
+
+        .editor {
+            flex-grow: 1;
+            padding: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            line-height: 1.5em;
+            border: none;
+            outline: none;
+            background-color: #0d1117;
+            color: #e0e0e0;
+            resize: none;
+            overflow: auto;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .editor:focus {
+            background-color: #161b22;
+            color: #e0e0e0;
+        }
+
+        .menu-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #161b22;
+            color: #58a6ff; /* Futuristic blue */
+            border: 2px solid #58a6ff;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 12px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        .menu-button:hover {
+            background-color: #58a6ff;
+            color: #0d1117;
+            transform: scale(1.1);
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background-color: #161b22;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            width: 220px;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .menu-content.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .menu-content button {
+            background-color: transparent;
+            color: #c9d1d9;
+            border: none;
+            padding: 12px 15px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-content button:hover {
+            background-color: #30363d;
+        }
+
+        #uploadInput {
+            display: none;
+        }
+
+        .iframe-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .iframe-container.show {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .iframe-container iframe {
+            width: 90%;
+            height: 90%;
+            border: 3px solid #58a6ff; /* Futuristic blue border */
+            border-radius: 12px;
+            background: white;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="editor-container">
+    <button class="menu-button" onclick="toggleMenu()">☰ Menü</button>
+    <div class="menu-content" id="menuContent">
+        <button onclick="copyText()">Copy</button>
+        <button onclick="downloadText()">Download</button>
+        <button onclick="document.getElementById('uploadInput').click()">Upload</button>
+        <input type="file" id="uploadInput" onchange="uploadFile()">
+    </div>
+    <div class="line-numbers" id="lineNumbers"></div>
+    <textarea class="editor" id="editor" oninput="updateLineNumbers()" onscroll="syncScroll()" spellcheck="false"></textarea>
+</div>
+
+<div class="iframe-container" id="iframeContainer">
+    <iframe id="iframe"></iframe>
+</div>
+
+<script>
+    function toggleMenu() {
+        const menuContent = document.getElementById('menuContent');
+        menuContent.classList.toggle('show');
+    }
+
+    function updateLineNumbers() {
+        const editor = document.getElementById('editor');
+        const lineNumbers = document.getElementById('lineNumbers');
+        const lines = editor.value.split('\n').length;
+
+        lineNumbers.innerHTML = '';
+        for (let i = 1; i <= lines; i++) {
+            const lineNumber = document.createElement('span');
+            lineNumber.textContent = i;
+            lineNumbers.appendChild(lineNumber);
+        }
+    }
+
+    function syncScroll() {
+        const editor = document.getElementById('editor');
+        const lineNumbers = document.getElementById('lineNumbers');
+        lineNumbers.scrollTop = editor.scrollTop;
+    }
+
+    function copyText() {
+        const editor = document.getElementById('editor');
+        editor.select();
+        document.execCommand('copy');
+        alert("Text kopiert!");
+    }
+
+    function downloadText() {
+        const editor = document.getElementById('editor');
+        const text = editor.value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const anchor = document.createElement('a');
+        anchor.href = URL.createObjectURL(blob);
+        anchor.download = 'code.txt';
+        anchor.click();
+    }
+
+    function uploadFile() {
+        const fileInput = document.getElementById('uploadInput');
+        const editor = document.getElementById('editor');
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            editor.value = e.target.result;
+            updateLineNumbers();
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    }
+
+    function showIframe() {
+        const iframeContainer = document.getElementById('iframeContainer');
+        const iframe = document.getElementById('iframe');
+        const editor = document.getElementById('editor');
+
+        // Create a data URL for the editor content
+        const content = editor.value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        iframe.srcdoc = `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>Code Preview</title></head><body><pre>${content}</pre></body></html>`;
+
+        iframeContainer.classList.add('show');
+
+        // Close iframe when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!iframeContainer.contains(event.target) && event.target !== document.querySelector('.menu-button')) {
+                iframeContainer.classList.remove('show');
+            }
+        }, { once: true });
+    }
+
+    // Initialisieren der Zeilennummern
+    updateLineNumbers();
+</script>
+
+</body>
+</html>

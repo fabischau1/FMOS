@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+			cursor: none;
+        }
+
+        .dvd-logo {
+            position: absolute;
+            width: 150px;
+            height: 80px;
+            background-color: #00ffff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="dvd-logo">DVD</div>
+
+    <script>
+        const dvdLogo = document.querySelector('.dvd-logo');
+        let xSpeed = 2;
+        let ySpeed = 2;
+        let xPos = Math.random() * (window.innerWidth - dvdLogo.clientWidth);
+        let yPos = Math.random() * (window.innerHeight - dvdLogo.clientHeight);
+
+        function updatePosition() {
+            xPos += xSpeed;
+            yPos += ySpeed;
+
+            if (xPos <= 0 || xPos >= window.innerWidth - dvdLogo.clientWidth) {
+                xSpeed = -xSpeed;
+                changeColor();
+            }
+            if (yPos <= 0 || yPos >= window.innerHeight - dvdLogo.clientHeight) {
+                ySpeed = -ySpeed;
+                changeColor();
+            }
+
+            dvdLogo.style.left = `${xPos}px`;
+            dvdLogo.style.top = `${yPos}px`;
+            requestAnimationFrame(updatePosition);
+        }
+
+        function changeColor() {
+            const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff0000', '#00ff00'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            dvdLogo.style.backgroundColor = randomColor;
+            dvdLogo.style.textShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+            dvdLogo.style.boxShadow = `0 0 20px ${randomColor}, 0 0 40px ${randomColor}`;
+        }
+
+        updatePosition();
+    </script>
+</body>
+</html>

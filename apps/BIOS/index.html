@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIOS Setup Utility</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Modern BIOS-inspired style */
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .bios-container {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 1200px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      color: #00FF00;
+      margin-bottom: 30px;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: space-evenly;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      border-bottom: 2px solid #444;
+    }
+
+    .menu li {
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .menu li:hover {
+      background-color: #333;
+    }
+
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab h2 {
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-spacing: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #2d2d2d;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+
+    th {
+      background-color: #444;
+    }
+
+    td {
+      background-color: #333;
+    }
+
+    td input, td select {
+      background-color: #444;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 5px;
+      padding: 5px;
+      width: 100%;
+    }
+
+    td input:focus, td select:focus {
+      border-color: #00FF00;
+      outline: none;
+    }
+
+    #save-exit, #discard-exit {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #save-exit:hover, #discard-exit:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    #discard-exit {
+      background-color: #d9534f;
+    }
+
+    #discard-exit:hover {
+      background-color: #c9302c;
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background-color: #ff4d4d;
+      color: #fff;
+      border: 2px solid #cc0000;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Transition for Tabs */
+    .tab.fade {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bios-container">
+    <h1>BIOS Setup Utility</h1>
+
+    <div class="warning-box">
+      <p><strong>Warning:</strong> Any code and JavaScript executed here and every website visited here will affect your FMOS system and may also affect your browser/real system. Proceed with caution.</p>
+    </div>
+
+    <ul class="menu">
+      <li><a href="#main">Main</a></li>
+      <li><a href="#advanced">Advanced</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#boot">Boot</a></li>
+      <li><a href="#exit">Exit</a></li>
+    </ul>
+
+    <div class="content">
+      <div id="main" class="tab fade">
+        <h2>Main</h2>
+        <table>
+          <tr>
+            <td>System Time:</td>
+            <td><input type="text" id="system-time" value="12:00:00 AM"></td>
+          </tr>
+          <tr>
+            <td>System Date:</td>
+            <td><input type="text" id="system-date" value="2023-02-20"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="advanced" class="tab fade">
+        <h2>Advanced</h2>
+        <table>
+          <tr>
+            <td>CPU Frequency:</td>
+            <td><input type="text" id="cpu-frequency" value="2.4 GHz"></td>
+          </tr>
+          <tr>
+            <td>Memory Timing:</td>
+            <td><input type="text" id="memory-timing" value="CAS Latency: 9"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="security" class="tab fade">
+        <h2>Security</h2>
+        <table>
+          <tr>
+            <td>Admin Password:</td>
+            <td><input type="password" id="admin-password"></td>
+          </tr>
+          <tr>
+            <td>User Password:</td>
+            <td><input type="password" id="user-password"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="boot" class="tab fade">
+        <h2>Boot</h2>
+        <table>
+          <tr>
+            <td>Boot Order:</td>
+            <td>
+              <select id="boot-order">
+                <option value="FMOS">FMOS</option>
+                <option value="111">FMOS Versions</option>
+                <option value="FMOSold">FMOS old</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="exit" class="tab fade">
+        <h2>Exit</h2>
+        <button id="save-exit">Save & Exit</button>
+        <button id="discard-exit">Discard Changes & Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code to handle tab switching and button clicks
+    const tabs = document.querySelectorAll('.tab');
+    const menuLinks = document.querySelectorAll('.menu a');
+    
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tabId = link.getAttribute('href').substring(1);
+        
+        tabs.forEach((tab) => {
+          tab.style.display = 'none';
+        });
+        
+        document.getElementById(tabId).style.display = 'block';
+      });
+    });
+
+    document.getElementById('save-exit').addEventListener('click', () => {
+      const bootOrder = document.getElementById('boot-order').value;
+      switch (bootOrder) {
+        case 'FMOS':
+          window.location.href = 'https://fabischau1.github.io/FMOS/';
+          break;
+        case '111':
+          window.location.href = 'https://fabischau1.github.io/SelectFMOS/';
+          break;
+        case 'FMOSold':
+          window.location.href = 'https://fabischau1.github.io/FMOSold/';
+          break;
+      }
+    });
+
+    document.getElementById('discard-exit').addEventListener('click', () => {
+      alert('Changes discarded!');
+    });
+  </script>
+</body>
+</html>

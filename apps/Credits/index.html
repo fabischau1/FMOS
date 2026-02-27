@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt Credits</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(30, 30, 30, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.8);
+            animation: zoomIn 0.6s ease-out forwards, glow 1.5s infinite alternate;
+        }
+
+        @keyframes zoomIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 10px 30px rgba(0, 255, 236, 0.5);
+            }
+            to {
+                box-shadow: 0 10px 30px rgba(0, 255, 236, 1);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00e676;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #00e676;
+            animation: underline 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes underline {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .credits-section {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .credits-section:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .credits-section:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .credits-section:nth-child(4) {
+            animation-delay: 0.9s;
+        }
+
+        .credits-section:nth-child(5) {
+            animation-delay: 1.2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #00e5ff;
+            position: relative;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.4;
+            }
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Credits</h1>
+        <div class="credits-section">
+            <h2>Founder</h2>
+            <p>fabischau</p>
+        </div>
+        <div class="credits-section">
+            <h2>Development</h2>
+            <p>fabischau</p>
+        </div>
+        <div class="credits-section">
+            <h2>Design</h2>
+            <p>fabischau</p>
+        </div>
+        <div class="credits-section">
+            <h2>Support</h2>
+            <p>fabischau</p>
+        </div>
+    </div>
+</body>
+</html>

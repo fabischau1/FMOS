@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS browser</title>
+    <style>
+		/* Grundlegende Styles */
+		body, html {
+			margin: 0;
+			padding: 0;
+			font-family: 'Roboto', sans-serif;
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			background-color: #121212;
+			transition: background-color 0.3s ease-in-out;
+		}
+
+		/* Tab-Leiste (kleiner und kompakter) */
+		.tab-bar {
+			display: flex;
+			align-items: center;
+			background-color: rgba(0, 0, 0, 0.6);
+			padding: 4px 8px; /* Weniger Padding */
+			overflow-x: auto;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			backdrop-filter: blur(10px);
+			height: 40px; /* Feste Höhe */
+		}
+
+		/* Tab-Stile */
+		.tab {
+			padding: 6px 12px; /* Weniger Padding */
+			margin-right: 8px;
+			border-radius: 8px; /* Eher abgerundete Ecken */
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			background: rgba(255, 255, 255, 0.1);
+			color: #fff;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+			transition: transform 0.3s ease, background-color 0.3s ease;
+			font-size: 14px; /* Kleinere Schrift */
+		}
+
+		/* Hover- und aktive Tab-Effekte */
+		.tab:hover {
+			transform: scale(1.05);
+			background-color: rgba(255, 255, 255, 0.2);
+		}
+
+		.tab.active {
+			background-color: #00bcd4;
+			color: #121212;
+			font-weight: bold;
+			transform: scale(1.1);
+		}
+
+		/* Schließen-Button */
+		.close-btn {
+			margin-left: 6px; /* Weniger Abstand */
+			color: #fff;
+			cursor: pointer;
+			transition: color 0.3s ease;
+			font-size: 12px; /* Kleinere Schrift für Schließen-Button */
+		}
+
+		.close-btn:hover {
+			color: #ff4081;
+		}
+
+		/* Browser-Steuerung */
+		.browser-controls {
+			display: flex;
+			padding: 8px; /* Weniger Padding */
+			background-color: rgba(0, 0, 0, 0.75);
+			align-items: center;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		/* Buttons und Adressleiste */
+		.button, .address-bar {
+			margin: 0 6px; /* Weniger Abstand */
+			padding: 8px 12px;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+			font-size: 14px; /* Kleinere Schrift */
+		}
+
+		.button {
+			background-color: #333;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		.button:hover {
+			background-color: #00bcd4;
+			transform: translateY(-2px);
+		}
+
+		.address-bar {
+			flex-grow: 1;
+			border: none;
+			background: rgba(255, 255, 255, 0.2);
+			padding: 8px;
+			color: #fff;
+			border-radius: 8px;
+			transition: background-color 0.3s ease;
+		}
+
+		.address-bar:focus {
+			background-color: rgba(0, 188, 212, 0.4);
+		}
+
+		/* Iframe Container */
+		.iframe-container {
+			flex-grow: 1;
+			border-top: 2px solid rgba(255, 255, 255, 0.2);
+			animation: fadeIn 0.5s ease-in-out;
+		}
+
+		iframe {
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-radius: 8px;
+		}
+
+		/* Futuristische Animation für Fade-In */
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+
+		/* Settings Panel */
+		.settings {
+			position: fixed;
+			top: 20px;
+			left: 80%;
+			transform: translateX(-50%);
+			background-color: #333;
+			color: white;
+			border-radius: 10px;
+			padding: 20px;
+			box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+			width: 300px;
+			opacity: 0;
+			transform: translateY(-20px);
+			visibility: hidden;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+
+		/* Show settings when active */
+		.settings.active {
+			opacity: 1;
+			transform: translateY(0);
+			visibility: visible;
+		}
+
+		/* Buttons */
+		button {
+			padding: 12px 20px;
+			border-radius: 5px;
+			border: none;
+			cursor: pointer;
+			font-size: 16px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		button:hover {
+			transform: scale(1.05);
+		}
+
+		/* Open Settings Button */
+		.btn-open {
+			background-color: #0066ff;
+			color: white;
+		}
+
+		.btn-open:hover {
+			background-color: #0055cc;
+		}
+
+		/* Close Button */
+		.btn-close {
+			background-color: #cc0000;
+			color: white;
+			margin-top: 20px;
+			width: 100%;
+		}
+
+		.btn-close:hover {
+			background-color: #990000;
+		}
+
+		/* Dropdowns */
+		.dropdown {
+			width: 100%;
+			padding: 10px;
+			margin: 10px 0;
+			background-color: #444;
+			color: white;
+			border: 1px solid #666;
+			border-radius: 6px;
+			font-size: 16px;
+			appearance: none;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.dropdown:hover {
+			background-color: #555;
+		}
+
+		.dropdown:focus {
+			background-color: #666;
+		}
+
+		/* Simple Animations */
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.settings.active {
+			animation: fadeIn 0.3s ease-out forwards;
+		}
+		
+		
+		/* Bookmarks */
+		.bookmark-container {
+			position: fixed; /* Fixiert den Container an der Seite */
+			top: 50%; /* Zentriert den Container vertikal */
+			left: 50%; /* Zentriert den Container horizontal */
+			transform: translate(-50%, -50%); /* Korrektur zur exakten Mitte */
+			margin: 0; /* Entfernt die Standard-Margen */
+			padding: 10px;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+			background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(50, 50, 50, 0.8));
+			border-radius: 10px;
+			max-height: 300px;
+			overflow-y: auto;
+			backdrop-filter: blur(5px);
+			z-index: 1000; /* Stellt sicher, dass das Overlay vor allem anderen liegt */
+			display: none; /* Macht das Overlay standardmäßig unsichtbar */
+		}
+
+		/* Bookmark-Elemente */
+		.bookmark-item {
+			padding: 12px 16px;
+			margin-bottom: 8px;
+			background-color: rgba(255, 255, 255, 0.1);
+			border-radius: 8px;
+			color: #fff;
+			cursor: pointer;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
+
+		.bookmark-item:hover {
+			background-color: rgba(255, 255, 255, 0.3);
+			transform: translateX(10px);
+		}
+
+		/* Schickere Hover-Animationen */
+		.bookmark-item:hover {
+			transform: scale(1.05);
+		}
+
+
+		/* Dark Mode Transition */
+		body.dark-mode {
+			background-color: #121212;
+			color: #fff;
+		}
+
+		body.dark-mode .tab-bar {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		body.dark-mode .tab {
+			background-color: rgba(255, 255, 255, 0.15);
+			color: #fff;
+		}
+
+		body.dark-mode .tab.active {
+			background-color: #00bcd4;
+			color: #121212;
+		}
+
+        .theme-light { background-color: #fff; }
+        .theme-dark { background-color: #333; color: #fff; }
+        .theme-blue { background-color: #b3d9ff; }
+    </style>
+</head>
+<body>
+
+    <div class="tab-bar" id="tabBar">
+        <div class="tab active" onclick="switchTab(0)">Tab 1<span class="close-btn" onclick="closeTab(event, 0)">✕</span></div>
+    </div>
+    <div class="browser-controls">
+        <button class="button" onclick="goBack()">◀</button>
+        <button class="button" onclick="goForward()">▶</button>
+        <button class="button" onclick="reloadPage()">🔄 Reload</button>
+        <input type="text" id="addressBar" class="address-bar" placeholder="Enter URL">
+        <button class="button" onclick="loadURL()">Go</button>
+        <button class="button" onclick="newTab()">+ New Tab</button>
+        <button class="button" onclick="toggleSettings()">⚙️</button>
+        <button class="button" onclick="showBookmarks()">⭐ Bookmarks</button>
+        <button class="button" onclick="newTab(); Loadsth('https://fabischau1.github.io/FMOS/Bootscreen/TOS');">📃 TOS</button>
+    </div>
+    <div class="iframe-container" id="iframeContainer">
+        <iframe id="iframe-0" src="" sandbox=""></iframe>
+    </div>
+
+    <div class="settings" id="settings">
+        <label>Theme:
+            <select id="theme" class="dropdown" onchange="saveSettings()">
+                <option value="theme-light">Light</option>
+                <option value="theme-dark">Dark</option>
+                <option value="theme-blue">Blue</option>
+            </select>
+        </label><br>
+        <label>Default Search Engine:
+            <select id="searchEngine" class="dropdown" onchange="saveSettings()">
+                <option value="https://fabischau1.github.io/FMSearch/">FMSearch</option>
+                <option value="https://fabischau1.github.io/FMSearch/new.html">FMSearch New</option>
+            </select>
+        </label><br>
+        <label>Security Level:
+            <select id="securityLevel" class="dropdown" onchange="saveSettings()">
+                <option value="low">Low</option>
+                <option value="default">Default</option>
+                <option value="medium">Medium</option>
+                <option value="safest">Safest</option>
+            </select>
+        </label>
+        <br>
+        <button onclick="toggleSettings()">Close</button>
+    </div>
+
+    <div class="bookmark-container" id="bookmarkContainer" style="display: none;">
+        <h3>Your Bookmarks</h3>
+        <div id="bookmarksList"></div>
+        <button class="button" onclick="closeBookmarks()">Close</button>
+        <button class="button" onclick="addBookmark()">Add Bookmark</button>
+        <button class="button" onclick="deletebookmark()">Delete Bookmark</button>
+    </div>
+
+    <script>
+		let tabCount = 1;
+		let currentTab = 0;
+		const tabs = [{ id: 0, history: [], historyIndex: 0 }];
+		let settings = { theme: "theme-light", searchEngine: "https://fabischau1.github.io/FMSearch/", securityLevel: "default" };
+        let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+		function loadSettings() {
+			const savedSettings = JSON.parse(localStorage.getItem("browserSettings"));
+			if (savedSettings) settings = savedSettings;
+			document.getElementById("theme").value = settings.theme;
+			document.getElementById("searchEngine").value = settings.searchEngine;
+			document.getElementById("securityLevel").value = settings.securityLevel;
+			applySettings();
+		}
+
+		function saveSettings() {
+			settings.theme = document.getElementById("theme").value;
+			settings.searchEngine = document.getElementById("searchEngine").value;
+			settings.securityLevel = document.getElementById("securityLevel").value;
+			localStorage.setItem("browserSettings", JSON.stringify(settings));
+			applySettings();
+		}
+
+		function applySettings() {
+			document.body.className = settings.theme;
+			document.querySelectorAll("iframe").forEach(iframe => {
+				setIframeSecurity(iframe);
+			});
+			loadURL(settings.searchEngine);
+		}
+
+		function setIframeSecurity(iframe) {
+			const level = settings.securityLevel;
+			let sandbox = "";
+
+			if (level === "low") {
+				sandbox = "allow-scripts allow-top-navigation-by-user-activation allow-same-origin allow-forms allow-pointer-lock";
+			} else if (level === "default") {
+				sandbox = "allow-top-navigation-by-user-activation allow-same-origin allow-forms allow-scripts";
+			} else if (level === "medium") {
+				sandbox = "allow-top-navigation-by-user-activation allow-scripts";
+			} else if (level === "safest") {
+				sandbox = "allow-top-navigation-by-user-activation";
+			}
+
+			iframe.setAttribute("sandbox", sandbox);
+		}
+
+		function loadURL(url = '') {
+			const inputUrl = document.getElementById("addressBar").value || url;
+			if (!inputUrl) return;
+
+			const iframe = document.getElementById(`iframe-${currentTab}`);
+			tabs[currentTab].history.push(inputUrl);
+			tabs[currentTab].historyIndex = tabs[currentTab].history.length - 1;
+			iframe.src = inputUrl;
+			document.getElementById("addressBar").value = inputUrl;
+		}
+		
+		function Loadsth(url) {
+			const inputUrl = url
+
+			const iframe = document.getElementById(`iframe-${currentTab}`);
+			tabs[currentTab].history.push(inputUrl);
+			tabs[currentTab].historyIndex = tabs[currentTab].history.length - 1;
+			iframe.src = inputUrl;
+			document.getElementById("addressBar").value = inputUrl;
+		}
+
+		function goBack() {
+			if (tabs[currentTab].historyIndex > 0) {
+				tabs[currentTab].historyIndex--;
+				loadURL(tabs[currentTab].history[tabs[currentTab].historyIndex]);
+			}
+		}
+
+		function goForward() {
+			if (tabs[currentTab].historyIndex < tabs[currentTab].history.length - 1) {
+				tabs[currentTab].historyIndex++;
+				loadURL(tabs[currentTab].history[tabs[currentTab].historyIndex]);
+			}
+		}
+
+		function newTab() {
+			const newTabIndex = tabCount++;
+			tabs.push({ id: newTabIndex, history: [], historyIndex: 0 });
+			const tabElement = document.createElement("div");
+			tabElement.className = "tab";
+			tabElement.innerHTML = `Tab ${newTabIndex + 1}<span class="close-btn" onclick="closeTab(event, ${newTabIndex})">✕</span>`;
+			tabElement.onclick = () => switchTab(newTabIndex);
+			document.getElementById("tabBar").appendChild(tabElement);
+
+			const iframe = document.createElement("iframe");
+			iframe.id = `iframe-${newTabIndex}`;
+			iframe.src = settings.searchEngine;
+			iframe.style.display = "none";
+			setIframeSecurity(iframe);
+			document.getElementById("iframeContainer").appendChild(iframe);
+
+			switchTab(newTabIndex);
+		}
+		
+	function closeTab(event, tabId) {
+		event.stopPropagation();
+
+		// Finde den Index des zu schließenden Tabs im Array
+		const tabIndex = tabs.findIndex(tab => tab.id === tabId);
+		if (tabIndex === -1) return; // Sicherheitsprüfung, falls der Tab nicht existiert
+
+		// Entferne das Tab aus dem `tabs`-Array und das entsprechende `iframe`-Element
+		tabs.splice(tabIndex, 1);
+		document.getElementById(`iframe-${tabId}`).remove();
+		document.querySelectorAll(".tab")[tabIndex].remove();
+
+		// Aktualisiere `currentTab`, wenn das geschlossene Tab aktiv ist oder vorher kommt
+		if (tabIndex === currentTab) {
+			// Wenn das geschlossene Tab das aktive Tab war, setze `currentTab` auf den neuen Tab
+			currentTab = Math.min(tabIndex, tabs.length - 1);
+		} else if (tabIndex < currentTab) {
+			currentTab--;  // Wenn ein vorheriger Tab geschlossen wird, verringere `currentTab`
+		}
+
+		// Wenn keine Tabs mehr vorhanden sind, setze `currentTab` auf -1
+		if (tabs.length > 0) {
+			switchTab(tabs[currentTab].id); // Wechsel zu einem anderen vorhandenen Tab
+		} else {
+			currentTab = -1;
+			document.getElementById("addressBar").value = ""; // Adressleiste leeren
+		}
+
+		// Aktualisiere die Anzeige der Tabs und iframe-IDs
+		updateTabDisplay();
+		updateIframeIds();
+	}
+
+	function updateTabDisplay() {
+		// Überprüfe, ob `currentTab` gültig ist
+		if (currentTab === -1 || !tabs[currentTab]) return;
+
+		// Aktualisiere die Darstellung der Tabs
+		document.querySelectorAll(".tab").forEach((tab, index) => {
+			tab.classList.toggle("active", index === currentTab);
+		});
+
+		// Aktualisiere die Anzeige der iframes
+		document.querySelectorAll("iframe").forEach((iframe, index) => {
+			iframe.style.display = index === currentTab ? "block" : "none";
+		});
+
+		// Falls wir ein Tab wechseln, stelle sicher, dass die Adresse des aktuellen iframes angezeigt wird
+		const iframe = document.getElementById(`iframe-${currentTab}`);
+		if (iframe) {
+			document.getElementById("addressBar").value = iframe.src;
+			setIframeSecurity(iframe); // Sicherheitseinstellungen erneut anwenden
+		}
+	}
+
+	function updateIframeIds() {
+		// Ändere die IDs der iframes, um sicherzustellen, dass sie der Reihenfolge der Tabs entsprechen
+		document.querySelectorAll("iframe").forEach((iframe, index) => {
+			iframe.id = `iframe-${index}`; // Neuzeichnen der iframe-IDs, basierend auf der Reihenfolge
+		});
+	}
+
+	function switchTab(tabId) {
+		const tabIndex = tabs.findIndex(tab => tab.id === tabId);
+		if (tabIndex === -1) return; // Sicherheitsprüfung, falls Tab nicht existiert
+
+		currentTab = tabIndex;
+		updateTabDisplay();
+	}
+	
+	function reloadPage() {
+		const iframe = document.getElementById(`iframe-${currentTab}`);
+		if (iframe) {
+			// Überprüfen, ob die URL der Seite im iframe von derselben Domain stammt
+			const iframeSrc = iframe.src;
+			try {
+				// Wenn es möglich ist, auf das `contentWindow` zuzugreifen, bedeutet das, dass der Inhalt derselben Domain stammt
+				if (iframe.contentWindow.location.origin === window.location.origin) {
+					iframe.contentWindow.location.reload(); // Neu laden der Seite im iframe
+				} else {
+					// Wenn das iframe eine andere Domain hat, setzen wir einfach die `src` neu
+					iframe.src = iframeSrc;
+				}
+			} catch (error) {
+				// Wenn ein Fehler auftritt (z.B. aufgrund von Cross-Origin-Beschränkungen), setzen wir die `src` neu
+				iframe.src = iframeSrc;
+			}
+		}
+	}
+	
+	function toggleSettings() {
+		const settings = document.getElementById('settings');
+		settings.classList.toggle('active');
+	}
+
+        // Bookmark Functions
+        function showBookmarks() {
+            const bookmarkContainer = document.getElementById("bookmarkContainer");
+            const bookmarksList = document.getElementById("bookmarksList");
+            bookmarksList.innerHTML = '';
+
+            bookmarks.forEach((bookmark, index) => {
+                const bookmarkItem = document.createElement("div");
+                bookmarkItem.classList.add("bookmark-item");
+                bookmarkItem.textContent = bookmark.name;
+                bookmarkItem.onclick = () => Loadsth(bookmark.url);
+                bookmarksList.appendChild(bookmarkItem);
+            });
+
+            bookmarkContainer.style.display = 'block';
+        }
+
+        function closeBookmarks() {
+            document.getElementById("bookmarkContainer").style.display = 'none';
+        }
+
+        function addBookmark() {
+            const currentUrl = document.getElementById("addressBar").value;
+            if (!currentUrl) {
+                alert("Please give an valid URL!");
+                return;
+            }
+
+            const bookmarkName = prompt("Name Of URL:");
+            if (bookmarkName) {
+                bookmarks.push({ name: bookmarkName, url: currentUrl });
+                localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+            }
+        }
+		
+		function deletebookmark() {
+            const bookmarkName = prompt("Name Of bookmark to delete:");
+            if (bookmarkName) {
+                const index = bookmarks.findIndex(bookmark => bookmark.name === bookmarkName);
+				
+				// Wenn das Lesezeichen gefunden wurde, löschen
+				if (index !== -1) {
+					bookmarks.splice(index, 1);
+					localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+				} else {
+					alert('error')
+				}
+            }
+        }
+
+        window.onload = loadSettings;
+    </script>
+
+</body>
+</html>
