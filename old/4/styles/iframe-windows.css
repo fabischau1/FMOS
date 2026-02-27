@@ -1,0 +1,13 @@
+
+		.windowi {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }

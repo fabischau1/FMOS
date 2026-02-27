@@ -1,0 +1,41 @@
+       .window {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 300px;
+            height: 200px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowi {
+            background-color: white;
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+       .window-header {
+            background-color: #0078d7;
+            color: white;
+            padding: 5px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .window-body {
+            flex: 1;
+            padding: 10px;
+        }
+       .window-footer {
+            padding: 5px;
+            text-align: right;
+        }
