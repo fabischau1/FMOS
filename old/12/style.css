@@ -1,0 +1,262 @@
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+       .desktop {
+            background: url('icons/back.jpg') no-repeat;
+            background-size: cover;
+            position: relative;
+            width: 100%;
+            height: 100%;
+			cursor: default;
+        }
+/* -------neon-text-colors------------------------------------------------------------------------------------------------------- */
+.redlightcolor {
+    color: #ff0000;
+	text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+				0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+}
+
+.greenlightcolor {
+    color: #00ff00;
+	text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+				0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
+}
+
+.textcoloreditor {
+    color: #ffffff;
+	text-shadow: 0 0 1px #0000ff, 0 0 2.5px #0000ff, 0 0 5px #0000ff,
+				0 0 5px #0000ff, 0 0 8px #0000ff, 0 0 10px #0000ff;
+	background-color: rgba(20, 20, 20, 0.7);
+}
+/* -------animation-------------------------------------------------------------------------------------------------------- */
+/* Animation for fading in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* -------file-labels------------------------------------------------------------------------------------------------------- */
+.file-label {
+    margin-top: 120px;
+    font-size: 12px;
+    color: #ff0000;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+                 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+}
+/* -------selection-with-mouse------------------------------------------------------------------------------------------------------ */
+.selected {
+    border: 2px solid #cc0000; /* Dunkleres Rot für die Auswahl */
+    background-color: rgba(204, 0, 0, 0.2); /* Dunkleres Rot für den Hintergrund */
+    border-radius: 3px; /* Etwas kleinere abgerundete Ecken */
+}
+
+/* -------custom-error------------------------------------------------------------------------------------------------------- */
+.error-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2c2c2c; /* Dunkleres, mattes Grau für modernen Look */
+    color: #ff0000;
+	text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000,
+				0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+    padding: 30px 50px;
+    border-radius: 12px; /* Leicht abgerundete Ecken */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Weicher Schatten für Tiefe */
+    text-align: center;
+    z-index: 1000;
+    animation: fadeIn 0.4s ease-in-out;
+    max-width: 90%;
+    width: 360px;
+}
+
+/* Styling für den Text innerhalb der Fehlermeldung */
+.error-message span {
+    display: block;
+    margin-bottom: 20px; /* Abstand zwischen Text und Button */
+    font-size: 18px; /* Größerer, gut lesbarer Text */
+}
+
+.error-message .ok-button {
+    padding: 12px 30px;
+    background: rgba(20, 20, 20, 0.7);
+    border: none;
+    color: #fff;
+    border-radius: 6px; /* Leicht abgerundet für einen modernen Button */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+}
+
+.error-message .ok-button:hover {
+    background: rgba(10, 10, 10, 0.7);
+    transform: translateY(-2px); /* Leichter Hover-Effekt */
+}
+/* Einfache Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+/* -------icons-------------------------------------------------------------------------------------------------------- */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    margin: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+}
+
+.icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+       .icon[data-file$=".js"] {
+            background-image: url('icons/js.jpg');
+        }
+       .icon[data-file$=".fexe"] {
+            background-image: url('icons/fexe.jpg');
+        }
+       .icon[data-file$=".css"] {
+            background-image: url('icons/css.jpg');
+        }
+       .icon[data-file$=".style"] {
+            background-image: url('icons/css.jpg');
+        }
+       .icon[data-file$=".fsys"] {
+            background-image: url('icons/fsys.jpg');
+		}
+		.icon[data-file$=".py"] {
+            background-image: url('icons/py.jpg');
+		}
+       .icon[data-file$=".zfp"] {
+            background-image: url('icons/folder.jpg');
+		}
+       .icon[data-file$=".html"] {
+            background-image: url('icons/html.jpg');
+        }
+		.icon[data-file$=".url"] {
+            background-image: url('icons/url.jpg');
+        }
+		.icon[data-file$=".png"] {
+            background-image: url('icons/png.jpg');
+		}
+		.icon[data-file$=".folder"] {
+            background-image: url('icons/fol.png');
+		}
+		.icon[data-file$=".fak"] {
+            background-image: url('icons/fak.jpg');
+        }
+       .icon:not([data-file$=".js"]):not([data-file$=".fexe"]):not([data-file$=".css"]):not([data-file$=".style"]):not([data-file$=".folder"]):not([data-file$=".fsys"]):not([data-file$=".fak"]):not([data-file$=".png"]):not([data-file$=".url"]):not([data-file$=".zfp"]):not([data-file$=".html"]):not([data-file$=".py"]) {
+            background-image: url('icons/ico.jpg');
+        }
+       .icon[data-folder] {
+            background-image: url('icons/folder.jpg');
+        }
+       .icon.dragging {
+            position: absolute;
+            z-index: 100;
+        }
+       .icon span {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white; /* Weißer Text */
+        }
+
+/* -------login-------------------------------------------------------------------------------------------------------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    width: 350px;
+    backdrop-filter: blur(15px);
+}
+
+.title {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.password-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.password-input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.login-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+    background: linear-gradient(90deg, #0056b3, #003d80);
+    transform: translateY(-2px);
+}
+.login-error {
+    color: #ff4d4d;
+    margin-top: 10px;
+}

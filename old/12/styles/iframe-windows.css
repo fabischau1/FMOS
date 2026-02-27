@@ -1,0 +1,230 @@
+/* -------iframe-config------------------------------------------------------------------------------------------------------- */
+       .window {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 300px;
+            height: 200px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowi {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowstore {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowifram {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowifra {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowifr {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+			transform: scale(0.5);
+			opacity: 0;
+            flex-direction: column;
+            z-index: 10;
+        }.windowif {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+			transform: scale(0.5);
+			opacity: 0;
+		}.windowifc {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+            height: 600px;
+			transform: scale(0.5);
+			opacity: 0;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+		}.windowiframefiles {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+		.windowofchatbox {
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid #000;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 1200px;
+			transform: scale(0.5);
+			opacity: 0;
+            height: 600px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+.windowiframefiles.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifc.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowstore.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifr.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifram.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowifra.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+.windowofchatbox.animate-in {
+  animation: animate-in 0.5s forwards;
+}
+
+@keyframes animate-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* -------rezise-handle------------------------------------------------------------------------------------------------------- */
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 5px;
+  cursor: se-resize;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background-color: #555;
+  transform: rotate(45deg);
+}
+
+.resize-handle::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.resize-handle:hover::before {
+  border-color: #888;
+}
+
+.resize-handle:active {
+  background-color: #777;
+  transform: scale(1.1);
+}
+/* -------text-editor-and-iframe-headers-and-footers-and-bodys----------------------------------------------------------------------------------------------- */
+       .window-header {
+            background-color: rgba(20, 20, 20, 0.7);
+            color: #00ff00;
+			text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00,
+						0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00;
+            padding: 5px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .window-body {
+            flex: 1;
+            padding: 10px;
+        }
+       .window-footer {
+            padding: 5px;
+            text-align: right;
+        }

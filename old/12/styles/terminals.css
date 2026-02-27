@@ -1,0 +1,165 @@
+/* -------terminal-one------------------------------------------------------------------------------------------------------- */
+.terminal-window {
+  background-color: #333;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  width: 800px;
+  height: 600px;
+  overflow: auto;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s, transform 0.5s; /* add transition effect */
+}
+.terminal-header {
+  background-color: #444;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.terminal-title {
+  color: #fff;
+  font-weight: bold;
+}
+.terminal-buttons {
+  display: flex;
+  align-items: center;
+}
+.terminal-button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.terminal-button:hover {
+  background-color: #666;
+}
+
+.terminal-body {
+  padding: 20px;
+}
+
+.terminal-output {
+  padding: 10px;
+  font-family: monospace;
+  color: #fff;
+}
+
+.terminal-prompt {
+  color: #6c5ce7; /* purple color */
+}
+
+.terminal-result {
+  color: #0f0; /* green color */
+}
+
+.terminal-error {
+  color: #f00; /* red color */
+}
+
+#terminal-input {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-family: monospace;
+  border: none;
+  resize: none;
+  width: 100%;
+}
+
+/* -------terminal-two------------------------------------------------------------------------------------------------------- */
+.neon-terminal {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    border: 1px solid #0f0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 400px;
+    height: 300px;
+    display: none;
+    flex-direction: column;
+    z-index: 10;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 10px #0f0;
+    border-radius: 10px;
+    resize: both;
+    overflow: hidden;
+}
+
+.neon-terminal-header {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #0f0;
+}
+
+.neon-terminal-body {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+.neon-terminal-footer {
+    padding: 5px;
+    text-align: right;
+    border-top: 1px solid #0f0;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+/* Button Styles */
+.neon-terminal .btn {
+    background: none;
+    border: none;
+    color: #0f0;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.neon-terminal .btn.fullscreen {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close {
+    background: red;
+    color: #fff;
+}
+
+.neon-terminal .btn.run {
+    background: #00f;
+}
+
+.neon-terminal .btn:hover {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+.neon-terminal .btn.fullscreen:hover {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close:hover {
+    background: darkred;
+}
+
+.neon-terminal .btn.run:hover {
+    background: #00f;
+}
