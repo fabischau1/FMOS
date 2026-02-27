@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS 13 - Nachthimmel Boot Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background-color: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+
+        /* Container für die gesamte Animation */
+        .boot-container {
+            position: relative;
+            width: 80%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Sternenhimmel Hintergrund */
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            animation: twinkle 1.5s infinite;
+        }
+
+        /* Animation für die Sterne */
+        @keyframes twinkle {
+            0%, 20%, 100% {
+                opacity: 0.5;
+            }
+            10%, 30% {
+                opacity: 1;
+            }
+        }
+
+        /* FMOS 13 Logo */
+        .fmos-logo {
+            position: relative;
+            font-size: 60px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+            z-index: 2;
+        }
+
+        /* Fade-In Animation für das Logo */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ladebalken mit futuristischem Effekt */
+        .loading-bar {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .loading-fill {
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 204, 255, 0.9), rgba(255, 0, 128, 0.9));
+            animation: loading-animation 5s linear forwards;
+        }
+
+        @keyframes loading-animation {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Optionaler "Boot Complete"-Text */
+        .boot-complete {
+            position: absolute;
+            font-size: 24px;
+            bottom: 5%;
+            left: 50%;
+            color: rgba(255, 255, 255, 0);
+            transform: translateX(-50%);
+            animation: fadeInText 2s 4s forwards;
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="boot-container">
+        <!-- FMOS 13 Logo -->
+        <div class="fmos-logo">FMOS 13</div>
+
+        <!-- Sterne im Hintergrund -->
+        <div class="star" style="width: 2px; height: 2px; top: 10%; left: 20%; animation-delay: 0s;"></div>
+        <div class="star" style="width: 3px; height: 3px; top: 30%; left: 50%; animation-delay: 0.2s;"></div>
+        <div class="star" style="width: 2px; height: 2px; top: 50%; left: 80%; animation-delay: 0.4s;"></div>
+        <div class="star" style="width: 4px; height: 4px; top: 70%; left: 30%; animation-delay: 0.1s;"></div>
+        <div class="star" style="width: 1.5px; height: 1.5px; top: 40%; left: 60%; animation-delay: 0.3s;"></div>
+        <div class="star" style="width: 3px; height: 3px; top: 20%; left: 80%; animation-delay: 0.5s;"></div>
+        <div class="star" style="width: 2.5px; height: 2.5px; top: 80%; left: 40%; animation-delay: 0.6s;"></div>
+        <div class="star" style="width: 3.5px; height: 3.5px; top: 10%; left: 70%; animation-delay: 0.8s;"></div>
+        <div class="star" style="width: 2px; height: 2px; top: 60%; left: 10%; animation-delay: 0.9s;"></div>
+
+        <!-- Ladebalken -->
+        <div class="loading-bar">
+            <div class="loading-fill"></div>
+        </div>
+
+        <!-- Optionaler "Boot Complete"-Text -->
+        <div class="boot-complete">Boot Complete</div>
+    </div>
+
+    <script>
+        // Nach 5 Sekunden wird der Ladebildschirm abgeschlossen
+        setTimeout(() => {
+            document.querySelector('.boot-container').style.display = 'none';
+            document.body.innerHTML = '<h1 style="color: white; text-align: center;">FMOS 13 gestartet!</h1>';
+        }, 5000);
+    </script>
+</body>
+
+</html>

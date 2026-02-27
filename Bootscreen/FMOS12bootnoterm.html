@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMOS 12 Bootscreen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #121212; /* Dunkler Hintergrund für modernes Aussehen */
+            color: #fff;
+            font-family: 'Helvetica Neue', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            cursor: none;
+        }
+        .text {
+            font-size: 4em; /* Groß genug für moderne Darstellung */
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px; /* Minimaler Abstand zwischen Buchstaben */
+            font-weight: 300; /* Leichtes Schriftbild */
+            cursor: none;
+        }
+        .loader {
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top: 8px solid #ffffff;
+            width: 60px; /* Kleinere, elegantere Größe */
+            height: 60px;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+            cursor: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: 300;
+            opacity: 0.7; /* Dezente Sichtbarkeit */
+            margin-top: 10px;
+            cursor: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="text">FMOS 12</div>
+        <div class="loader"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+</body>
+</html>
