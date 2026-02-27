@@ -1,0 +1,175 @@
+/* -------terminal-one------------------------------------------------------------------------------------------------------- */
+.terminal-window {
+    background-color: rgba(30, 30, 30, 0.95); /* Dunkler, transparenter Hintergrund */
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 11;
+    box-sizing: border-box;
+    resize: both;
+    min-width: 400px;
+    min-height: 300px;
+    cursor: default;
+  }
+  
+  .terminal-header {
+    background-color: #222; /* Dunkler Header */
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move; /* Dragging ermöglicht */
+  }
+  
+  .terminal-title {
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .terminal-button {
+    background-color: #555;
+    color: #fff;
+    border: 1px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 100px;
+    height: 40px;
+    width: 40px;
+  }
+  
+  .terminal-button:hover {
+    background-color: #666;
+  }
+  
+  .terminal-body {
+    padding: 10px;
+    overflow: auto;
+  }
+  
+  .terminal-output {
+    padding: 10px;
+    font-family: monospace;
+    white-space: pre-wrap; /* Bewahrt Zeilenumbrüche */
+    background-color: transparent; /* Transparent */
+    border: none; /* Kein Rand */
+    margin-top: 10px; /* Abstand zum Eingabefeld */
+  }
+  
+  #terminal-input {
+    background-color: transparent; /* Transparent */
+    color: #fff;
+    padding: 10px;
+    font-family: monospace;
+    border: none;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none; /* Entfernt den Fokusrahmen */
+  }
+  
+  .terminal-window.fullscreen {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
+
+/* -------terminal-two------------------------------------------------------------------------------------------------------- */
+.neon-terminal {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    border: 1px solid #0f0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 400px;
+    height: 300px;
+    display: none;
+    flex-direction: column;
+    z-index: 11;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 10px #0f0;
+    border-radius: 10px;
+    resize: both;
+    overflow: hidden;
+}
+
+.neon-terminal-header {
+    background-color: rgba(30, 30, 30, 0.8);
+    color: #0f0;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #0f0;
+}
+
+.neon-terminal-body {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+.neon-terminal-footer {
+    padding: 5px;
+    text-align: right;
+    border-top: 1px solid #0f0;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+/* Button Styles */
+.neon-terminal .btn {
+    background: none;
+    border: none;
+    color: #0f0;
+    cursor: pointer;
+    margin-left: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.neon-terminal .btn.fullscreen {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close {
+    background: red;
+    color: #fff;
+}
+
+.neon-terminal .btn.run {
+    background: #00f;
+}
+
+.neon-terminal .btn:hover {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+.neon-terminal .btn.fullscreen:hover {
+    background: #0f0;
+    color: #000;
+}
+
+.neon-terminal .btn.close:hover {
+    background: darkred;
+}
+
+.neon-terminal .btn.run:hover {
+    background: #00f;
+}

@@ -1,0 +1,73 @@
+/* -------taskbar-------------------------------------------------------------------------------------------------------- */
+.taskbar {
+    background-color: rgba(30, 30, 30, 0.7);
+    color: #ed0202;
+    height: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 15px;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-top: 1px solid #444;
+    backdrop-filter: blur(10px);
+}
+
+.taskbar-button {
+    background: transparent;
+    color: #d1d1d1;
+    height: 100%;
+    padding: 0 10px;
+    border: none;
+    border-radius: 6px;  /* Runde Ecken */
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s, background-color 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;  /* Verhindert, dass Elemente außerhalb des Buttons sichtbar sind */
+}
+
+.taskbar-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #d1d1d1;
+    transition: width 0.3s, left 0.3s;
+}
+
+.taskbar-button:hover {
+    color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+    transform: scale(1.05); /* Leichte Vergrößerung des gesamten Buttons */
+}
+
+.taskbar-button:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.taskbar-button:active {
+    transform: scale(0.95);
+    color: #ff00ff;
+}
+
+.taskbar-button img.taskbar-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.taskbar-button:hover img.taskbar-icon {
+    transform: scale(1.1);
+}
